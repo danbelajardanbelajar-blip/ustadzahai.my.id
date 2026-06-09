@@ -389,6 +389,37 @@
             grid-template-columns: repeat(2, 1fr);
         }
     }
+
+    /* Tabs */
+    .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .tab-btn {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        background: #fff;
+        cursor: pointer;
+        font-weight: 700;
+        color: #666;
+    }
+
+    .tab-btn.active {
+        background: linear-gradient(135deg, #ffc0d9, #ffb3cc);
+        border-color: #d32f2f;
+        color: #7a0a1a;
+    }
+
+    .tab-panel {
+        display: none;
+    }
+
+    .tab-panel.active {
+        display: block;
+    }
 </style>
 
 <div class="header">
@@ -398,10 +429,17 @@
 
 <div class="content">
     <div class="page-card">
-        <p class="intro-text">Pilih kategori wanita untuk memulai analisa</p>
+        <div class="tabs" role="tablist">
+            <button class="tab-btn active" data-tab="input" onclick="openTab('input')">Input Data</button>
+            <button class="tab-btn" data-tab="ringkasan" onclick="openTab('ringkasan')">Ringkasan</button>
+            <button class="tab-btn" data-tab="hasil" onclick="openTab('hasil')">Hasil</button>
+        </div>
 
-        <!-- Category Selection -->
-        <div class="category-buttons">
+        <div id="tab-input" class="tab-panel active">
+            <p class="intro-text">Pilih kategori wanita untuk memulai analisa</p>
+
+            <!-- Category Selection -->
+            <div class="category-buttons">
             <button type="button" class="category-btn active" data-category="mubtadaah" onclick="selectCategory(this, 'mubtadaah')">
                 <div class="category-emoji">🌸</div>
                 <div class="category-title">Mubtadaah</div>
@@ -486,17 +524,8 @@
             </button>
         </div>
 
-        <!-- Ringkasan Keluar Darah -->
-        <button type="button" class="collapsible-btn" id="ringkasanBtn" style="display: none;" onclick="toggleRingkasan()">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-list"></i>
-                <span>Ringkasan Keluar Darah</span>
-            </div>
-            <span class="arrow">▼</span>
-        </button>
-        <div class="collapsible-content" id="ringkasanContent" style="display: none;">
-            <div id="ringkasanList"></div>
-        </div>
+        <!-- Ringkasan dan Hasil dipindah ke tab terpisah -->
+        <!-- (konten ringkasan akan di-render ke #ringkasanList saat tab Ringkasan dibuka) -->
 
         <!-- Action Buttons -->
         <button type="button" class="btn-primary" onclick="analisisHukum()">
@@ -511,20 +540,19 @@
             <i class="fas fa-redo"></i> Hitung Baru (Reset Semua)
         </button>
 
-        <!-- Hasil Analisis -->
-        <div id="hasilAnalisis" style="display: none; margin-top: 20px;"></div>
-    </div>
+        <!-- Hasil Analisis (ditampilkan di tab Hasil) -->
+        
+        </div>
 
-    <a href="index.php?page=home" class="list-card">
-        <div class="list-icon" style="background: linear-gradient(135deg, #7c4dff, #536dfe);">
-            <i class="fas fa-arrow-left"></i>
+        <div id="tab-ringkasan" class="tab-panel">
+            <h3 style="margin-top:0">Ringkasan Keluar Darah</h3>
+            <div id="ringkasanList"></div>
         </div>
-        <div class="list-text">
-            <h3>Kembali ke Home</h3>
-            <p>Halaman utama Ustadzah AI</p>
+
+        <div id="tab-hasil" class="tab-panel">
+            <h3 style="margin-top:0">Hasil Analisis Hukum Darah</h3>
+            <div id="hasilAnalisis"></div>
         </div>
-    </a>
-</div>
     </div>
 
     <a href="index.php?page=home" class="list-card">
@@ -547,7 +575,17 @@ let nomorForm = 1;
 // Initialize form on page load
 document.addEventListener('DOMContentLoaded', function() {
     renderFormKeluarDarah();
+    openTab('input');
 });
+
+function openTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
+
+    if (tab === 'ringkasan') {
+        updateRingkasan();
+    }
+}
 
 function selectCategory(element, category) {
     document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
@@ -641,23 +679,20 @@ function tambahDataKeluarDarah() {
 }
 
 function updateRingkasan() {
-    const btn = document.getElementById('ringkasanBtn');
-    const content = document.getElementById('ringkasanContent');
     const ringkasanList = document.getElementById('ringkasanList');
+    if (!ringkasanList) return;
+
+    ringkasanList.innerHTML = '';
 
     if (dataKeluarDarah.length === 0) {
-        btn.style.display = 'none';
-        content.style.display = 'none';
+        ringkasanList.innerHTML = '<p style="color:#666">Belum ada data keluar darah.</p>';
         return;
     }
-
-    btn.style.display = 'flex';
-    ringkasanList.innerHTML = '';
 
     dataKeluarDarah.forEach((data, index) => {
         const tglKeluarObj = new Date(data.tglKeluar);
         const tglBersihObj = new Date(data.tglBersih);
-        
+
         const item = `
             <div class="summary-item">
                 <div>
@@ -676,14 +711,6 @@ function updateRingkasan() {
 function hapusDataKeluarDarah(index) {
     dataKeluarDarah.splice(index, 1);
     updateRingkasan();
-}
-
-function toggleRingkasan() {
-    const btn = document.getElementById('ringkasanBtn');
-    const content = document.getElementById('ringkasanContent');
-    
-    btn.classList.toggle('open');
-    content.classList.toggle('open');
 }
 
 function analisisHukum() {
@@ -737,11 +764,13 @@ function analisisHukum() {
         </button>
         <div class="collapsible-content open" style="display: block;">${analisis}</div>
     `;
-    hasilDiv.style.display = 'block';
+    // Tampilkan di tab Hasil
+    openTab('hasil');
 
     // Scroll ke hasil
     setTimeout(() => {
-        hasilDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const target = document.getElementById('hasilAnalisis');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 }
 
@@ -775,10 +804,12 @@ function resetSemua() {
         // Render ulang form
         renderFormKeluarDarah();
         
-        // Hide ringkasan dan hasil
-        document.getElementById('ringkasanBtn').style.display = 'none';
-        document.getElementById('ringkasanContent').style.display = 'none';
-        document.getElementById('hasilAnalisis').style.display = 'none';
+        // Clear ringkasan dan hasil
+        const ringkasanList = document.getElementById('ringkasanList');
+        if (ringkasanList) ringkasanList.innerHTML = '';
+        const hasilDiv2 = document.getElementById('hasilAnalisis');
+        if (hasilDiv2) { hasilDiv2.innerHTML = ''; hasilDiv2.style.display = 'none'; }
+        openTab('input');
 
         alert('Semua data telah direset');
     }
