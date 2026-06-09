@@ -6,10 +6,17 @@
     <title><?= isset($title) ? htmlspecialchars($title) : 'Ustadzah AI' ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <?php if (isset($css)) foreach($css as $file): ?>
+    <link rel="stylesheet" href="<?= htmlspecialchars($file) ?>">
+    <?php endforeach; ?>
 </head>
 <body>
     <div class="app-container">
         <?php require $viewPath; ?>
     </div>
+    
+    <?php if (isset($js)) foreach($js as $file): ?>
+    <script src="<?= htmlspecialchars($file) ?>"></script>
+    <?php endforeach; ?>
 </body>
 </html>
