@@ -13,22 +13,51 @@ function formatDateTime(dateStr, timeStr) {
     return `${date} ${time}`;
 }
 
+function formatHijri(date) {
+    try {
+        return new Intl.DateTimeFormat('id-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(date) + ' H';
+    } catch (e) {
+        return '';
+    }
+}
+
+function computeMinHaidDate(birthDate) {
+    if (!birthDate || isNaN(birthDate)) return null;
+    // Approximate: 1 Hijri year ~ 354.367 days
+    const daysFor9Hijri = Math.round(9 * 354.367);
+    const daysToAdd = daysFor9Hijri - 16; // minus 16 days
+    const ms = daysToAdd * 24 * 60 * 60 * 1000 - 1000; // minus 1 second
+    return new Date(birthDate.getTime() + ms);
+}
+
 function initKalkulator() {
     renderFormKeluarDarah();
-    openTab('input');
+    // attach listeners for kelahiran info
+    const tgl = document.getElementById('tanggalLahir');
+    const jam = document.getElementById('jamLahir');
+    if (tgl) tgl.addEventListener('change', updateKelahiranInfo);
+    if (jam) jam.addEventListener('change', updateKelahiranInfo);
+    updateKelahiranInfo();
 }
 
 function openTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
-
     if (tab === 'ringkasan') updateRingkasan();
 }
 
 function selectCategory(element, category) {
-    document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
+    document.querySelectorAll('.category-btn').forEach(el => el.classList.toggle('active', el === element));
     kategoriAktif = category;
+    const mutadahPanel = document.getElementById('mutadahPanel');
+    const kelahiranPanel = document.getElementById('kelahiranPanel');
+    if (category === 'mutadah') {
+        if (mutadahPanel) mutadahPanel.style.display = 'block';
+        if (kelahiranPanel) kelahiranPanel.style.display = 'none';
+    } else {
+        if (mutadahPanel) mutadahPanel.style.display = 'none';
+        if (kelahiranPanel) kelahiranPanel.style.display = 'block';
+    }
 }
 
 function selectAdat(element, adat) {
@@ -172,6 +201,29 @@ function analisisHukum() {
 }
 
 function toggleHasil(btn) { btn.classList.toggle('open'); const content = btn.nextElementSibling; content.classList.toggle('open'); }
+
+function updateKelahiranInfo() {
+    const tgl = document.getElementById('tanggalLahir').value;
+    const jam = document.getElementById('jamLahir').value || '00:00';
+    const details = document.getElementById('kelahiranDetails');
+    if (!details) return;
+    if (!tgl) {
+        details.innerHTML = '<span style="color:#999">Belum ada tanggal lahir.</span>';
+        return;
+    }
+    const birth = new Date(`${tgl}T${jam}`);
+    const formattedBirth = formatDateTime(tgl, jam);
+    const hijriBirth = formatHijri(birth);
+    const minDate = computeMinHaidDate(birth);
+    let minStr = '';
+    if (minDate) {
+        const minDateStr = minDate.toLocaleDateString('id-ID');
+        const minTimeStr = minDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        const hijriMin = formatHijri(minDate);
+        minStr = `${minDateStr} ${minTimeStr} ${hijriMin ? ' — ' + hijriMin : ''}`;
+    }
+    details.innerHTML = `<div><strong>Tgl Lahir:</strong> ${formattedBirth}${hijriBirth ? ' — ' + hijriBirth : ''}</div><div style="margin-top:6px"><strong>Min. Haid:</strong> ${minStr || '<span style="color:#999">(lengkapi tanggal lahir)</span>'}</div>`;
+}
 
 function pasteFromKalender() { alert('Fitur "Paste Ringkasan Data dari Kalender Haid" sedang dalam pengembangan. Silakan tambah data secara manual terlebih dahulu.'); }
 
