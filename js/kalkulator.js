@@ -41,12 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="c-label-small">TANGGAL & JAM KELUAR</label>
                 <div class="c-input-row">
                     <div class="c-input-with-icon">
-                        <input type="text" placeholder="mm/dd/yyyy" class="c-input">
-                        <i class="far fa-calendar-alt"></i>
+                        <input type="date" class="c-input date-picker">
+                        <i class="far fa-calendar-alt" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                     <div class="c-input-with-icon">
-                        <input type="text" value="12:00 AM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="00:00" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
             </div>
@@ -55,12 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label class="c-label-small">TANGGAL & JAM BERSIH</label>
                 <div class="c-input-row">
                     <div class="c-input-with-icon">
-                        <input type="text" placeholder="mm/dd/yyyy" class="c-input">
-                        <i class="far fa-calendar-alt"></i>
+                        <input type="date" class="c-input date-picker">
+                        <i class="far fa-calendar-alt" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                     <div class="c-input-with-icon">
-                        <input type="text" value="12:00 AM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="00:00" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
             </div>

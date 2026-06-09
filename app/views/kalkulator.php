@@ -39,15 +39,15 @@
                 <div class="c-input-group">
                     <label>Tanggal Lahir</label>
                     <div class="c-input-with-icon">
-                        <input type="text" value="06/17/2026" class="c-input">
-                        <i class="far fa-calendar-alt"></i>
+                        <input type="date" value="2026-06-17" class="c-input date-picker">
+                        <i class="far fa-calendar-alt" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
                 <div class="c-input-group">
                     <label>Jam Lahir</label>
                     <div class="c-input-with-icon">
-                        <input type="text" value="12:00 AM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="00:00" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
             </div>
@@ -85,18 +85,18 @@
             <div class="c-input-row c-col-3">
                 <div class="c-input-group">
                     <label style="text-align: center;">Haid (Hari)</label>
-                    <input type="text" value="7" class="c-input c-text-center">
+                    <input type="number" value="7" class="c-input c-text-center">
                 </div>
                 <div class="c-input-group">
                     <label style="text-align: center;">Waktu Suci</label>
                     <div class="c-input-with-icon">
-                        <input type="text" value="11:49 PM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="23:49" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
                 <div class="c-input-group">
                     <label style="text-align: center;">Suci (Hari)</label>
-                    <input type="text" value="23" class="c-input c-text-center">
+                    <input type="number" value="23" class="c-input c-text-center">
                 </div>
             </div>
         </div>
@@ -133,12 +133,12 @@
                 <label class="c-label-small">TANGGAL & JAM KELUAR</label>
                 <div class="c-input-row">
                     <div class="c-input-with-icon">
-                        <input type="text" placeholder="mm/dd/yyyy" class="c-input">
-                        <i class="far fa-calendar-alt"></i>
+                        <input type="date" class="c-input date-picker">
+                        <i class="far fa-calendar-alt" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                     <div class="c-input-with-icon">
-                        <input type="text" value="12:00 AM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="00:00" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
             </div>
@@ -147,12 +147,12 @@
                 <label class="c-label-small">TANGGAL & JAM BERSIH</label>
                 <div class="c-input-row">
                     <div class="c-input-with-icon">
-                        <input type="text" placeholder="mm/dd/yyyy" class="c-input">
-                        <i class="far fa-calendar-alt"></i>
+                        <input type="date" class="c-input date-picker">
+                        <i class="far fa-calendar-alt" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                     <div class="c-input-with-icon">
-                        <input type="text" value="12:00 AM" class="c-input">
-                        <i class="far fa-clock"></i>
+                        <input type="time" value="00:00" class="c-input time-picker">
+                        <i class="far fa-clock" onclick="this.previousElementSibling.showPicker()" style="cursor:pointer"></i>
                     </div>
                 </div>
             </div>

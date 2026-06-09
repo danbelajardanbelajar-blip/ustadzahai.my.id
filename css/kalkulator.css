@@ -215,6 +215,13 @@ body {
     font-size: 14px;
 }
 
+/* Hide native date/time icons */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
 .c-text-center {
     text-align: center;
 }
