@@ -428,17 +428,11 @@
             <p class="section-desc">Wajib diisi untuk mendeteksi apakah darah pertama keluar di usia minimal haid (9 tahun Hijriah − 16 hari − 1 detik).</p>
             <div class="input-row">
                 <div class="input-group">
-                    <label class="input-label">
-                        <span class="input-label-icon">📅</span>
-                        Tanggal Lahir
-                    </label>
-                    <input type="date" id="tanggalLahir" placeholder="mm/dd/yyyy">
+                    <label class="input-label">Tanggal Lahir</label>
+                    <input type="date" id="tanggalLahir">
                 </div>
                 <div class="input-group">
-                    <label class="input-label">
-                        <span class="input-label-icon">🕐</span>
-                        Jam Lahir
-                    </label>
+                    <label class="input-label">Jam Lahir</label>
                     <input type="time" id="jamLahir" value="00:00">
                 </div>
             </div>
@@ -484,25 +478,8 @@
                 <span class="section-emoji">🩸</span>
                 <h3 class="section-title">Data Keluar Darah</h3>
             </div>
-            <div id="keluarDarahList">
-                <div class="input-row" style="margin-bottom: 16px;">
-                    <div class="input-group">
-                        <label class="input-label">Keluar Darah 1</label>
-                        <div class="input-wrapper">
-                            <input type="date" id="tglKeluar1" class="tglKeluar">
-                            <input type="time" id="jamKeluar1" class="jamKeluar" value="00:00">
-                        </div>
-                    </div>
-                </div>
-                <div class="input-row" style="margin-bottom: 16px;">
-                    <div class="input-group">
-                        <label class="input-label">Tanggal & Jam Bersih</label>
-                        <div class="input-wrapper">
-                            <input type="date" id="tglBersih1" class="tglBersih">
-                            <input type="time" id="jamBersih1" class="jamBersih" value="00:00">
-                        </div>
-                    </div>
-                </div>
+            <div id="keluarDarahContainer">
+                <!-- Forms akan di-generate oleh JavaScript -->
             </div>
             <button type="button" class="btn-add" onclick="tambahDataKeluarDarah()">
                 <i class="fas fa-plus"></i> Tambah Keluar Darah
@@ -510,18 +487,15 @@
         </div>
 
         <!-- Ringkasan Keluar Darah -->
-        <button type="button" class="collapsible-btn" onclick="toggleRingkasan()">
+        <button type="button" class="collapsible-btn" id="ringkasanBtn" style="display: none;" onclick="toggleRingkasan()">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-list"></i>
                 <span>Ringkasan Keluar Darah</span>
             </div>
             <span class="arrow">▼</span>
         </button>
-        <div class="collapsible-content" id="ringkasanContent">
-            <div id="ringkasanList" style="display: none;"></div>
-            <p id="ringkasanEmpty" style="text-align: center; color: #999; font-size: 12px; margin: 0;">
-                Belum ada data. Silakan tambah data keluar darah.
-            </p>
+        <div class="collapsible-content" id="ringkasanContent" style="display: none;">
+            <div id="ringkasanList"></div>
         </div>
 
         <!-- Action Buttons -->
@@ -568,7 +542,12 @@
 let kategoriAktif = 'mubtadaah';
 let adatTerpilih = null;
 let dataKeluarDarah = [];
-let nomorData = 1;
+let nomorForm = 1;
+
+// Initialize form on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderFormKeluarDarah();
+});
 
 function selectCategory(element, category) {
     document.querySelectorAll('.category-btn').forEach(el => el.classList.remove('active'));
@@ -582,36 +561,65 @@ function selectAdat(element, adat) {
     adatTerpilih = adat;
 }
 
-function tambahDataKeluarDarah() {
-    const keluarInputs = document.querySelectorAll('.tglKeluar');
-    const jamKeluarInputs = document.querySelectorAll('.jamKeluar');
-    const bersihInputs = document.querySelectorAll('.tglBersih');
-    const jamBersihInputs = document.querySelectorAll('.jamBersih');
+function renderFormKeluarDarah() {
+    const container = document.getElementById('keluarDarahContainer');
+    container.innerHTML = '';
     
-    const lastIndex = keluarInputs.length - 1;
-    
-    const tglKeluar = keluarInputs[lastIndex].value;
-    const jamKeluar = jamKeluarInputs[lastIndex].value;
-    const tglBersih = bersihInputs[lastIndex].value;
-    const jamBersih = jamBersihInputs[lastIndex].value;
+    // Render form untuk setiap data yang akan diinput
+    for (let i = 0; i < nomorForm; i++) {
+        const html = `
+            <div class="input-row" style="margin-bottom: 16px;" data-form-index="${i}">
+                <div class="input-group">
+                    <label class="input-label">Keluar Darah ${i + 1}</label>
+                    <div class="input-wrapper">
+                        <input type="date" class="tglKeluar" data-index="${i}">
+                        <input type="time" class="jamKeluar" data-index="${i}" value="00:00">
+                    </div>
+                </div>
+            </div>
+            <div class="input-row" style="margin-bottom: 16px;" data-form-index="${i}">
+                <div class="input-group">
+                    <label class="input-label">Tanggal & Jam Bersih</label>
+                    <div class="input-wrapper">
+                        <input type="date" class="tglBersih" data-index="${i}">
+                        <input type="time" class="jamBersih" data-index="${i}" value="00:00">
+                    </div>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+    }
+}
 
+function tambahDataKeluarDarah() {
+    // Validasi form terakhir harus lengkap
+    const lastIndex = nomorForm - 1;
+    const tglKeluar = document.querySelector(`[data-index="${lastIndex}"].tglKeluar`).value;
+    const jamKeluar = document.querySelector(`[data-index="${lastIndex}"].jamKeluar`).value;
+    const tglBersih = document.querySelector(`[data-index="${lastIndex}"].tglBersih`).value;
+    const jamBersih = document.querySelector(`[data-index="${lastIndex}"].jamBersih`).value;
+
+    // Validasi: semua field harus terisi
     if (!tglKeluar || !tglBersih) {
-        alert('Silakan isi tanggal keluar dan bersih');
+        alert('Silakan isi tanggal keluar dan tanggal bersih untuk Keluar Darah ' + (lastIndex + 1));
         return;
     }
 
+    // Validasi: tanggal bersih harus setelah tanggal keluar
     const keluarDateTime = new Date(`${tglKeluar}T${jamKeluar || '00:00'}`);
     const bersihDateTime = new Date(`${tglBersih}T${jamBersih || '00:00'}`);
 
     if (bersihDateTime <= keluarDateTime) {
-        alert('Jam bersih harus setelah jam keluar');
+        alert('Tanggal & jam bersih harus setelah tanggal & jam keluar');
         return;
     }
 
+    // Hitung durasi
     const durasi = Math.floor((bersihDateTime - keluarDateTime) / (1000 * 60 * 60 * 24)) + 1;
 
+    // Simpan data
     dataKeluarDarah.push({
-        nomor: nomorData,
+        nomor: lastIndex + 1,
         tglKeluar,
         jamKeluar,
         tglBersih,
@@ -619,72 +627,49 @@ function tambahDataKeluarDarah() {
         durasi
     });
 
-    nomorData++;
+    // Tambah form baru
+    nomorForm++;
+    renderFormKeluarDarah();
     updateRingkasan();
-    tambahFormKeluarDarah();
-    
-    // Clear input yang baru saja diisi
-    keluarInputs[lastIndex].value = '';
-    jamKeluarInputs[lastIndex].value = '00:00';
-    bersihInputs[lastIndex].value = '';
-    jamBersihInputs[lastIndex].value = '00:00';
-}
 
-function tambahFormKeluarDarah() {
-    const list = document.getElementById('keluarDarahList');
-    const html = `
-        <div class="input-row" style="margin-bottom: 16px;">
-            <div class="input-group">
-                <label class="input-label">Keluar Darah ${nomorData}</label>
-                <div class="input-wrapper">
-                    <input type="date" class="tglKeluar">
-                    <input type="time" class="jamKeluar" value="00:00">
-                </div>
-            </div>
-        </div>
-        <div class="input-row" style="margin-bottom: 16px;">
-            <div class="input-group">
-                <label class="input-label">Tanggal & Jam Bersih</label>
-                <div class="input-wrapper">
-                    <input type="date" class="tglBersih">
-                    <input type="time" class="jamBersih" value="00:00">
-                </div>
-            </div>
-        </div>
-    `;
-    list.insertAdjacentHTML('beforeend', html);
+    // Scroll ke form baru
+    const newFormIndex = nomorForm - 1;
+    const newForm = document.querySelector(`[data-form-index="${newFormIndex}"]`);
+    if (newForm) {
+        newForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
 function updateRingkasan() {
+    const btn = document.getElementById('ringkasanBtn');
+    const content = document.getElementById('ringkasanContent');
     const ringkasanList = document.getElementById('ringkasanList');
-    const ringkasanEmpty = document.getElementById('ringkasanEmpty');
 
     if (dataKeluarDarah.length === 0) {
-        ringkasanList.style.display = 'none';
-        ringkasanEmpty.style.display = 'block';
+        btn.style.display = 'none';
+        content.style.display = 'none';
         return;
     }
 
-    ringkasanEmpty.style.display = 'none';
-    ringkasanList.style.display = 'block';
+    btn.style.display = 'flex';
     ringkasanList.innerHTML = '';
 
     dataKeluarDarah.forEach((data, index) => {
-        const item = document.createElement('div');
-        item.className = 'summary-item';
         const tglKeluarObj = new Date(data.tglKeluar);
         const tglBersihObj = new Date(data.tglBersih);
         
-        item.innerHTML = `
-            <div>
-                <strong>Keluar Darah ${data.nomor}</strong><br>
-                <small>${tglKeluarObj.toLocaleDateString('id-ID')} ${data.jamKeluar}</small><br>
-                <small>Bersih: ${tglBersihObj.toLocaleDateString('id-ID')} ${data.jamBersih}</small><br>
-                <strong style="color: #d32f2f;">Durasi: ${data.durasi} hari</strong>
+        const item = `
+            <div class="summary-item">
+                <div>
+                    <strong>Keluar Darah ${data.nomor}</strong><br>
+                    <small>${tglKeluarObj.toLocaleDateString('id-ID')} ${data.jamKeluar}</small><br>
+                    <small>Bersih: ${tglBersihObj.toLocaleDateString('id-ID')} ${data.jamBersih}</small><br>
+                    <strong style="color: #d32f2f;">Durasi: ${data.durasi} hari</strong>
+                </div>
+                <button onclick="hapusDataKeluarDarah(${index})" style="background: #fee; color: #d32f2f; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; white-space: nowrap;">Hapus</button>
             </div>
-            <button onclick="hapusDataKeluarDarah(${index})" style="background: #fee; color: #d32f2f; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600;">Hapus</button>
         `;
-        ringkasanList.appendChild(item);
+        ringkasanList.insertAdjacentHTML('beforeend', item);
     });
 }
 
@@ -694,8 +679,8 @@ function hapusDataKeluarDarah(index) {
 }
 
 function toggleRingkasan() {
-    const btn = event.target.closest('.collapsible-btn');
-    const content = btn.nextElementSibling;
+    const btn = document.getElementById('ringkasanBtn');
+    const content = document.getElementById('ringkasanContent');
     
     btn.classList.toggle('open');
     content.classList.toggle('open');
@@ -713,86 +698,89 @@ function analisisHukum() {
         const durasi = data.durasi;
         let status = '';
         let penjelasan = '';
+        let statusColor = '';
 
+        // Logika penentuan status berdasarkan Madzhab Syafi'i
         if (durasi <= 10) {
-            status = '<strong style="color: #d32f2f;">✓ HAID</strong>';
-            penjelasan = 'Darah haid sah menurut Madzhab Syafi\'i (1-10 hari)';
+            status = 'HAID';
+            statusColor = '#d32f2f';
+            penjelasan = 'Darah haid sah menurut Madzhab Syafi\'i (1-10 hari). Tidak boleh shalat dan puasa.';
         } else if (durasi <= 15) {
-            status = '<strong style="color: #f57c00;">⚠ HAID atau ISTIHADHOH</strong>';
-            penjelasan = 'Perlu dikonfirmasi dengan adat kebiasaan atau riwayat haid sebelumnya';
+            status = 'HAID atau ISTIHADHOH';
+            statusColor = '#f57c00';
+            penjelasan = 'Durasi antara 11-15 hari. Status perlu dikonfirmasi berdasarkan adat kebiasaan wanita.';
         } else {
-            status = '<strong style="color: #1976d2;">○ ISTIHADHOH</strong>';
-            penjelasan = 'Pendarahan abnormal (> 15 hari) - Wudhu setiap shalat, boleh puasa & shalat';
+            status = 'ISTIHADHOH';
+            statusColor = '#1976d2';
+            penjelasan = 'Pendarahan abnormal (> 15 hari). Boleh shalat dan puasa, tetapi harus wudhu setiap kali shalat.';
         }
 
         analisis += `
-            <div style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #d32f2f;">
-                <strong>Keluar Darah ${data.nomor}:</strong> ${status}<br>
-                <small style="color: #666;">Durasi: ${durasi} hari (${data.tglKeluar} - ${data.tglBersih})</small><br>
-                <small style="color: #888; font-style: italic;">${penjelasan}</small>
+            <div style="background: #f5f5f5; padding: 14px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid ${statusColor};">
+                <strong style="color: ${statusColor};">Keluar Darah ${data.nomor}: ${status}</strong><br>
+                <small style="color: #666;">Durasi: ${durasi} hari | ${data.tglKeluar} s/d ${data.tglBersih}</small><br>
+                <small style="color: #888; font-style: italic; display: block; margin-top: 6px;">${penjelasan}</small>
             </div>
         `;
     });
 
     analisis += '</div>';
 
-    document.getElementById('hasilAnalisis').innerHTML = `
-        <button type="button" class="collapsible-btn open" onclick="toggleRingkasan()">
+    const hasilDiv = document.getElementById('hasilAnalisis');
+    hasilDiv.innerHTML = `
+        <button type="button" class="collapsible-btn open" onclick="toggleHasil(this)">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-check-circle" style="color: #d32f2f;"></i>
                 <span>Hasil Analisis Hukum Darah</span>
             </div>
             <span class="arrow">▼</span>
         </button>
-        <div class="collapsible-content open">${analisis}</div>
+        <div class="collapsible-content open" style="display: block;">${analisis}</div>
     `;
-    document.getElementById('hasilAnalisis').style.display = 'block';
+    hasilDiv.style.display = 'block';
 
     // Scroll ke hasil
     setTimeout(() => {
-        document.getElementById('hasilAnalisis').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        hasilDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
 }
 
+function toggleHasil(btn) {
+    btn.classList.toggle('open');
+    const content = btn.nextElementSibling;
+    content.classList.toggle('open');
+}
+
 function pasteFromKalender() {
-    alert('Fitur Paste dari Kalender Haid sedang dalam pengembangan. Silakan tambah data secara manual.');
+    alert('Fitur "Paste Ringkasan Data dari Kalender Haid" sedang dalam pengembangan. Silakan tambah data secara manual terlebih dahulu.');
 }
 
 function resetSemua() {
     if (confirm('Apakah Anda yakin ingin mereset semua data?')) {
+        // Reset semua data
         dataKeluarDarah = [];
-        nomorData = 1;
-        
+        nomorForm = 1;
+        kategoriAktif = 'mubtadaah';
+        adatTerpilih = null;
+
+        // Reset input fields
         document.getElementById('tanggalLahir').value = '';
         document.getElementById('jamLahir').value = '00:00';
-        
         document.querySelectorAll('.adat-btn').forEach(btn => btn.classList.remove('active'));
         
-        // Reset ke form awal
-        const keluarDarahList = document.getElementById('keluarDarahList');
-        keluarDarahList.innerHTML = `
-            <div class="input-row" style="margin-bottom: 16px;">
-                <div class="input-group">
-                    <label class="input-label">Keluar Darah 1</label>
-                    <div class="input-wrapper">
-                        <input type="date" id="tglKeluar1" class="tglKeluar">
-                        <input type="time" id="jamKeluar1" class="jamKeluar" value="00:00">
-                    </div>
-                </div>
-            </div>
-            <div class="input-row" style="margin-bottom: 16px;">
-                <div class="input-group">
-                    <label class="input-label">Tanggal & Jam Bersih</label>
-                    <div class="input-wrapper">
-                        <input type="date" id="tglBersih1" class="tglBersih">
-                        <input type="time" id="jamBersih1" class="jamBersih" value="00:00">
-                    </div>
-                </div>
-            </div>
-        `;
+        // Reset category
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector('.category-btn').classList.add('active');
+
+        // Render ulang form
+        renderFormKeluarDarah();
         
-        updateRingkasan();
+        // Hide ringkasan dan hasil
+        document.getElementById('ringkasanBtn').style.display = 'none';
+        document.getElementById('ringkasanContent').style.display = 'none';
         document.getElementById('hasilAnalisis').style.display = 'none';
+
+        alert('Semua data telah direset');
     }
 }
 </script>
