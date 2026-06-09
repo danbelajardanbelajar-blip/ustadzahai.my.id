@@ -8,37 +8,37 @@
 
 <div class="content">
     <div class="grid-container">
-        <a href="index.php?page=kalender-fiqih-haid" class="grid-card">
+        <a href="index.php?url=kalender" class="grid-card">
             <div class="icon-box bg-pink">
                 <i class="far fa-calendar-alt"></i>
             </div>
             <span>Kalender<br>Fiqih Haid</span>
         </a>
-        <a href="index.php?page=kalkulator-fiqih-haid" class="grid-card">
+        <a href="index.php?url=kalkulator" class="grid-card">
             <div class="icon-box bg-yellow">
                 <i class="fas fa-file-invoice"></i>
             </div>
             <span>Kalkulator<br>Fiqih Haid</span>
         </a>
-        <a href="index.php?page=kalkulator-fiqih-nifas" class="grid-card">
+        <a href="index.php?url=nifas" class="grid-card">
             <div class="icon-box bg-purple">
                 <i class="fas fa-calculator"></i>
             </div>
             <span>Kalkulator<br>Fiqih Nifas</span>
         </a>
-        <a href="index.php?page=kalkulator-qodo-fidyah" class="grid-card">
+        <a href="index.php?url=qodo" class="grid-card">
             <div class="icon-box bg-orange">
                 <i class="fas fa-list-alt"></i>
             </div>
             <span>Kalkulator Qodo<br>Puasa & Fidyah</span>
         </a>
-        <a href="index.php?page=tanya-ustadzah-ai" class="grid-card">
+        <a href="index.php?url=tanya" class="grid-card">
             <div class="icon-box bg-pink">
                 <i class="far fa-comment-dots"></i>
             </div>
             <span>Tanya<br>Ustadzah AI</span>
         </a>
-        <a href="index.php?page=maktabah" class="grid-card">
+        <a href="index.php?url=maktabah" class="grid-card">
             <div class="icon-box bg-light-purple">
                 <i class="fas fa-book-open"></i>
             </div>
@@ -47,7 +47,7 @@
     </div>
 
     <div class="list-section">
-        <a href="index.php?page=alat-pembuat-tabel-haid" class="list-card">
+        <a href="index.php?url=tabel" class="list-card">
             <div class="list-icon">
                 <i class="fas fa-exchange-alt"></i>
             </div>

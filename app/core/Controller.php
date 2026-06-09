@@ -1,18 +1,12 @@
 <?php
-
-class Controller
-{
-    protected function view(string $view, array $data = [])
-    {
-        extract($data, EXTR_SKIP);
-        $viewPath = VIEW_ROOT . '/' . $view . '.php';
-
-        if (!file_exists($viewPath)) {
-            http_response_code(500);
-            echo 'View file not found: ' . htmlspecialchars($viewPath);
-            return;
+class Controller {
+    public function view($view, $data = []) {
+        extract($data);
+        if (file_exists('app/views/' . $view . '.php')) {
+            $viewPath = 'app/views/' . $view . '.php';
+            require_once 'app/views/layout.php';
+        } else {
+            echo "View not found: " . $view;
         }
-
-        require VIEW_ROOT . '/layout.php';
     }
 }
