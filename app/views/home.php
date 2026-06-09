@@ -26,7 +26,7 @@
             </div>
             <span>Kalkulator<br>Fiqih Nifas</span>
         </a>
-        <a href="index.php?url=qodo" class="grid-card">
+        <a href="index.php?url=qadha" class="grid-card">
             <div class="icon-box bg-orange">
                 <i class="fas fa-list-alt"></i>
             </div>
