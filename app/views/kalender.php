@@ -1,5 +1,6 @@
 <div class="k-header">
     <div class="k-title-row">
+        <a href="index.php" style="color: white; margin-right: 15px; text-decoration: none; font-size: 20px;"><i class="fas fa-arrow-left"></i></a>
         <i class="fas fa-tint k-icon-drop"></i>
         <div class="k-title-text">
             <h2>Kalender Fiqih Haid</h2>
