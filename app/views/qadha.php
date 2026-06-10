@@ -5,7 +5,7 @@
     <!-- HEADER -->
     <div class="q-header">
         <div style="text-align: left; margin-bottom: 10px;">
-            <a href="index.php" style="color: white; text-decoration: none; font-size: 16px;"><i class="fas fa-arrow-left"></i> Kembali</a>
+            <a href="index.php" style="color: #d3557d; text-decoration: none; font-size: 16px; font-weight: bold;"><i class="fas fa-arrow-left"></i> Kembali</a>
         </div>
         <div class="q-icon-moon-wrapper">
             <div class="q-icon-moon"><i class="far fa-moon"></i></div>

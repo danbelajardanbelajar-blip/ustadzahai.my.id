@@ -1,6 +1,6 @@
 <div class="c-header">
     <div class="c-title-row">
-        <a href="index.php" style="color: white; margin-right: 15px; text-decoration: none; font-size: 20px;"><i class="fas fa-arrow-left"></i></a>
+        <a href="index.php" style="color: #d3557d; margin-right: 15px; text-decoration: none; font-size: 20px;"><i class="fas fa-arrow-left"></i></a>
         <div class="c-icon-box-main">
             <i class="fas fa-tint"></i>
         </div>
