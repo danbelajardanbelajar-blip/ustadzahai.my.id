@@ -93,8 +93,8 @@
     </h2>
     <div class="product-grid">
         <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
-            <div class="product-img-box">
-                <i class="fas fa-shopping-bag"></i>
+            <div class="product-img-box" style="background: transparent;">
+                <img src="img/pad_shopee_1_orig.png" alt="Pembalut cuci ulang 4 picis" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="product-info">
                 <p>Pembalut kain cuci ulang 4 picis</p>
@@ -103,7 +103,7 @@
         </a>
         <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
             <div class="product-img-box" style="background: transparent;">
-                <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp" alt="Menstrual pad" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="img/pad_shopee_2_orig.png" alt="Menstrual pad" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="product-info">
                 <p>Menstrual pad / pembalut kain</p>
