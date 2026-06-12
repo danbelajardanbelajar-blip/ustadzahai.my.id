@@ -21,27 +21,72 @@ body {
 
 /* HEADER */
 .t-header {
-    background: linear-gradient(135deg, #ff7e9e, #fb5c82);
+    background: linear-gradient(90deg, #fd6192, #fc688b);
     padding: 15px 20px;
     display: flex;
     align-items: center;
     gap: 15px;
     z-index: 10;
-    box-shadow: 0 2px 10px rgba(251, 92, 130, 0.2);
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.t-header::before, .t-header::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.t-header::before {
+    width: 30px;
+    height: 30px;
+    top: -10px;
+    right: 40px;
+    opacity: 0.1;
+}
+
+.t-header::after {
+    width: 15px;
+    height: 15px;
+    top: 25px;
+    right: 60px;
+    opacity: 0.15;
+}
+
+.t-header-circle-3 {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    top: 15px;
+    right: 80px;
+    opacity: 0.2;
 }
 
 .t-header-logo-box {
     width: 46px;
     height: 46px;
-    border: 2px solid rgba(255, 255, 255, 0.7);
+    background: rgba(255,255,255,0.2);
+    border: 2px solid white;
     border-radius: 12px;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.15);
-    font-size: 22px;
     color: white;
+    font-size: 24px;
     flex-shrink: 0;
+}
+
+.t-header-logo-box::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 8px;
 }
 
 .t-header-info {
@@ -49,22 +94,25 @@ body {
 }
 
 .t-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 19px;
+    font-weight: 700;
     margin: 0 0 2px 0;
     color: white;
+    letter-spacing: -0.2px;
 }
 
 .t-subtitle {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
 }
 
 .t-header-actions {
     display: flex;
-    gap: 15px;
+    gap: 18px;
     color: white;
     font-size: 18px;
+    z-index: 2;
 }
 
 .t-header-actions i {

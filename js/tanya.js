@@ -64,7 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         
-        chatArea.appendChild(msgRow);
+        const optsList = document.querySelector('.t-options-list');
+        if (optsList) {
+            chatArea.insertBefore(msgRow, optsList);
+        } else {
+            chatArea.appendChild(msgRow);
+        }
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
@@ -82,7 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-        chatArea.appendChild(msgRow);
+        const optsList = document.querySelector('.t-options-list');
+        if (optsList) {
+            chatArea.insertBefore(msgRow, optsList);
+        } else {
+            chatArea.appendChild(msgRow);
+        }
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
@@ -134,9 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     optionsList.forEach(opt => {
         opt.addEventListener('click', (e) => {
             e.preventDefault();
-            // remove emoji from text, e.g. "📖 Macam-Macam Darah & Cairan Farji"
             let rawText = opt.querySelector('.t-option-text').innerText;
-            // A simple split by space and take the rest if there's an emoji
             let words = rawText.split(' ');
             if (words[0].length <= 2 || /\p{Emoji}/u.test(words[0])) {
                 words.shift();
@@ -147,5 +155,46 @@ document.addEventListener('DOMContentLoaded', () => {
             handleSend();
         });
     });
+
+    const btnReload = document.getElementById('btn-reload');
+    if (btnReload) {
+        btnReload.addEventListener('click', () => {
+            // Remove all message rows
+            const messageRows = chatArea.querySelectorAll('.t-msg-row');
+            messageRows.forEach(row => row.remove());
+            
+            // Get the options list to insert before it
+            const optsList = document.querySelector('.t-options-list');
+            
+            // Re-create initial messages
+            const msg1 = document.createElement('div');
+            msg1.className = 't-msg-row';
+            msg1.innerHTML = `
+                <div class="t-avatar"><i class="fas fa-book-reader"></i></div>
+                <div class="t-msg t-msg-ai">
+                    <div class="t-bubble">Assalamu'alaikum warahmatullah, perkenalkan saya Ustadzah AI 🌸</div>
+                </div>
+            `;
+            
+            const msg2 = document.createElement('div');
+            msg2.className = 't-msg-row';
+            msg2.innerHTML = `
+                <div class="t-avatar"><i class="fas fa-book-reader"></i></div>
+                <div class="t-msg t-msg-ai">
+                    <div class="t-bubble">Silakan pilih topik yang ingin Anda pelajari:</div>
+                </div>
+            `;
+            
+            if (optsList) {
+                chatArea.insertBefore(msg1, optsList);
+                chatArea.insertBefore(msg2, optsList);
+            } else {
+                chatArea.appendChild(msg1);
+                chatArea.appendChild(msg2);
+            }
+            
+            chatArea.scrollTop = 0;
+        });
+    }
 
 });

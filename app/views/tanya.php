@@ -2,6 +2,7 @@
 
     <!-- HEADER -->
     <div class="t-header">
+        <div class="t-header-circle-3"></div>
         <div class="t-header-logo-box">
             <i class="fas fa-book-reader"></i>
         </div>
@@ -10,8 +11,8 @@
             <div class="t-subtitle">Fiqih Haid, Nifas & Istihadoh</div>
         </div>
         <div class="t-header-actions">
-            <i class="fas fa-search"></i>
-            <i class="fas fa-undo"></i>
+            <i class="fas fa-search" style="font-weight: 300;"></i>
+            <i class="fas fa-undo" id="btn-reload" style="font-weight: 300; cursor: pointer;"></i>
         </div>
     </div>
 
