@@ -1,3 +1,9 @@
+<?php
+if (strpos($viewPath, 'dashboard/') !== false) {
+    require $viewPath;
+    return;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
