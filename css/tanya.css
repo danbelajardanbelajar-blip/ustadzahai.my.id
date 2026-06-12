@@ -25,11 +25,12 @@ body {
     padding: 15px 20px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    z-index: 10;
+    gap: 12px;
+    z-index: 20;
     position: relative;
     overflow: hidden;
     box-shadow: none;
+    flex-shrink: 0;
 }
 
 .t-header::before, .t-header::after {
@@ -64,6 +65,21 @@ body {
     top: 15px;
     right: 80px;
     opacity: 0.2;
+}
+
+.t-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 2;
+    transition: opacity 0.2s;
+}
+
+.t-back-btn:hover {
+    opacity: 0.8;
 }
 
 .t-header-logo-box {
@@ -201,6 +217,7 @@ body {
     scrollbar-width: none; /* Firefox */
     width: 100%;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .t-suggestions::-webkit-scrollbar {
@@ -241,6 +258,7 @@ body {
     border-top: 1px solid rgba(255, 209, 223, 0.5);
     font-weight: 500;
     z-index: 10;
+    flex-shrink: 0;
 }
 
 /* USER MESSAGE STYLES */
@@ -265,6 +283,7 @@ body {
     align-items: center;
     gap: 10px;
     z-index: 10;
+    flex-shrink: 0;
 }
 
 .t-input {
