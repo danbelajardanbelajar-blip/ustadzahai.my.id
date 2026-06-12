@@ -121,13 +121,35 @@
         </a>
     </div>
 
-    <a href="#" class="green-banner">
-        <i class="far fa-file-alt"></i>
-        <div>
-            <h3>Undang Ustadzah AI</h3>
-            <p>Isi form untuk kajian offline/online</p>
+    <div class="undang-container">
+        <div class="green-banner" id="btn-undang" style="cursor: pointer; margin-bottom: 0; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+            <i class="far fa-file-alt"></i>
+            <div>
+                <h3>Undang Ustadzah AI</h3>
+                <p>Isi formulir untuk kajian offline / online</p>
+            </div>
         </div>
-    </a>
+        <div class="undang-form-container" id="form-undang" style="display: none;">
+            <div class="undang-form-header">Formulir Undangan</div>
+            <form id="form-undang-submit">
+                <input type="text" name="nama" placeholder="Nama Anda *" required class="u-form-input">
+                <input type="text" name="kontak" placeholder="No. WhatsApp / Email" required class="u-form-input">
+                <div class="u-form-select-wrapper">
+                    <select name="jenis_acara" required class="u-form-select">
+                        <option value="">-- Jenis Acara --</option>
+                        <option value="Kajian Offline">Kajian Offline</option>
+                        <option value="Kajian Online">Kajian Online</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+                <textarea name="keterangan" placeholder="Keterangan tambahan..." rows="4" class="u-form-input u-form-textarea"></textarea>
+                <button type="submit" class="u-btn-submit">
+                    <i class="far fa-paper-plane"></i> Kirim Undangan
+                </button>
+                <div id="u-form-message" style="display: none; margin-top: 10px; font-size: 12px; text-align: center;"></div>
+            </form>
+        </div>
+    </div>
 
     <h2 class="section-title">▶️ Video Terbaru Ustadzah AI</h2>
     <a href="#" class="video-card">
@@ -153,3 +175,72 @@
         <p>Belajar ilmu haid, nifas, dan istihadhoh hukumnya FARDHU AIN bagi setiap muslimah!! Aplikasi ini hanya membantu menghitung dan mencatat haid, nifas, dan istihadhoh. Kewajiban belajar ilmu haid, nifas, dan istihadhoh tidak gugur karena kamu menggunakan aplikasi ini!! Jadi belajarlah 😉</p>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnUndang = document.getElementById('btn-undang');
+    const formUndangContainer = document.getElementById('form-undang');
+    
+    if(btnUndang && formUndangContainer) {
+        btnUndang.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (formUndangContainer.style.display === 'none' || formUndangContainer.style.display === '') {
+                formUndangContainer.style.display = 'block';
+                // optional: add a small visual indicator that it's open
+                btnUndang.style.borderBottomLeftRadius = '0';
+                btnUndang.style.borderBottomRightRadius = '0';
+            } else {
+                formUndangContainer.style.display = 'none';
+                btnUndang.style.borderBottomLeftRadius = '16px';
+                btnUndang.style.borderBottomRightRadius = '16px';
+            }
+        });
+    }
+
+    const formSubmit = document.getElementById('form-undang-submit');
+    if(formSubmit) {
+        formSubmit.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btnSubmit = formSubmit.querySelector('.u-btn-submit');
+            const msgBox = document.getElementById('u-form-message');
+            
+            const formData = new FormData(formSubmit);
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            btnSubmit.disabled = true;
+            
+            fetch('index.php?url=undangan/kirim', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                btnSubmit.innerHTML = '<i class="far fa-paper-plane"></i> Kirim Undangan';
+                btnSubmit.disabled = false;
+                
+                msgBox.style.display = 'block';
+                if(data.status === 'success') {
+                    msgBox.style.color = '#27ae60';
+                    msgBox.innerHTML = data.message;
+                    formSubmit.reset();
+                    setTimeout(() => {
+                        formUndangContainer.style.display = 'none';
+                        msgBox.style.display = 'none';
+                    }, 3000);
+                } else {
+                    msgBox.style.color = '#e74c3c';
+                    msgBox.innerHTML = data.message;
+                }
+            })
+            .catch(err => {
+                btnSubmit.innerHTML = '<i class="far fa-paper-plane"></i> Kirim Undangan';
+                btnSubmit.disabled = false;
+                msgBox.style.display = 'block';
+                msgBox.style.color = '#e74c3c';
+                msgBox.innerHTML = 'Terjadi kesalahan. Silakan coba lagi.';
+                console.error(err);
+            });
+        });
+    }
+});
+</script>
+
