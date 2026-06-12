@@ -413,6 +413,34 @@
             .catch(err => alert('Terjadi kesalahan jaringan saat menyimpan data.'));
         }
 
+        // Mouse drag to scroll for tabs
+        const tabsContainer = document.querySelector('.tabs-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        tabsContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            tabsContainer.style.cursor = 'grabbing';
+            startX = e.pageX - tabsContainer.offsetLeft;
+            scrollLeft = tabsContainer.scrollLeft;
+        });
+        tabsContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            tabsContainer.style.cursor = 'default';
+        });
+        tabsContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            tabsContainer.style.cursor = 'default';
+        });
+        tabsContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - tabsContainer.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll-fast
+            tabsContainer.scrollLeft = scrollLeft - walk;
+        });
+
         // Initialize first tab
         renderList();
     </script>
