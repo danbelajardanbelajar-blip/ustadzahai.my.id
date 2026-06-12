@@ -47,6 +47,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tglLahirInput) tglLahirInput.addEventListener('change', updateMinHaid);
     if (jamLahirInput) jamLahirInput.addEventListener('change', updateMinHaid);
 
+    // Adat Preset Buttons Logic
+    const adatBtns = document.querySelectorAll('.c-adat-btn');
+    adatBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // Find parent container
+            const container = btn.closest('.c-adat-options');
+            // Remove active from all buttons in this container
+            container.querySelectorAll('.c-adat-btn').forEach(b => b.classList.remove('active'));
+            // Add active to clicked button
+            btn.classList.add('active');
+        });
+    });
+
     // Dynamic 'Keluar Darah' Block Logic
     let darahCount = 1;
     const btnTambah = document.getElementById('btn-tambah-darah');
@@ -153,12 +166,31 @@ document.addEventListener('DOMContentLoaded', () => {
             kategori = activeTab.getAttribute('data-tab');
         }
 
+        let adatHaid = 0;
+        let adatSuci = 0;
+
+        if (kategori === 'mutadah') {
+            adatHaid = document.querySelector('#section-mutadah input[type="number"]').value || 0;
+            adatSuci = document.querySelectorAll('#section-mutadah input[type="number"]')[1]?.value || 0;
+        } else {
+            // For mubtadaah or mutahayyiroh, get the active preset button
+            const activeAdatBtn = document.querySelector(`#section-${kategori} .c-adat-btn.active`);
+            if (activeAdatBtn) {
+                const text = activeAdatBtn.querySelector('strong').innerText; // e.g., "6 / 24"
+                const parts = text.split('/');
+                if (parts.length === 2) {
+                    adatHaid = parts[0].trim();
+                    adatSuci = parts[1].trim();
+                }
+            }
+        }
+
         const payload = {
             kategori: kategori,
             tglLahir: document.querySelector('#section-mubtadaah .date-picker').value,
             jamLahir: document.querySelector('#section-mubtadaah .time-picker').value,
-            adatHaid: document.querySelector('#section-mutadah input[type="number"]').value || 0,
-            adatSuci: document.querySelectorAll('#section-mutadah input[type="number"]')[1]?.value || 0,
+            adatHaid: adatHaid,
+            adatSuci: adatSuci,
             darah: []
         };
 
