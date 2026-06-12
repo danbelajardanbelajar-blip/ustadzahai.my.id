@@ -56,11 +56,11 @@
             <div class="c-result-box">
                 <div class="c-result-row">
                     <span class="c-result-label">Tgl Lahir:</span>
-                    <span class="c-result-val">17 Juni 2026 jam 00:00<br><span class="c-text-pink">1 Muharram 1448 H</span></span>
+                    <span class="c-result-val" id="result-tgl-lahir">17 Juni 2026 jam 00:00<br><span class="c-text-pink">1 Muharram 1448 H</span></span>
                 </div>
                 <div class="c-result-row">
                     <span class="c-result-label">Min. Haid:</span>
-                    <span class="c-result-val">23 Februari 2035 jam 07.17<br><span class="c-text-pink">15 Dzulhijjah 1456 H</span></span>
+                    <span class="c-result-val" id="result-min-haid">23 Februari 2035 jam 07.17<br><span class="c-text-pink">15 Dzulhijjah 1456 H</span></span>
                 </div>
             </div>
         </div>

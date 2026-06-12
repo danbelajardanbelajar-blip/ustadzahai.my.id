@@ -28,4 +28,18 @@ class KalkulatorController extends Controller {
             exit;
         }
     }
+
+    public function hitungMinHaid() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $input = json_decode(file_get_contents('php://input'), true);
+            $tglLahir = $input['tglLahir'] ?? date('Y-m-d');
+            $jamLahir = $input['jamLahir'] ?? '00:00';
+
+            $result = FiqhKalkulator::getMinHaidInfo($tglLahir, $jamLahir);
+
+            header('Content-Type: application/json');
+            echo json_encode($result);
+            exit;
+        }
+    }
 }

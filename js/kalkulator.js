@@ -19,6 +19,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Dynamic Birth Date Logic
+    const tglLahirInput = document.querySelector('#section-mubtadaah .date-picker');
+    const jamLahirInput = document.querySelector('#section-mubtadaah .time-picker');
+
+    function updateMinHaid() {
+        const payload = {
+            tglLahir: tglLahirInput.value,
+            jamLahir: jamLahirInput.value
+        };
+
+        if(!payload.tglLahir || !payload.jamLahir) return;
+
+        fetch('index.php?url=kalkulator/hitungMinHaid', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('result-tgl-lahir').innerHTML = data.lahirMasehi + '<br><span class="c-text-pink">' + data.lahirHijriah + '</span>';
+            document.getElementById('result-min-haid').innerHTML = data.minHaidMasehi + '<br><span class="c-text-pink">' + data.minHaidHijriah + '</span>';
+        })
+        .catch(err => console.error('Error fetching min haid:', err));
+    }
+
+    if (tglLahirInput) tglLahirInput.addEventListener('change', updateMinHaid);
+    if (jamLahirInput) jamLahirInput.addEventListener('change', updateMinHaid);
+
     // Dynamic 'Keluar Darah' Block Logic
     let darahCount = 1;
     const btnTambah = document.getElementById('btn-tambah-darah');

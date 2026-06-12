@@ -38,6 +38,39 @@ class FiqhKalkulator {
         return true;
     }
 
+    public static function getMinHaidInfo($tglLahir, $jamLahir) {
+        $born = new DateTime("$tglLahir $jamLahir");
+        $hijri = Hijri::convertToHijri($born->format('Y-m-d'));
+        
+        // 9 years later
+        $minHaidGreg = Hijri::convertToGregorian($hijri->day, $hijri->month, $hijri->year + 9);
+        $minHaidObj = new DateTime($minHaidGreg->format('Y-m-d') . " $jamLahir");
+        
+        // Subtract 16 days
+        $minHaidObj->modify('-16 days');
+        
+        $minHaidHijri = Hijri::convertToHijri($minHaidObj->format('Y-m-d'));
+        
+        $bulanHijri = [
+            1 => 'Muharram', 2 => 'Safar', 3 => 'Rabiul Awal', 4 => 'Rabiul Akhir',
+            5 => 'Jumadil Awal', 6 => 'Jumadil Akhir', 7 => 'Rajab', 8 => 'Syaban',
+            9 => 'Ramadhan', 10 => 'Syawal', 11 => 'Dzulqaidah', 12 => 'Dzulhijjah'
+        ];
+        
+        $bulanMasehi = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+
+        return [
+            'lahirMasehi' => $born->format('d') . ' ' . $bulanMasehi[(int)$born->format('n')] . ' ' . $born->format('Y') . ' jam ' . $born->format('H:i'),
+            'lahirHijriah' => $hijri->day . ' ' . $bulanHijri[(int)$hijri->month] . ' ' . $hijri->year . ' H',
+            'minHaidMasehi' => $minHaidObj->format('d') . ' ' . $bulanMasehi[(int)$minHaidObj->format('n')] . ' ' . $minHaidObj->format('Y') . ' jam ' . $minHaidObj->format('H:i'),
+            'minHaidHijriah' => $minHaidHijri->day . ' ' . $bulanHijri[(int)$minHaidHijri->month] . ' ' . $minHaidHijri->year . ' H'
+        ];
+    }
+
     /**
      * Algoritma utama berdasarkan Decision Tree
      */
