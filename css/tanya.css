@@ -197,10 +197,12 @@ body {
     overflow-x: auto;
     padding: 10px 15px;
     background: transparent;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
 }
 
 .t-suggestions::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome/Safari */
 }
 
 .t-sug-chip {
@@ -214,6 +216,7 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 2px 5px rgba(251, 92, 130, 0.05);
+    flex-shrink: 0;
 }
 
 .t-sug-chip:hover {
