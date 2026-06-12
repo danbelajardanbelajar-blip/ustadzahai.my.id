@@ -51,12 +51,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const adatBtns = document.querySelectorAll('.c-adat-btn');
     adatBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            // Find parent container
+            // Find parent container and the parent card
             const container = btn.closest('.c-adat-options');
+            const card = btn.closest('.c-card');
+            
             // Remove active from all buttons in this container
             container.querySelectorAll('.c-adat-btn').forEach(b => b.classList.remove('active'));
             // Add active to clicked button
             btn.classList.add('active');
+
+            // Update summary text
+            const summaryDiv = card.querySelector('.adat-summary-text');
+            if (summaryDiv) {
+                const text = btn.querySelector('strong').innerText; // e.g., "6 / 24"
+                const parts = text.split('/');
+                if (parts.length === 2) {
+                    const haid = parts[0].trim();
+                    const suci = parts[1].trim();
+                    summaryDiv.innerHTML = `Haid <strong style="color:#333">${haid} hari</strong> &middot; Suci <strong style="color:#333">${suci} hari</strong>`;
+                }
+            }
         });
     });
 

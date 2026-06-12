@@ -267,11 +267,41 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     color: #555;
     font-size: 11px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .c-adat-btn strong {
     font-size: 14px;
     color: #333;
+    transition: color 0.3s ease;
+}
+
+/* Active States */
+.btn-adat-1.active {
+    background: #e1f5fe;
+    border: 1px solid #81d4fa;
+    color: #0288d1;
+}
+.btn-adat-1.active strong {
+    color: #0288d1;
+}
+
+.btn-adat-6.active {
+    background: #f3e5f5;
+    border: 1px solid #ce93d8;
+    color: #7b1fa2;
+}
+.btn-adat-6.active strong {
+    color: #7b1fa2;
+}
+
+.btn-adat-7.active {
+    background: #fce4ec;
+    border: 1px solid #f48fb1;
+    color: #c2185b;
+}
+.btn-adat-7.active strong {
+    color: #c2185b;
 }
 
 .c-common-header {

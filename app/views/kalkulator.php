@@ -70,9 +70,12 @@
                 <i class="fas fa-balance-scale" style="color: #f39c12;"></i> PILIH ADAT (HAID / SUCI)
             </div>
             <div class="c-adat-options">
-                <button class="c-adat-btn active"><strong>1 / 29</strong><br>hari</button>
-                <button class="c-adat-btn"><strong>6 / 24</strong><br>hari</button>
-                <button class="c-adat-btn"><strong>7 / 23</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-1 active"><strong>1 / 29</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-6"><strong>6 / 24</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-7"><strong>7 / 23</strong><br>hari</button>
+            </div>
+            <div class="adat-summary-text c-mt-10" style="text-align:center; font-size:12px; color:#555;">
+                Haid <strong>1 hari</strong> &middot; Suci <strong>29 hari</strong>
             </div>
         </div>
     </div>
@@ -110,9 +113,12 @@
                 <i class="fas fa-balance-scale" style="color: #f39c12;"></i> PILIH ADAT (HAID / SUCI)
             </div>
             <div class="c-adat-options">
-                <button class="c-adat-btn active"><strong>1 / 29</strong><br>hari</button>
-                <button class="c-adat-btn"><strong>6 / 24</strong><br>hari</button>
-                <button class="c-adat-btn"><strong>7 / 23</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-1 active"><strong>1 / 29</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-6"><strong>6 / 24</strong><br>hari</button>
+                <button class="c-adat-btn btn-adat-7"><strong>7 / 23</strong><br>hari</button>
+            </div>
+            <div class="adat-summary-text c-mt-10" style="text-align:center; font-size:12px; color:#555;">
+                Haid <strong>1 hari</strong> &middot; Suci <strong>29 hari</strong>
             </div>
         </div>
     </div>
