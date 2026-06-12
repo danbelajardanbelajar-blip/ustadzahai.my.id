@@ -182,44 +182,36 @@ body {
     border: 1px solid rgba(255, 204, 224, 0.5);
 }
 
-/* OPTIONS */
-.t-options-list {
+/* SUGGESTIONS */
+.t-suggestions {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-    padding: 0 5px;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px 15px;
+    background: transparent;
 }
 
-.t-option-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    border: 1px solid #ffd1df;
-    border-radius: 16px;
-    padding: 16px 20px;
-    text-decoration: none;
-    color: #444;
-    font-size: 15px;
-    box-shadow: 0 2px 8px rgba(251, 92, 130, 0.05);
-    transition: all 0.2s ease;
+.t-suggestions::-webkit-scrollbar {
+    display: none;
 }
 
-.t-option-item:hover {
-    background: #fff8fa;
-    border-color: #fb5c82;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(251, 92, 130, 0.1);
-}
-
-.t-option-text {
-    font-weight: 500;
-}
-
-.t-option-icon {
+.t-sug-chip {
+    background: #fff0f5;
     color: #fb5c82;
-    font-size: 14px;
+    border: 1px solid #ffd1df;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(251, 92, 130, 0.05);
+}
+
+.t-sug-chip:hover {
+    background: linear-gradient(135deg, #ff7e9e, #fb5c82);
+    color: white;
+    border-color: transparent;
 }
 
 /* FOOTER */

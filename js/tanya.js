@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatArea = document.getElementById('t-chat-area');
     const inputField = document.getElementById('t-input');
     const btnSend = document.getElementById('t-btn-send');
-    const optionsList = document.querySelectorAll('.t-option-item');
+    const sugChips = document.querySelectorAll('.t-sug-chip');
 
     // KNOWLEDGE BASE (From BAB 1 and BAB 2)
     const knowledgeBase = [
@@ -64,12 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         
-        const optsList = document.querySelector('.t-options-list');
-        if (optsList) {
-            chatArea.insertBefore(msgRow, optsList);
-        } else {
-            chatArea.appendChild(msgRow);
-        }
+        chatArea.appendChild(msgRow);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
@@ -87,12 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         `;
-        const optsList = document.querySelector('.t-options-list');
-        if (optsList) {
-            chatArea.insertBefore(msgRow, optsList);
-        } else {
-            chatArea.appendChild(msgRow);
-        }
+        chatArea.appendChild(msgRow);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
@@ -141,17 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') handleSend();
     });
 
-    optionsList.forEach(opt => {
-        opt.addEventListener('click', (e) => {
-            e.preventDefault();
-            let rawText = opt.querySelector('.t-option-text').innerText;
-            let words = rawText.split(' ');
-            if (words[0].length <= 2 || /\p{Emoji}/u.test(words[0])) {
-                words.shift();
-            }
-            let text = words.join(' ');
-            
-            inputField.value = text;
+    sugChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            inputField.value = chip.innerText;
             handleSend();
         });
     });
@@ -162,9 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remove all message rows
             const messageRows = chatArea.querySelectorAll('.t-msg-row');
             messageRows.forEach(row => row.remove());
-            
-            // Get the options list to insert before it
-            const optsList = document.querySelector('.t-options-list');
             
             // Re-create initial messages
             const msg1 = document.createElement('div');
@@ -185,13 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            if (optsList) {
-                chatArea.insertBefore(msg1, optsList);
-                chatArea.insertBefore(msg2, optsList);
-            } else {
-                chatArea.appendChild(msg1);
-                chatArea.appendChild(msg2);
-            }
+            chatArea.appendChild(msg1);
+            chatArea.appendChild(msg2);
             
             chatArea.scrollTop = 0;
         });

@@ -44,25 +44,18 @@
             </div>
         </div>
 
-        <!-- OPTIONS -->
-        <div class="t-options-list">
-            <a href="#" class="t-option-item">
-                <span class="t-option-text">📖 Macam-Macam Darah & Cairan Farji</span>
-                <i class="fas fa-chevron-right t-option-icon"></i>
-            </a>
-            <a href="#" class="t-option-item">
-                <span class="t-option-text">🌙 Fiqih Dasar Haid</span>
-                <i class="fas fa-chevron-right t-option-icon"></i>
-            </a>
-            <a href="#" class="t-option-item">
-                <span class="t-option-text">👶 Fiqih Dasar Nifas</span>
-                <i class="fas fa-chevron-right t-option-icon"></i>
-            </a>
-            <a href="#" class="t-option-item">
-                <span class="t-option-text">🔬 Fiqih Dasar Istihadoh</span>
-                <i class="fas fa-chevron-right t-option-icon"></i>
-            </a>
-        </div>
+    </div>
+
+    <!-- SUGGESTIONS -->
+    <div class="t-suggestions">
+        <div class="t-sug-chip">Pengertian haid</div>
+        <div class="t-sug-chip">Syarat haid</div>
+        <div class="t-sug-chip">Warna darah</div>
+        <div class="t-sug-chip">Batas nifas</div>
+        <div class="t-sug-chip">Hukum keputihan</div>
+        <div class="t-sug-chip">Waktu suci</div>
+        <div class="t-sug-chip">Istihadoh</div>
+        <div class="t-sug-chip">Cara menghitung darah</div>
     </div>
 
     <!-- INPUT AREA -->
