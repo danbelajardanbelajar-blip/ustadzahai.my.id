@@ -4,6 +4,9 @@
     
     <!-- HEADER -->
     <div class="n-header">
+        <div style="text-align: left; margin-bottom: 10px;">
+            <a href="index.php" style="color: #d3557d; text-decoration: none; font-size: 16px; font-weight: bold;"><i class="fas fa-arrow-left"></i> Kembali</a>
+        </div>
         <div class="n-icon-moon"><i class="far fa-moon"></i></div>
         <h1>Kalkulator Fiqih Nifas</h1>
         <p>Menghitung hukum darah nifas berdasarkan Madzhab Syafi'i. Masukkan data kelahiran dan periode darah/bersih untuk mengetahui hukum fiqihnya.</p>
