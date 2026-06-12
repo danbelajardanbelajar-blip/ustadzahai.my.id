@@ -138,6 +138,88 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Update Ringkasan Keluar Darah dynamically
+    container.addEventListener('change', (e) => {
+        if (e.target.classList.contains('date-picker') || e.target.classList.contains('time-picker')) {
+            updateRingkasan();
+        }
+    });
+
+    function updateRingkasan() {
+        const content = document.getElementById('ringkasan-content');
+        if (!content) return;
+
+        const blocks = document.querySelectorAll('.c-darah-block');
+        let html = '';
+        let lastBersihDate = null;
+
+        blocks.forEach((block, index) => {
+            const datePickers = block.querySelectorAll('.date-picker');
+            const timePickers = block.querySelectorAll('.time-picker');
+            
+            const tglKeluar = datePickers[0]?.value;
+            const jamKeluar = timePickers[0]?.value;
+            const tglBersih = datePickers[1]?.value;
+            const jamBersih = timePickers[1]?.value;
+
+            if (tglKeluar && jamKeluar) {
+                const keluarDate = new Date(`${tglKeluar}T${jamKeluar}`);
+                
+                // Calculate Bersih if there's a previous block
+                if (lastBersihDate) {
+                    const diffMs = keluarDate - lastBersihDate;
+                    if (diffMs > 0) {
+                        const { days, hours } = msToDaysHours(diffMs);
+                        html += `<div style="font-size:12px; margin-bottom:5px; color:#2ecc71;"><strong>B ${index}:</strong> ${days} hari ${hours} jam</div>`;
+                    }
+                }
+
+                if (tglBersih && jamBersih) {
+                    const bersihDate = new Date(`${tglBersih}T${jamBersih}`);
+                    const diffMs = bersihDate - keluarDate;
+                    if (diffMs > 0) {
+                        const { days, hours } = msToDaysHours(diffMs);
+                        html += `<div style="font-size:12px; margin-bottom:5px; color:#d3557d;"><strong>KD ${index+1}:</strong> ${days} hari ${hours} jam</div>`;
+                    }
+                    lastBersihDate = bersihDate;
+                } else {
+                    lastBersihDate = null;
+                }
+            }
+        });
+
+        if (html === '') {
+            content.innerHTML = '<div class="c-text-center c-text-gray" style="font-size: 11px;">Belum ada data lengkap untuk dihitung.</div>';
+        } else {
+            content.innerHTML = html;
+        }
+    }
+
+    function msToDaysHours(ms) {
+        const totalHours = Math.floor(ms / (1000 * 60 * 60));
+        const days = Math.floor(totalHours / 24);
+        const hours = totalHours % 24;
+        return { days, hours };
+    }
+
+    // Toggle logic for Ringkasan
+    const btnToggle = document.getElementById('btn-toggle-ringkasan');
+    const iconToggle = document.getElementById('icon-toggle-ringkasan');
+    const ringkasanContent = document.getElementById('ringkasan-content');
+    
+    if (btnToggle) {
+        btnToggle.addEventListener('click', () => {
+            if (ringkasanContent.style.display === 'none') {
+                ringkasanContent.style.display = 'block';
+                iconToggle.style.transform = 'rotate(180deg)';
+                updateRingkasan();
+            } else {
+                ringkasanContent.style.display = 'none';
+                iconToggle.style.transform = 'rotate(0deg)';
+            }
+        });
+    }
+
     // Reset Logic
     const btnReset = document.getElementById('btn-reset');
     btnReset.addEventListener('click', () => {

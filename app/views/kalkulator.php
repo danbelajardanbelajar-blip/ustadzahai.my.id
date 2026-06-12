@@ -172,9 +172,12 @@
     </button>
 
     <div class="c-card c-card-pink-outline c-mt-15">
-        <div class="c-card-header c-text-pink c-space-between">
+        <div class="c-card-header c-text-pink c-space-between" id="btn-toggle-ringkasan" style="cursor: pointer; margin-bottom: 0;">
             <div><i class="far fa-clock"></i> Ringkasan Keluar Darah</div>
-            <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+            <i class="fas fa-chevron-down" id="icon-toggle-ringkasan" style="font-size: 12px; transition: transform 0.3s;"></i>
+        </div>
+        <div id="ringkasan-content" style="display: none; padding-top: 15px; border-top: 1px dashed #ffccd9; margin-top: 15px;">
+            <div class="c-text-center c-text-gray" style="font-size: 11px;">Belum ada data lengkap untuk dihitung.</div>
         </div>
     </div>
 
