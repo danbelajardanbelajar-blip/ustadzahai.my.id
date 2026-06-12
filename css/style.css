@@ -527,3 +527,22 @@ a {
 .u-btn-submit:hover {
     background-color: #72cca9;
 }
+
+/* Tabel Warning Box */
+.tabel-warning-box {
+    background-color: #fffdf0;
+    border: 1px solid #fde073;
+    border-radius: 12px;
+    padding: 12px 15px;
+    color: #d97706;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.tabel-warning-box i {
+    margin-top: 2px;
+    font-size: 13px;
+}

@@ -47,18 +47,67 @@
     </div>
 
     <div class="list-section">
-        <a href="index.php?url=tabel" class="list-card">
-            <div class="list-icon">
-                <i class="fas fa-exchange-alt"></i>
+        <!-- Accordion Header -->
+        <div class="list-card" id="btn-tabel-accordion" style="cursor: pointer; margin-bottom: 12px;">
+            <div class="list-icon" style="background: #f3e8ff; color: #8c52ff;">
+                <i class="fas fa-pen-nib"></i>
             </div>
             <div class="list-text">
                 <h3>Alat Pembuat Tabel Haid</h3>
                 <p>Tabel haid, nifas, mutahayyiroh dan struktur</p>
             </div>
             <div class="list-arrow">
-                <i class="fas fa-chevron-down"></i>
+                <i class="fas fa-chevron-up" id="icon-tabel-accordion"></i>
             </div>
-        </a>
+        </div>
+
+        <!-- Accordion Body -->
+        <div id="tabel-accordion-body">
+            <div class="tabel-warning-box">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                <div>Ini hanya alat bantu menggambarkan kasus haid, nifas, dan istihadhoh. Tidak bisa untuk menganalisa hukum secara otomatis.</div>
+            </div>
+
+            <a href="index.php?url=tabel" class="list-card">
+                <div class="list-icon" style="background: #f3e8ff; color: #8c52ff;">
+                    <i class="fas fa-table"></i>
+                </div>
+                <div class="list-text">
+                    <h3>Tabel Haid</h3>
+                    <p>Buat tabel haid untuk memudahkan menggambarkan kasus haid dan istihadoh</p>
+                </div>
+            </a>
+
+            <a href="#" class="list-card">
+                <div class="list-icon" style="background: #f0f7ff; color: #3b82f6;">
+                    <i class="fas fa-border-all"></i>
+                </div>
+                <div class="list-text">
+                    <h3>Tabel Nifas</h3>
+                    <p>Buat tabel nifas untuk memudahkan menggambarkan nifas mumayyizah, goiru mumayyizah, mustahadoh finnifas</p>
+                </div>
+            </a>
+
+            <a href="#" class="list-card">
+                <div class="list-icon" style="background: #fff0e6; color: #f97316;">
+                    <i class="fas fa-list-ul"></i>
+                </div>
+                <div class="list-text">
+                    <h3>Tabel Mutahayyiroh</h3>
+                    <p>Tabel khusus mutahayyiroh nisbiyah, agar memudahkan dalam menggambarkan masa yakin haid , yakin suci , haid masykuk, suci masykuk , nifas masykuk</p>
+                </div>
+            </a>
+
+            <a href="#" class="list-card">
+                <div class="list-icon" style="background: #e6f4ea; color: #22c55e;">
+                    <i class="fas fa-pen-nib"></i>
+                </div>
+                <div class="list-text">
+                    <h3>Struktur Haid</h3>
+                    <p>Buat struktur haid , nifas , mustahadoh, dll</p>
+                </div>
+            </a>
+        </div>
     </div>
 
     <h2 class="section-title">💬 Media Sosial</h2>
@@ -242,6 +291,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 msgBox.innerHTML = 'Terjadi kesalahan. Silakan coba lagi.';
                 console.error(err);
             });
+        });
+    }
+
+
+    // Tabel Accordion Logic
+    const btnTabel = document.getElementById('btn-tabel-accordion');
+    const bodyTabel = document.getElementById('tabel-accordion-body');
+    const iconTabel = document.getElementById('icon-tabel-accordion');
+    
+    if(btnTabel && bodyTabel && iconTabel) {
+        // Init state: hide body, arrow down
+        bodyTabel.style.display = 'none';
+        iconTabel.classList.remove('fa-chevron-up');
+        iconTabel.classList.add('fa-chevron-down');
+
+        btnTabel.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (bodyTabel.style.display === 'none' || bodyTabel.style.display === '') {
+                bodyTabel.style.display = 'block';
+                iconTabel.classList.remove('fa-chevron-down');
+                iconTabel.classList.add('fa-chevron-up');
+            } else {
+                bodyTabel.style.display = 'none';
+                iconTabel.classList.remove('fa-chevron-up');
+                iconTabel.classList.add('fa-chevron-down');
+            }
         });
     }
 });
