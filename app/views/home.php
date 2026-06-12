@@ -85,28 +85,39 @@
         </a>
     </div>
 
-    <h2 class="section-title">🛍️ Belanja Produk Ustadzah AI</h2>
-    <div class="product-scroll">
+    <h2 class="section-title">
+        <div style="background: #ffe6f0; width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 8px; color: #ff6b9d; font-size: 12px;">
+            <i class="fas fa-shopping-bag"></i>
+        </div>
+        Belanja Produk Ustadzah AI
+    </h2>
+    <div class="product-grid">
         <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
             <div class="product-img-box">
                 <i class="fas fa-shopping-bag"></i>
             </div>
-            <p>Pembalut cuci ulang 4 picis</p>
-            <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
+            <div class="product-info">
+                <p>Pembalut kain cuci ulang 4 picis</p>
+                <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
+            </div>
         </a>
         <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
-            <div class="product-img-box">
-                <i class="fas fa-shopping-bag"></i>
-            </div>
-            <p>Menstrual pad / pembalut kain</p>
-            <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
-        </a>
-        <a href="https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/" target="_blank" class="product-card">
             <div class="product-img-box" style="background: transparent;">
-                <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp" alt="Pembalut kain cuci ulang (3)" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp" alt="Menstrual pad" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
-            <p>Pembalut kain cuci ulang (3)</p>
-            <div class="shop-icon"><i class="fas fa-store"></i> Tokopedia</div>
+            <div class="product-info">
+                <p>Menstrual pad / pembalut kain</p>
+                <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
+            </div>
+        </a>
+        <a href="https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/" target="_blank" class="product-card product-card-special">
+            <div class="product-img-box">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="product-info">
+                <p style="color: #4169e1; text-decoration: underline;">Pembalut kain cuci ulang (3)</p>
+                <div class="shop-icon"><i class="fas fa-store"></i> TikTok Shop</div>
+            </div>
         </a>
     </div>
 
