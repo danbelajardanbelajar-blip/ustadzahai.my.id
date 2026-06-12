@@ -3,7 +3,7 @@ class TanyaController extends Controller {
     public function index() {
         $data = [
             'title' => 'Tanya Ustadzah AI',
-            'css' => ['css/tanya.css'],
+            'css' => ['css/tanya.css?v=' . time()],
             'js' => ['js/tanya.js']
         ];
         $this->view('tanya', $data);
