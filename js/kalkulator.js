@@ -107,9 +107,107 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             darahCount = 1;
             
+            // Hide result
+            document.getElementById('result-container').style.display = 'none';
+
             // Go back to first tab
             document.getElementById('tab-mubtadaah').click();
         }
     });
+
+    // Analisa Logic
+    const btnAnalisa = document.getElementById('btn-analisa');
+    btnAnalisa.addEventListener('click', () => {
+        // Collect data
+        let kategori = 'mubtadaah';
+        const activeTab = document.querySelector('.c-tab.active');
+        if (activeTab) {
+            kategori = activeTab.getAttribute('data-tab');
+        }
+
+        const payload = {
+            kategori: kategori,
+            tglLahir: document.querySelector('#section-mubtadaah .date-picker').value,
+            jamLahir: document.querySelector('#section-mubtadaah .time-picker').value,
+            adatHaid: document.querySelector('#section-mutadah input[type="number"]').value || 0,
+            adatSuci: document.querySelectorAll('#section-mutadah input[type="number"]')[1]?.value || 0,
+            darah: []
+        };
+
+        const blocks = document.querySelectorAll('.c-darah-block');
+        blocks.forEach(block => {
+            const datePickers = block.querySelectorAll('.date-picker');
+            const timePickers = block.querySelectorAll('.time-picker');
+            payload.darah.push({
+                tgl_keluar: datePickers[0].value,
+                jam_keluar: timePickers[0].value,
+                tgl_bersih: datePickers[1].value,
+                jam_bersih: timePickers[1].value
+            });
+        });
+
+        // Send AJAX request
+        fetch('index.php?url=kalkulator/analisa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                renderVisualisasi(data);
+            } else {
+                alert('Terjadi kesalahan dalam analisa data.');
+            }
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            alert('Gagal menghubungi server.');
+        });
+    });
+
+    function renderVisualisasi(data) {
+        const resultContainer = document.getElementById('result-container');
+        const kesimpulanText = document.getElementById('kesimpulan-text');
+        const visualBox = document.getElementById('visualisasi-blocks');
+        
+        resultContainer.style.display = 'block';
+        kesimpulanText.innerText = data.kesimpulan;
+        visualBox.innerHTML = '';
+
+        data.siklus.forEach((item, index) => {
+            const block = document.createElement('div');
+            block.style.padding = '10px';
+            block.style.marginBottom = '10px';
+            block.style.borderRadius = '5px';
+            block.style.color = '#fff';
+            block.style.fontSize = '14px';
+
+            let bgColor = '#ccc'; // default
+            if (item.status.includes('Haid')) {
+                bgColor = '#d3557d'; // pink/red
+            } else if (item.status.includes('Suci')) {
+                bgColor = '#2ecc71'; // green
+            } else if (item.status.includes('Fasad') || item.status.includes('Istihadhah')) {
+                bgColor = '#e67e22'; // orange
+            }
+
+            block.style.backgroundColor = bgColor;
+
+            const icon = item.type === 'KD' ? '<i class="fas fa-tint"></i>' : '<i class="far fa-circle"></i>';
+            const title = item.type === 'KD' ? 'Keluar Darah' : 'Masa Bersih';
+
+            block.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                    <strong>${icon} ${title} (${Math.round(item.hours)} jam)</strong>
+                    <span style="background:rgba(255,255,255,0.3); padding:2px 8px; border-radius:12px; font-size:12px;">${item.status}</span>
+                </div>
+                <div style="font-size:12px; opacity:0.9;">
+                    ${item.start.date.substring(0, 16)} s/d ${item.end.date.substring(0, 16)}
+                </div>
+            `;
+            visualBox.appendChild(block);
+        });
+    }
 
 });

@@ -176,9 +176,21 @@
         <i class="far fa-clipboard"></i> Paste Ringkasan Data dari Kalender Haid
     </button>
 
-    <button class="c-btn-solid c-mt-15">
+    <button class="c-btn-solid c-mt-15" id="btn-analisa">
         <i class="fas fa-search"></i> Analisa Hukum Darah
     </button>
+
+    <div id="result-container" class="c-mt-15" style="display: none;">
+        <div class="c-card c-card-white">
+            <div class="c-card-header c-text-dark">
+                <i class="fas fa-poll-h" style="color: #6c5ce7;"></i> Hasil Analisa Fiqih
+            </div>
+            <div class="c-mt-10" id="kesimpulan-text" style="font-weight:bold; font-size:16px;"></div>
+            <div id="visualisasi-blocks" class="c-mt-15">
+                <!-- Blocks will be generated here by JS -->
+            </div>
+        </div>
+    </div>
 
     <button class="c-btn-dashed c-mt-15" id="btn-reset">
         <i class="fas fa-undo"></i> Hitung Baru (Reset Semua)
