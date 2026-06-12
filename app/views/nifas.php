@@ -4,33 +4,30 @@
     
     <!-- HEADER -->
     <div class="n-header">
-        <div style="text-align: left; margin-bottom: 10px;">
-            <a href="index.php" style="color: #d3557d; text-decoration: none; font-size: 16px; font-weight: bold;"><i class="fas fa-arrow-left"></i> Kembali</a>
-        </div>
         <div class="n-icon-moon"><i class="far fa-moon"></i></div>
         <h1>Kalkulator Fiqih Nifas</h1>
         <p>Menghitung hukum darah nifas berdasarkan Madzhab Syafi'i. Masukkan data kelahiran dan periode darah/bersih untuk mengetahui hukum fiqihnya.</p>
-        <div class="n-badge"><i class="fas fa-book-open"></i> Madzhab Syafi'i</div>
+        <div class="n-badge"><i class="far fa-comment-dots"></i> Madzhab Syafi'i</div>
     </div>
 
     <!-- TANGGAL MELAHIRKAN -->
     <div class="n-card">
         <div class="n-card-title">
-            <div class="n-icon-circle-red"><i class="fas fa-cog"></i></div> Tanggal & Waktu Melahirkan
+            <div class="n-icon-circle-red"><i class="far fa-clock"></i></div> Tanggal & Waktu Melahirkan
         </div>
         
         <div class="n-input-group">
-            <label>TANGGAL</label>
+            <label class="n-label-black">TANGGAL</label>
             <div class="n-input-wrapper">
-                <input type="date" class="n-input n-date-picker">
+                <input type="date" class="n-input n-date-picker" id="n-lahir-date">
                 <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
             </div>
         </div>
 
         <div class="n-input-group">
-            <label>WAKTU</label>
+            <label class="n-label-black">WAKTU</label>
             <div class="n-input-wrapper">
-                <input type="time" value="12:00" class="n-input n-time-picker">
+                <input type="time" value="12:00" class="n-input n-time-picker" id="n-lahir-time">
                 <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
             </div>
         </div>
@@ -41,133 +38,182 @@
     <!-- DATA ADAT -->
     <div class="n-card">
         <div class="n-card-title">
-            <div class="n-icon-circle-orange"><i class="far fa-sticky-note"></i></div> Data Adat (Kebiasaan)
+            <div class="n-icon-circle-red"><i class="fas fa-undo"></i></div> Data Adat (Kebiasaan)
         </div>
 
-        <div class="n-toggle-row">
-            <div class="n-toggle-text">
-                <strong>Pertama Kali Nifas?</strong>
-                <span>Belum punya adat nifas ... nifas dihitung 40 hari</span>
+        <label class="n-label-black-bold">Adat Nifas</label>
+        
+        <label class="n-radio-option selected" id="opt-nifas-lupa">
+            <input type="radio" name="adat_nifas" value="lupa" checked>
+            <div class="n-radio-content">
+                <div class="n-radio-title">Pertama kali nifas / Pernah nifas lupa adat</div>
+                <div class="n-radio-desc">Adat nifas dihitung 40 hari, jam/menit nifas mengikuti jam KD 1</div>
             </div>
-            <label class="n-switch">
-                <input type="checkbox" id="toggle-pertama-nifas">
-                <span class="n-slider"></span>
-            </label>
-        </div>
-
-        <div class="n-input-group">
-            <label>ADAT NIFAS (HARI)</label>
-            <input type="number" placeholder="contoh: 40" class="n-input" id="input-adat-nifas">
-            <p class="n-info-text n-mt-5">Kosongkan jika tidak diketahui (akan dianggap 40 hari)</p>
-        </div>
-
-        <div class="n-toggle-row">
-            <div class="n-toggle-text">
-                <strong>Belum Pernah Haid Sebelumnya?</strong>
-                <span>Suci 29 hari, haid 1 hari (adat pertama kali)</span>
+        </label>
+        
+        <label class="n-radio-option" id="opt-nifas-ingat">
+            <input type="radio" name="adat_nifas" value="ingat">
+            <div class="n-radio-content">
+                <div class="n-radio-title">Pernah nifas ingat adat</div>
+                <div class="n-radio-desc">Masukkan jumlah hari dan jam/menit suci adat nifas</div>
             </div>
-            <label class="n-switch">
-                <input type="checkbox" id="toggle-belum-haid">
-                <span class="n-slider"></span>
-            </label>
-        </div>
+        </label>
 
-        <div class="n-input-row-half">
+        <!-- Container for Adat Nifas Ingat -->
+        <div id="container-nifas-ingat" style="display:none; padding-left:15px; margin-bottom:20px;">
             <div class="n-input-group">
-                <label>ADAT SUCI (HARI)</label>
-                <input type="number" placeholder="contoh: 29" class="n-input" id="input-adat-suci">
-                <p class="n-info-text n-mt-5" style="text-align: center;">Suci terakhir</p>
+                <label class="n-label-black">HARI ADAT NIFAS</label>
+                <input type="number" class="n-input" id="input-nifas-hari" placeholder="Contoh: 40">
+            </div>
+        </div>
+
+        <label class="n-label-black-bold" style="margin-top:20px;">Adat Haid</label>
+        
+        <label class="n-radio-option selected" id="opt-haid-belum">
+            <input type="radio" name="adat_haid" value="belum" checked>
+            <div class="n-radio-content">
+                <div class="n-radio-title">Belum pernah haid</div>
+                <div class="n-radio-desc">Pilih pasangan adat haid / suci, jam mengikuti jam KD 1</div>
+            </div>
+        </label>
+        
+        <label class="n-radio-option" id="opt-haid-lupa">
+            <input type="radio" name="adat_haid" value="lupa">
+            <div class="n-radio-content">
+                <div class="n-radio-title">Pernah haid lupa adat</div>
+                <div class="n-radio-desc">Pilih pasangan adat haid / suci, jam mengikuti jam KD 1</div>
+            </div>
+        </label>
+        
+        <label class="n-radio-option" id="opt-haid-ingat">
+            <input type="radio" name="adat_haid" value="ingat">
+            <div class="n-radio-content">
+                <div class="n-radio-title">Pernah haid ingat adat</div>
+                <div class="n-radio-desc">Masukkan adat haid, adat suci, dan jam suci adat haid</div>
+            </div>
+        </label>
+        
+        <div id="pasangan-haid-suci-container">
+            <label class="n-label-black" style="font-size:10px; margin-bottom:8px; display:block;">Pilih pasangan Haid / Suci:</label>
+            <div class="n-pills-row">
+                <button type="button" class="n-pill selected" data-haid="1" data-suci="29">1/29</button>
+                <button type="button" class="n-pill" data-haid="6" data-suci="24">6/24</button>
+                <button type="button" class="n-pill" data-haid="7" data-suci="23">7/23</button>
+            </div>
+            <p class="n-info-text-small">Format: Haid (hari) / Suci (hari) -- Jam suci mengikuti jam KD 1</p>
+        </div>
+
+        <!-- Container for Adat Haid Ingat -->
+        <div id="container-haid-ingat" style="display:none; padding-left:15px; margin-top:15px;">
+            <div class="n-input-row-half">
+                <div class="n-input-group">
+                    <label class="n-label-black">ADAT HAID</label>
+                    <input type="number" class="n-input" id="input-haid-hari" placeholder="Hari">
+                </div>
+                <div class="n-input-group">
+                    <label class="n-label-black">ADAT SUCI</label>
+                    <input type="number" class="n-input" id="input-suci-hari" placeholder="Hari">
+                </div>
             </div>
             <div class="n-input-group">
-                <label>ADAT HAID (HARI)</label>
-                <input type="number" placeholder="contoh: 7" class="n-input" id="input-adat-haid">
-                <p class="n-info-text n-mt-5" style="text-align: center;">Haid terakhir</p>
+                <label class="n-label-black">JAM MULAI SUCI</label>
+                <div class="n-input-wrapper">
+                    <input type="time" class="n-input" id="input-suci-jam">
+                    <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
+                </div>
             </div>
         </div>
 
-        <div class="n-input-group">
-            <label>JAM MULAI SUCI ADAT</label>
-            <div class="n-input-wrapper">
-                <input type="time" class="n-input n-time-picker">
-                <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
-            </div>
-            <p class="n-info-text n-mt-5">Jam mulai suci terakhir (untuk urutan haid & istihadhah pada masa sebelum hamil)</p>
-        </div>
-
-        <div class="n-warning-box">
-            <i class="fas fa-info-circle" style="color: #d3557d; float: left; margin-right: 8px; margin-top: 2px;"></i>
-            Data adat digunakan untuk menentukan hukum jika darah melebihi 60 hari (nifas campur istihadhah). Umumnya wanita tidak haid saat hamil, sehingga adat suci adalah masa suci saat hamil.
+        <div class="n-warning-box-grey">
+            Data adat digunakan untuk menentukan hukum jika terjadi Mustahadhah fin Nifas atau Mustahadhah fil Haid.
         </div>
     </div>
 
     <!-- PERIODE DARAH & BERSIH -->
     <div class="n-card">
         <div class="n-card-title">
-            <div class="n-icon-circle-red"><i class="fas fa-list-ul"></i></div> Periode Darah & Bersih
+            <div class="n-icon-circle-red"><i class="fas fa-tint"></i></div> Periode Darah & Bersih
         </div>
 
         <div id="n-darah-container">
-            <div class="n-darah-block">
-                <div class="n-darah-header">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <i class="fas fa-tint"></i> <strong>Keluar Darah ke-<span class="n-darah-index">1</span></strong>
-                    </div>
-                    <i class="far fa-trash-alt n-btn-delete" style="color:#777; cursor:pointer;"></i>
+            <div class="n-darah-block-new">
+                <div class="n-darah-badge-row">
+                    <div class="n-darah-badge"><div class="n-dot"></div> KD <span class="n-darah-index">1</span> <span class="n-badge-pink" style="display:none;"></span></div>
+                    <i class="far fa-trash-alt n-btn-delete" style="color:#bbb; cursor:pointer;"></i>
                 </div>
                 
-                <label class="n-label-red">MULAI KELUAR DARAH</label>
-                <div class="n-input-row-half">
-                    <div class="n-input-wrapper">
-                        <input type="date" class="n-input n-input-red n-date-picker">
-                        <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
-                    </div>
-                    <div class="n-input-wrapper">
-                        <input type="time" class="n-input n-input-red n-time-picker">
-                        <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
-                    </div>
+                <label class="n-label-black" style="font-size:10px;">MULAI KELUAR DARAH</label>
+                <div class="n-input-wrapper" style="margin-bottom:10px;">
+                    <input type="date" class="n-input n-date-picker">
+                    <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
                 </div>
-
-                <label class="n-label-red" style="margin-top:15px;">DARAH BERHENTI (MULAI BERSIH)</label>
-                <div class="n-input-row-half">
-                    <div class="n-input-wrapper">
-                        <input type="date" class="n-input n-input-red n-date-picker">
-                        <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
-                    </div>
-                    <div class="n-input-wrapper">
-                        <input type="time" class="n-input n-input-red n-time-picker">
-                        <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
-                    </div>
+                <div class="n-input-wrapper">
+                    <input type="time" class="n-input n-time-picker">
+                    <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
+                </div>
+                
+                <label class="n-label-black" style="font-size:10px; margin-top:15px;">DARAH BERHENTI (MULAI BERSIH)</label>
+                <div class="n-input-wrapper" style="margin-bottom:10px;">
+                    <input type="date" class="n-input n-date-picker">
+                    <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
+                </div>
+                <div class="n-input-wrapper">
+                    <input type="time" class="n-input n-time-picker">
+                    <i class="fas fa-chevron-down n-icon-right" onclick="this.previousElementSibling.showPicker()"></i>
                 </div>
             </div>
         </div>
 
-        <button class="n-btn-dashed" id="n-btn-add-periode">
+        <button type="button" class="n-btn-add-periode-new" id="n-btn-add-periode">
             <i class="fas fa-plus"></i> Tambah Periode
         </button>
     </div>
 
     <!-- TEMPEL DATA -->
-    <div class="n-card n-card-pink">
+    <div class="n-card">
         <div class="n-card-title">
-            <div class="n-icon-circle-red"><i class="far fa-clipboard"></i></div> Tempel Data dari Kalender
+            <div class="n-icon-circle-grey"><i class="far fa-clipboard"></i></div> Tempel Data dari Kalender
         </div>
-        <p class="n-info-text-dark">Tempel ringkasan data dari catatan kalender, tanggal lahir dan periode akan terisi otomatis.</p>
+        <p class="n-info-text" style="color:#777; margin-bottom:10px;">Tempel ringkasan data dari catatan kalender... Tanggal lahir dan periode akan terisi otomatis.</p>
         
-        <textarea class="n-textarea" rows="4" placeholder="Tempel data di sini (format KD 1 : / B 1 : ... dengan Mulai & Selesai)..."></textarea>
+        <div class="n-paste-box">
+            <textarea class="n-textarea-borderless" rows="4" placeholder="Contoh format:
+Lahir: 2024-01-15 08:30
+Darah: 2024-01-15 - 2024-01-20
+Darah: 2024-02-01 - 2024-02-05"></textarea>
+        </div>
         
-        <button class="n-btn-outline-pink">
-            <i class="far fa-clipboard"></i> Terapkan Data ke Form
-        </button>
+        <button type="button" class="n-btn-transparent">Terapkan Data ke Form</button>
     </div>
 
     <!-- BOTTOM ACTIONS -->
     <div class="n-bottom-actions">
-        <button class="n-btn-solid">
-            <i class="fas fa-calculator"></i> Hitung Hukum Nifas
+        <button type="button" class="n-btn-solid" id="btn-hitung-nifas">
+            <i class="far fa-file-alt"></i> Hitung Hukum Nifas
         </button>
-        <button class="n-btn-reset" id="n-btn-reset">
+        <button type="button" class="n-btn-reset" id="n-btn-reset">
             <i class="fas fa-sync-alt"></i>
         </button>
+    </div>
+
+    <!-- HASIL ANALISIS -->
+    <div class="n-card" id="n-result-card" style="display:none;">
+        <div class="n-card-title">
+            <div class="n-icon-circle-red"><i class="far fa-file-alt"></i></div> Hasil Analisis Hukum Nifas
+        </div>
+        
+        <div id="n-error-box" class="n-error-box" style="display:none;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:5px;">
+                <i class="fas fa-exclamation-triangle" style="color:#d32f2f;"></i>
+                <span style="font-weight:bold; color:#333; font-size:12px;">Data Tidak Valid</span>
+                <span class="n-badge-error">Error</span>
+            </div>
+            <p id="n-error-message" style="margin:0; font-size:11px; color:#555; padding-left:22px;"></p>
+        </div>
+
+        <div id="n-success-box" style="display:none;">
+            <!-- Render hasil tabel disini -->
+        </div>
     </div>
 
 </div>
