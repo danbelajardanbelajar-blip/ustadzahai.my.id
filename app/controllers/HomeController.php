@@ -24,14 +24,31 @@ class HomeController extends Controller {
             ["title" => "Pembalut kain cuci ulang (3)", "shop" => "TikTok Shop", "url" => "https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/", "image" => "", "icon" => "fas fa-shopping-bag", "special" => true]
         ];
 
+        $defaultTabelLinks = [
+            ["title" => "Tabel Haid", "desc" => "Buat tabel haid untuk memudahkan menggambarkan kasus haid dan istihadoh", "url" => "index.php?url=tabel", "icon" => "fas fa-table", "color" => "#f3e8ff", "text_color" => "#8c52ff"],
+            ["title" => "Tabel Nifas", "desc" => "Buat tabel nifas untuk memudahkan menggambarkan nifas mumayyizah, goiru mumayyizah, mustahadoh finnifas", "url" => "#", "icon" => "fas fa-border-all", "color" => "#f0f7ff", "text_color" => "#3b82f6"],
+            ["title" => "Tabel Mutahayyiroh", "desc" => "Tabel khusus mutahayyiroh nisbiyah, agar memudahkan dalam menggambarkan masa yakin haid , yakin suci , haid masykuk, suci masykuk , nifas masykuk", "url" => "#", "icon" => "fas fa-list-ul", "color" => "#fff0e6", "text_color" => "#f97316"],
+            ["title" => "Struktur Haid", "desc" => "Buat struktur haid , nifas , mustahadoh, dll", "url" => "#", "icon" => "fas fa-pen-nib", "color" => "#e6f4ea", "text_color" => "#22c55e"]
+        ];
+
+        $defaultKajianInfo = [
+            "title" => "Kajian fiqih haid via Google meet gratis",
+            "time" => "Setiap selasa jam 8 malam",
+            "desc" => "Kajian fiqih haid nifas dan istihadhoh menggunakan buku Khulashoh Fiqih Haid di bawah ust / ustadzah...",
+            "wa_url" => "https://wa.me/6285248704900"
+        ];
+
         $data = [
             'home_links' => $defaultHomeLinks,
             'social_links' => $defaultSocialLinks,
-            'store_links' => $defaultStoreLinks
+            'store_links' => $defaultStoreLinks,
+            'tabel_links' => $defaultTabelLinks,
+            'kajian_info' => $defaultKajianInfo
         ];
 
         try {
             $settingsModel = $this->model('SettingsModel');
+            
             $dbHomeLinks = $settingsModel->getSetting('home_links');
             if ($dbHomeLinks) $data['home_links'] = $dbHomeLinks;
 
@@ -40,6 +57,12 @@ class HomeController extends Controller {
 
             $dbStoreLinks = $settingsModel->getSetting('store_links');
             if ($dbStoreLinks) $data['store_links'] = $dbStoreLinks;
+
+            $dbTabelLinks = $settingsModel->getSetting('tabel_links');
+            if ($dbTabelLinks) $data['tabel_links'] = $dbTabelLinks;
+
+            $dbKajianInfo = $settingsModel->getSetting('kajian_info');
+            if ($dbKajianInfo) $data['kajian_info'] = $dbKajianInfo;
         } catch (Exception $e) {
             // DB connection failed, use default hardcoded fallback silently
         }

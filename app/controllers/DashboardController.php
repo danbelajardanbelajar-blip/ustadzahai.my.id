@@ -16,7 +16,9 @@ class DashboardController extends Controller {
         $data = [
             'home_links' => $settingsModel->getSetting('home_links') ?? [],
             'social_links' => $settingsModel->getSetting('social_links') ?? [],
-            'store_links' => $settingsModel->getSetting('store_links') ?? []
+            'store_links' => $settingsModel->getSetting('store_links') ?? [],
+            'tabel_links' => $settingsModel->getSetting('tabel_links') ?? [],
+            'kajian_info' => $settingsModel->getSetting('kajian_info') ?? []
         ];
 
         // Fetch messages if UndanganModel exists and is connected

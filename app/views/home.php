@@ -46,45 +46,17 @@
                 <div>Ini hanya alat bantu menggambarkan kasus haid, nifas, dan istihadhoh. Tidak bisa untuk menganalisa hukum secara otomatis.</div>
             </div>
 
-            <a href="index.php?url=tabel" class="list-card">
-                <div class="list-icon" style="background: #f3e8ff; color: #8c52ff;">
-                    <i class="fas fa-table"></i>
+            <?php foreach ($data['tabel_links'] as $tabel): ?>
+            <a href="<?= htmlspecialchars($tabel['url']) ?>" class="list-card">
+                <div class="list-icon" style="background: <?= htmlspecialchars($tabel['color']) ?>; color: <?= htmlspecialchars($tabel['text_color']) ?>;">
+                    <i class="<?= htmlspecialchars($tabel['icon']) ?>"></i>
                 </div>
                 <div class="list-text">
-                    <h3>Tabel Haid</h3>
-                    <p>Buat tabel haid untuk memudahkan menggambarkan kasus haid dan istihadoh</p>
+                    <h3><?= htmlspecialchars($tabel['title']) ?></h3>
+                    <p><?= htmlspecialchars($tabel['desc']) ?></p>
                 </div>
             </a>
-
-            <a href="#" class="list-card">
-                <div class="list-icon" style="background: #f0f7ff; color: #3b82f6;">
-                    <i class="fas fa-border-all"></i>
-                </div>
-                <div class="list-text">
-                    <h3>Tabel Nifas</h3>
-                    <p>Buat tabel nifas untuk memudahkan menggambarkan nifas mumayyizah, goiru mumayyizah, mustahadoh finnifas</p>
-                </div>
-            </a>
-
-            <a href="#" class="list-card">
-                <div class="list-icon" style="background: #fff0e6; color: #f97316;">
-                    <i class="fas fa-list-ul"></i>
-                </div>
-                <div class="list-text">
-                    <h3>Tabel Mutahayyiroh</h3>
-                    <p>Tabel khusus mutahayyiroh nisbiyah, agar memudahkan dalam menggambarkan masa yakin haid , yakin suci , haid masykuk, suci masykuk , nifas masykuk</p>
-                </div>
-            </a>
-
-            <a href="#" class="list-card">
-                <div class="list-icon" style="background: #e6f4ea; color: #22c55e;">
-                    <i class="fas fa-pen-nib"></i>
-                </div>
-                <div class="list-text">
-                    <h3>Struktur Haid</h3>
-                    <p>Buat struktur haid , nifas , mustahadoh, dll</p>
-                </div>
-            </a>
+            <?php endforeach; ?>
         </div>
     </div>
 
@@ -174,10 +146,10 @@
 
     <h2 class="section-title">📖 Info Kajian Fiqih Wanita</h2>
     <div class="kajian-card">
-        <h3>Kajian fiqih haid via Google meet gratis</h3>
-        <div class="time"><i class="far fa-check-square"></i> Setiap selasa jam 8 malam</div>
-        <p>Kajian fiqih haid nifas dan istihadhoh menggunakan buku Khulashoh Fiqih Haid di bawah ust / ustadzah...</p>
-        <a href="https://wa.me/6285248704900" target="_blank" class="btn-purple" style="display: inline-block; text-decoration: none;">Daftar Sekarang</a>
+        <h3><?= htmlspecialchars($data['kajian_info']['title'] ?? '') ?></h3>
+        <div class="time"><i class="far fa-check-square"></i> <?= htmlspecialchars($data['kajian_info']['time'] ?? '') ?></div>
+        <p><?= htmlspecialchars($data['kajian_info']['desc'] ?? '') ?></p>
+        <a href="<?= htmlspecialchars($data['kajian_info']['wa_url'] ?? '#') ?>" target="_blank" class="btn-purple" style="display: inline-block; text-decoration: none;">Daftar Sekarang</a>
     </div>
 
     <div class="warning-box">
