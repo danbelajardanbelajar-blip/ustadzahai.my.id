@@ -90,7 +90,6 @@
         <div class="q-question-title">
             <span style="color: #d3557d; font-weight: bold; font-size: 14px;">?</span>
             <span>Apa alasan meninggalkan puasa di Ramadhan ini?</span>
-            <i class="far fa-question-circle" style="color: #aaa; font-size: 12px;"></i>
         </div>
 
         <div class="q-custom-select" id="q-custom-select">
@@ -100,42 +99,63 @@
             </div>
             
             <div class="q-select-options" id="q-select-options">
-                <div class="q-option" data-value="haid">
-                    <span class="q-opt-icon">🩸</span> Haid / Nifas
-                </div>
-                <div class="q-option" data-value="sakit">
-                    <span class="q-opt-icon">🤒</span> Sakit (bisa sembuh)
-                </div>
-                <div class="q-option" data-value="hamil1">
-                    <span class="q-opt-icon">🤰</span> Hamil/Menyusui (khawatir anak)
-                </div>
-                <div class="q-option" data-value="hamil2">
-                    <span class="q-opt-icon">🤰</span> Hamil/Menyusui (khawatir diri sendiri)
-                </div>
-                <div class="q-option" data-value="hamil3">
-                    <span class="q-opt-icon">🤰</span> Hamil/Menyusui (khawatir diri sendiri + anak)
-                </div>
-                <div class="q-option" data-value="safar">
-                    <span class="q-opt-icon">🧳</span> Dalam Perjalanan (Safar)
-                </div>
-                <div class="q-option" data-value="sengaja">
-                    <span class="q-opt-icon">⚠️</span> Sengaja tidak puasa
-                </div>
-                <div class="q-option" data-value="lupa">
-                    <span class="q-opt-icon">💭</span> Lupa niat di malam hari
-                </div>
-                <div class="q-option" data-value="lansia">
-                    <span class="q-opt-icon">🧓</span> Sakit permanen / Lansia
-                </div>
+                <div class="q-option" data-value="anak_kecil">👶 Anak Kecil</div>
+                <div class="q-option" data-value="gila_tidak_sengaja">🧠 Gila yang tidak disengaja</div>
+                <div class="q-option" data-value="gila_sengaja">🧠 Gila yang disengaja</div>
+                <div class="q-option" data-value="sakit_harapan">🤒 Sakit yang ada harapan sembuh</div>
+                <div class="q-option" data-value="sakit_tanpa_harapan">♿ Sakit yang tidak ada harapan sembuh</div>
+                <div class="q-option" data-value="sangat_tua">🧓 Orang yang sangat tua</div>
+                <div class="q-option" data-value="musafir">🧳 Orang yang bepergian (musafir)</div>
+                <div class="q-option" data-value="hamil_diri">🤰 Hamil/menyusui (Khawatir diri sendiri)</div>
+                <div class="q-option" data-value="hamil_diri_bayi">🤰 Hamil/menyusui (Khawatir diri & bayi)</div>
+                <div class="q-option" data-value="hamil_bayi">🤰 Hamil/menyusui (Khawatir bayinya saja)</div>
+                <div class="q-option" data-value="haid">🩸 Haid</div>
+                <div class="q-option" data-value="nifas">🩸 Nifas</div>
+                <div class="q-option" data-value="jima">⚠️ Jima'/bersetubuh di siang hari</div>
             </div>
+            <input type="hidden" id="q-hidden-alasan" value="">
+        </div>
+
+        <!-- JUMLAH HARI INPUT -->
+        <div class="q-question-title" style="margin-top: 20px;">
+            <span style="color: #d3557d; font-weight: bold; font-size: 14px;">#</span>
+            <span>Berapa hari meninggalkan puasa?</span>
+        </div>
+        <div class="q-input-wrapper">
+            <input type="number" id="q-input-hari" class="q-input" placeholder="Contoh: 7" min="1" max="30">
         </div>
 
     </div> <!-- End Card -->
 
+    <!-- RESULT CARD (Hidden initially) -->
+    <div class="q-result-card" id="q-result-card" style="display: none;">
+        <div class="q-result-title">
+            <i class="far fa-file-alt" style="color: #6c5ce7;"></i> Hasil Perhitungan
+        </div>
+        
+        <div class="q-result-item">
+            <span class="q-result-label">Qadha Puasa</span>
+            <span class="q-result-value" id="res-qadha">-</span>
+        </div>
+        
+        <div class="q-result-item">
+            <span class="q-result-label">Membayar Fidyah</span>
+            <span class="q-result-value" id="res-fidyah">-</span>
+        </div>
+
+        <div id="res-kifarah" class="q-kifarah-box" style="display: none;">
+            <div class="q-kifarah-title"><i class="fas fa-exclamation-triangle"></i> Denda Kifarah Jima'</div>
+            Berdasarkan urutan kemampuan:<br>
+            1. Memerdekakan budak<br>
+            2. Puasa 2 bulan terus menerus<br>
+            3. Memberi makan 60 orang miskin
+        </div>
+    </div>
+
     <!-- BOTTOM ACTIONS -->
     <div class="q-action-container">
-        <button class="q-btn-solid">
-            <i class="fas fa-calculator"></i> Hitung Formulir 1
+        <button class="q-btn-solid" id="btn-hitung-qadha">
+            <i class="fas fa-calculator"></i> Hitung Hasil
         </button>
         
         <div class="q-btn-mulai-ulang" id="q-btn-mulai-ulang">

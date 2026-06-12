@@ -8,12 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     yearCards.forEach(card => {
         card.addEventListener('click', () => {
-            // Remove active from all
             yearCards.forEach(c => c.classList.remove('active'));
-            // Add active to clicked
             card.classList.add('active');
 
-            // Show and populate the selected box
             const yearH = card.getAttribute('data-year-h');
             const yearM = card.getAttribute('data-year-m');
             const startStr = card.getAttribute('data-start');
@@ -29,31 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectTrigger = document.getElementById('q-select-trigger');
     const selectOptions = document.getElementById('q-select-options');
     const selectText = document.getElementById('q-select-text');
+    const hiddenAlasan = document.getElementById('q-hidden-alasan');
 
-    // Toggle dropdown
     selectTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
         selectOptions.classList.toggle('open');
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', () => {
         selectOptions.classList.remove('open');
     });
 
-    // Handle option selection
     const options = document.querySelectorAll('.q-option');
     options.forEach(option => {
         option.addEventListener('click', () => {
-            // Copy HTML from option (icon + text) to trigger, minus the specific active background classes if needed
             selectText.innerHTML = option.innerHTML;
-            
-            // Adjust styling if 'haid' was picked (which has white text on pink bg in the menu)
-            if(option.getAttribute('data-value') === 'haid') {
-                selectText.style.color = '#333'; // ensure text is visible on the light trigger bg
-            } else {
-                selectText.style.color = '#333';
-            }
+            hiddenAlasan.value = option.getAttribute('data-value');
+            selectText.style.color = '#333';
         });
     });
 
@@ -63,16 +52,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetForm() {
         if(confirm('Apakah Anda yakin ingin mereset data qadha?')) {
-            // Deselect years
             yearCards.forEach(c => c.classList.remove('active'));
             selectedYearBox.style.display = 'none';
-
-            // Reset dropdown
             selectText.innerText = 'Pilih alasan...';
+            hiddenAlasan.value = '';
+            document.getElementById('q-input-hari').value = '';
+            document.getElementById('q-result-card').style.display = 'none';
         }
     }
 
     btnMulaiUlang.addEventListener('click', resetForm);
-    btnResetSemua.addEventListener('click', resetForm);
+    if(btnResetSemua) btnResetSemua.addEventListener('click', resetForm);
+
+    // CALCULATION LOGIC
+    const btnHitung = document.getElementById('btn-hitung-qadha');
+    
+    btnHitung.addEventListener('click', () => {
+        const alasan = hiddenAlasan.value;
+        const hariStr = document.getElementById('q-input-hari').value;
+        
+        if (!alasan) {
+            alert('Silakan pilih alasan meninggalkan puasa terlebih dahulu.');
+            return;
+        }
+        
+        const hari = parseInt(hariStr);
+        if (isNaN(hari) || hari <= 0) {
+            alert('Masukkan jumlah hari meninggalkan puasa yang valid (misal: 1, 2, 7).');
+            return;
+        }
+
+        let qadha = false;
+        let fidyah = false;
+        let kifarah = false;
+
+        switch (alasan) {
+            case 'anak_kecil':
+            case 'gila_tidak_sengaja':
+                qadha = false; fidyah = false; break;
+            case 'gila_sengaja':
+            case 'sakit_harapan':
+            case 'musafir':
+            case 'hamil_diri':
+            case 'hamil_diri_bayi':
+            case 'haid':
+            case 'nifas':
+                qadha = true; fidyah = false; break;
+            case 'sakit_tanpa_harapan':
+            case 'sangat_tua':
+                qadha = false; fidyah = true; break;
+            case 'hamil_bayi':
+                qadha = true; fidyah = true; break;
+            case 'jima':
+                qadha = true; fidyah = false; kifarah = true; break;
+        }
+
+        // Render Results
+        const resQadha = document.getElementById('res-qadha');
+        const resFidyah = document.getElementById('res-fidyah');
+        const resKifarah = document.getElementById('res-kifarah');
+        
+        if (qadha) {
+            resQadha.innerHTML = `<span class="q-wajib"><i class="fas fa-check-circle"></i> Wajib (${hari} hari)</span>`;
+        } else {
+            resQadha.innerHTML = `<span class="q-tidak-wajib"><i class="fas fa-times-circle"></i> Tidak Wajib</span>`;
+        }
+
+        if (fidyah) {
+            resFidyah.innerHTML = `<span class="q-wajib"><i class="fas fa-check-circle"></i> Wajib (${hari} hari)</span>`;
+        } else {
+            resFidyah.innerHTML = `<span class="q-tidak-wajib"><i class="fas fa-times-circle"></i> Tidak Wajib</span>`;
+        }
+
+        if (kifarah) {
+            resKifarah.style.display = 'block';
+        } else {
+            resKifarah.style.display = 'none';
+        }
+
+        document.getElementById('q-result-card').style.display = 'block';
+        
+        // Scroll slightly down to show result clearly
+        setTimeout(() => {
+            document.getElementById('q-result-card').scrollIntoView({behavior: 'smooth', block: 'end'});
+        }, 50);
+    });
 
 });
