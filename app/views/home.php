@@ -173,8 +173,10 @@
 
     <div class="warning-box">
         <h4>⚠️ PERINGATAN PENTING ⚠️</h4>
-        <p>Belajar ilmu haid, nifas, dan istihadhoh hukumnya FARDHU AIN bagi setiap muslimah!! Aplikasi ini hanya membantu menghitung dan mencatat haid, nifas, dan istihadhoh. Kewajiban belajar ilmu haid, nifas, dan istihadhoh tidak gugur karena kamu menggunakan aplikasi ini!! Jadi belajarlah 😉</p>
+        <p>Belajar ilmu haid, nifas, dan istihadhoh hukumnya FARDU AIN bagi setiap muslimah!!! Aplikasi ini hanya membantu menghitung dan mencatat haid, nifas, dan istihadhoh. Kewajiban belajar ilmu haid, nifas, dan istihadhoh tidak gugur karena kamu menggunakan aplikasi ini!!! Jadi belajarlah 😉</p>
     </div>
+    
+    <div class="footer-credit">Ustadzah AI ~ Ai Maslaili Siti Aisyah</div>
 </div>
 
 <script>

@@ -389,26 +389,36 @@ a {
 }
 
 .warning-box {
-    background-color: #fff0f5;
+    background-color: #fff9fb;
     border-radius: 12px;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
-    border: 1px dashed #ffb3cc;
+    border: 2px dashed #f6adc6;
     margin: 20px 0;
     display: block;
 }
 
 .warning-box h4 {
-    color: #d32f2f;
-    font-size: 11px;
-    margin-bottom: 8px;
+    color: #d95376;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
 }
 
 .warning-box p {
-    color: var(--text-main);
-    font-size: 10px;
-    line-height: 1.5;
+    color: #d95376;
+    font-size: 13px;
+    line-height: 1.6;
     margin: 0;
+}
+
+.footer-credit {
+    text-align: center;
+    color: #7b949c;
+    font-size: 13px;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 
 /* Undang Ustadzah Form */
