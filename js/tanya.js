@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatArea = document.getElementById('t-chat-area');
     const inputField = document.getElementById('t-input');
     const btnSend = document.getElementById('t-btn-send');
-    const sugChips = document.querySelectorAll('.t-sug-chip');
+    const optionsList = document.querySelectorAll('.t-option-item');
 
     // KNOWLEDGE BASE (From BAB 1 and BAB 2)
     const knowledgeBase = [
@@ -46,33 +46,43 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function appendMessage(text, isUser = false) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = isUser ? 't-msg t-msg-user' : 't-msg t-msg-ai';
+        const msgRow = document.createElement('div');
+        msgRow.className = isUser ? 't-msg-row t-msg-row-user' : 't-msg-row';
         
-        const now = new Date();
-        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-
-        msgDiv.innerHTML = `
-            <div class="t-bubble">${text}</div>
-            <div class="t-time">${timeStr}</div>
-        `;
+        if (isUser) {
+            msgRow.innerHTML = `
+                <div class="t-msg t-msg-user">
+                    <div class="t-bubble t-bubble-user">${text}</div>
+                </div>
+            `;
+        } else {
+            msgRow.innerHTML = `
+                <div class="t-avatar"><i class="fas fa-book-reader"></i></div>
+                <div class="t-msg t-msg-ai">
+                    <div class="t-bubble">${text}</div>
+                </div>
+            `;
+        }
         
-        chatArea.appendChild(msgDiv);
+        chatArea.appendChild(msgRow);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
     function showTypingIndicator() {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 't-msg t-msg-ai t-typing-indicator-wrapper';
-        msgDiv.id = 'typing-indicator';
-        msgDiv.innerHTML = `
-            <div class="t-bubble typing-indicator">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
+        const msgRow = document.createElement('div');
+        msgRow.className = 't-msg-row t-typing-indicator-wrapper';
+        msgRow.id = 'typing-indicator';
+        msgRow.innerHTML = `
+            <div class="t-avatar"><i class="fas fa-book-reader"></i></div>
+            <div class="t-msg t-msg-ai">
+                <div class="t-bubble typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
             </div>
         `;
-        chatArea.appendChild(msgDiv);
+        chatArea.appendChild(msgRow);
         chatArea.scrollTop = chatArea.scrollHeight;
     }
 
@@ -121,9 +131,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') handleSend();
     });
 
-    sugChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            inputField.value = chip.innerText;
+    optionsList.forEach(opt => {
+        opt.addEventListener('click', (e) => {
+            e.preventDefault();
+            // remove emoji from text, e.g. "📖 Macam-Macam Darah & Cairan Farji"
+            let rawText = opt.querySelector('.t-option-text').innerText;
+            // A simple split by space and take the rest if there's an emoji
+            let words = rawText.split(' ');
+            if (words[0].length <= 2 || /\p{Emoji}/u.test(words[0])) {
+                words.shift();
+            }
+            let text = words.join(' ');
+            
+            inputField.value = text;
             handleSend();
         });
     });

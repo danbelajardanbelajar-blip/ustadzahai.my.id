@@ -64,6 +64,12 @@
         </div>
     </div>
 
+    <!-- INPUT AREA -->
+    <div class="t-input-area">
+        <input type="text" class="t-input" id="t-input" placeholder="Ketik pertanyaan fiqih Anda di sini...">
+        <button class="t-btn-send" id="t-btn-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+
     <!-- FOOTER -->
     <div class="t-footer">
         🌸 Sumber: Kitab Fiqih Haid, Nifas & Istihadoh 🌸

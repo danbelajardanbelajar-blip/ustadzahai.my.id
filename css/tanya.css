@@ -185,3 +185,89 @@ body {
     font-weight: 500;
     z-index: 10;
 }
+
+/* USER MESSAGE STYLES */
+.t-msg-row-user {
+    justify-content: flex-end;
+}
+
+.t-bubble-user {
+    background: linear-gradient(135deg, #ff7e9e, #fb5c82);
+    color: white;
+    border-radius: 18px 4px 18px 18px;
+    border: none;
+    box-shadow: 0 2px 10px rgba(251, 92, 130, 0.2);
+}
+
+/* INPUT AREA */
+.t-input-area {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px 15px;
+    border-top: 1px solid rgba(255, 209, 223, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+}
+
+.t-input {
+    flex: 1;
+    background: #fff0f5;
+    border: 1px solid #ffd1df;
+    border-radius: 20px;
+    padding: 12px 15px;
+    font-size: 14px;
+    outline: none;
+    color: #444;
+    transition: border-color 0.2s;
+}
+
+.t-input:focus {
+    border-color: #fb5c82;
+}
+
+.t-input::placeholder {
+    color: #ff9fb5;
+}
+
+.t-btn-send {
+    background: linear-gradient(135deg, #ff7e9e, #fb5c82);
+    color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(251, 92, 130, 0.3);
+    transition: transform 0.1s;
+}
+
+.t-btn-send:active {
+    transform: scale(0.95);
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 4px 8px;
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background: #fb5c82;
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
