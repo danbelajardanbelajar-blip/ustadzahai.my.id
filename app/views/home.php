@@ -63,25 +63,25 @@
 
     <h2 class="section-title">💬 Media Sosial</h2>
     <div class="social-grid">
-        <a href="#" class="social-card">
+        <a href="https://m.facebook.com/anas.anam.507/" target="_blank" class="social-card">
             <i class="fab fa-facebook"></i>
             <h4>Facebook</h4>
-            <p>Al-Hajjah Siti Aisyah A...</p>
+            <p>anas.anam.507</p>
         </a>
-        <a href="#" class="social-card">
+        <a href="https://www.instagram.com/aimaslaily?igsh=NjIxbGRyb3luandz" target="_blank" class="social-card">
             <i class="fab fa-instagram"></i>
             <h4>Instagram</h4>
-            <p>@ai.ustadz</p>
+            <p>@aimaslaily</p>
         </a>
-        <a href="#" class="social-card">
+        <a href="https://tiktok.com/@mamahanas" target="_blank" class="social-card">
             <i class="fab fa-tiktok"></i>
             <h4>TikTok</h4>
-            <p>@ummuhanya</p>
+            <p>@mamahanas</p>
         </a>
-        <a href="#" class="social-card">
+        <a href="https://youtube.com/@maslaily?si=of6RFqfHUnwXlrIT" target="_blank" class="social-card">
             <i class="fab fa-youtube"></i>
             <h4>YouTube</h4>
-            <p>matary</p>
+            <p>@maslaily</p>
         </a>
     </div>
 
