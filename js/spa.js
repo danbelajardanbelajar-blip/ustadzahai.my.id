@@ -45,17 +45,36 @@ async function navigateTo(url, pushState = true) {
         // Replace Title
         document.title = doc.title;
         
-        // Bring in any missing CSS/Styles from the new page's <head>
-        Array.from(doc.head.querySelectorAll('link[rel="stylesheet"], style, script[src]')).forEach(newTag => {
-            let exists = false;
-            if (newTag.tagName === 'LINK') {
-                exists = document.head.querySelector(`link[href="${newTag.getAttribute('href')}"]`);
-            } else if (newTag.tagName === 'STYLE') {
-                exists = Array.from(document.head.querySelectorAll('style')).some(s => s.innerHTML === newTag.innerHTML);
-            } else if (newTag.tagName === 'SCRIPT') {
-                exists = document.head.querySelector(`script[src="${newTag.getAttribute('src')}"]`);
+        // Sync Head Tags (link, style, script) to prevent CSS leaking
+        const currentHeadTags = Array.from(document.head.querySelectorAll('link[rel="stylesheet"], style, script[src]'));
+        const newHeadTags = Array.from(doc.head.querySelectorAll('link[rel="stylesheet"], style, script[src]'));
+        
+        // Remove old tags
+        currentHeadTags.forEach(currentTag => {
+            let existsInNew = false;
+            if (currentTag.tagName === 'LINK') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'LINK' && t.href === currentTag.href);
+            } else if (currentTag.tagName === 'STYLE') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'STYLE' && t.innerHTML === currentTag.innerHTML);
+            } else if (currentTag.tagName === 'SCRIPT') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'SCRIPT' && t.src === currentTag.src);
             }
-            if (!exists) {
+            if (!existsInNew) {
+                currentTag.remove();
+            }
+        });
+
+        // Add new tags
+        newHeadTags.forEach(newTag => {
+            let existsInCurrent = false;
+            if (newTag.tagName === 'LINK') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'LINK' && t.href === newTag.href);
+            } else if (newTag.tagName === 'STYLE') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'STYLE' && t.innerHTML === newTag.innerHTML);
+            } else if (newTag.tagName === 'SCRIPT') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'SCRIPT' && t.src === newTag.src);
+            }
+            if (!existsInCurrent) {
                 const clone = document.createElement(newTag.tagName);
                 Array.from(newTag.attributes).forEach(attr => clone.setAttribute(attr.name, attr.value));
                 if (newTag.innerHTML) clone.innerHTML = newTag.innerHTML;
@@ -141,6 +160,40 @@ document.addEventListener('submit', async function(e) {
         const doc = parser.parseFromString(html, 'text/html');
         
         document.title = doc.title;
+
+        // Sync Head Tags for submit
+        const currentHeadTags = Array.from(document.head.querySelectorAll('link[rel="stylesheet"], style, script[src]'));
+        const newHeadTags = Array.from(doc.head.querySelectorAll('link[rel="stylesheet"], style, script[src]'));
+        
+        currentHeadTags.forEach(currentTag => {
+            let existsInNew = false;
+            if (currentTag.tagName === 'LINK') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'LINK' && t.href === currentTag.href);
+            } else if (currentTag.tagName === 'STYLE') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'STYLE' && t.innerHTML === currentTag.innerHTML);
+            } else if (currentTag.tagName === 'SCRIPT') {
+                existsInNew = newHeadTags.some(t => t.tagName === 'SCRIPT' && t.src === currentTag.src);
+            }
+            if (!existsInNew) currentTag.remove();
+        });
+
+        newHeadTags.forEach(newTag => {
+            let existsInCurrent = false;
+            if (newTag.tagName === 'LINK') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'LINK' && t.href === newTag.href);
+            } else if (newTag.tagName === 'STYLE') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'STYLE' && t.innerHTML === newTag.innerHTML);
+            } else if (newTag.tagName === 'SCRIPT') {
+                existsInCurrent = currentHeadTags.some(t => t.tagName === 'SCRIPT' && t.src === newTag.src);
+            }
+            if (!existsInCurrent) {
+                const clone = document.createElement(newTag.tagName);
+                Array.from(newTag.attributes).forEach(attr => clone.setAttribute(attr.name, attr.value));
+                if (newTag.innerHTML) clone.innerHTML = newTag.innerHTML;
+                document.head.appendChild(clone);
+            }
+        });
+
         document.body.innerHTML = doc.body.innerHTML;
         document.body.className = doc.body.className;
         
