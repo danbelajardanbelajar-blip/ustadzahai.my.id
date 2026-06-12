@@ -251,5 +251,6 @@
             </a>
         </div>
     </div>
+    <script src="js/spa.js"></script>
 </body>
 </html>

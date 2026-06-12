@@ -24,5 +24,6 @@ if (strpos($viewPath, 'dashboard/') !== false) {
     <?php if (isset($js)) foreach($js as $file): ?>
     <script src="<?= htmlspecialchars($file) ?>"></script>
     <?php endforeach; ?>
+    <script src="js/spa.js"></script>
 </body>
 </html>

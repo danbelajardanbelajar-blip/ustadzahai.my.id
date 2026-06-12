@@ -444,5 +444,6 @@
         // Initialize first tab
         renderList();
     </script>
+    <script src="js/spa.js"></script>
 </body>
 </html>
