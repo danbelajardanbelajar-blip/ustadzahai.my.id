@@ -9,4 +9,12 @@ class Controller {
             echo "View not found: " . $view;
         }
     }
+
+    public function model($model) {
+        if (file_exists('app/models/' . $model . '.php')) {
+            require_once 'app/models/' . $model . '.php';
+            return new $model();
+        }
+        return null;
+    }
 }
