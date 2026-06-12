@@ -248,6 +248,7 @@ a {
     color: #ff6b9d;
     font-size: 24px;
     border: 1px dashed #ffb3cc;
+    overflow: hidden;
 }
 
 .product-card p {

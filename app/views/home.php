@@ -102,8 +102,8 @@
             <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
         </a>
         <a href="https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/" target="_blank" class="product-card">
-            <div class="product-img-box">
-                <i class="fas fa-shopping-bag"></i>
+            <div class="product-img-box" style="background: transparent;">
+                <img src="https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp" alt="Pembalut kain cuci ulang (3)" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <p>Pembalut kain cuci ulang (3)</p>
             <div class="shop-icon"><i class="fas fa-store"></i> Tokopedia</div>
