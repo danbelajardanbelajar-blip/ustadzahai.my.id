@@ -139,6 +139,7 @@
                         <option value="">-- Jenis Acara --</option>
                         <option value="Kajian Offline">Kajian Offline</option>
                         <option value="Kajian Online">Kajian Online</option>
+                        <option value="Seminar">Seminar</option>
                         <option value="Lainnya">Lainnya</option>
                     </select>
                 </div>
