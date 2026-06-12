@@ -223,7 +223,7 @@
         <h3>Kajian fiqih haid via Google meet gratis</h3>
         <div class="time"><i class="far fa-check-square"></i> Setiap selasa jam 8 malam</div>
         <p>Kajian fiqih haid nifas dan istihadhoh menggunakan buku Khulashoh Fiqih Haid di bawah ust / ustadzah...</p>
-        <button class="btn-purple">Daftar Sekarang</button>
+        <a href="https://wa.me/6285248704900" target="_blank" class="btn-purple" style="display: inline-block; text-decoration: none;">Daftar Sekarang</a>
     </div>
 
     <div class="warning-box">
