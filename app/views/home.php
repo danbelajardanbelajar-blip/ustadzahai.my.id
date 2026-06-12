@@ -87,26 +87,26 @@
 
     <h2 class="section-title">🛍️ Belanja Produk Ustadzah AI</h2>
     <div class="product-scroll">
-        <a href="#" class="product-card">
+        <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
             <div class="product-img-box">
                 <i class="fas fa-shopping-bag"></i>
             </div>
-            <p>Pembalut kain cuci ulang...</p>
+            <p>Pembalut cuci ulang 4 picis</p>
             <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
         </a>
-        <a href="#" class="product-card">
+        <a href="https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1" target="_blank" class="product-card">
             <div class="product-img-box">
                 <i class="fas fa-shopping-bag"></i>
             </div>
-            <p>Pembalut kain cuci ulang (2)</p>
+            <p>Menstrual pad / pembalut kain</p>
             <div class="shop-icon"><i class="fas fa-store"></i> Shopee</div>
         </a>
-        <a href="#" class="product-card">
+        <a href="https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/" target="_blank" class="product-card">
             <div class="product-img-box">
                 <i class="fas fa-shopping-bag"></i>
             </div>
             <p>Pembalut kain cuci ulang (3)</p>
-            <div class="shop-icon"><i class="fas fa-store"></i> TikTok Shop</div>
+            <div class="shop-icon"><i class="fas fa-store"></i> Tokopedia</div>
         </a>
     </div>
 
