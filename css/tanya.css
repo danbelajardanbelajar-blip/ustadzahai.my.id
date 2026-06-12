@@ -192,13 +192,15 @@ body {
 
 /* SUGGESTIONS */
 .t-suggestions {
-    display: flex;
-    gap: 10px;
+    display: block;
+    white-space: nowrap;
     overflow-x: auto;
     padding: 10px 15px;
     background: transparent;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .t-suggestions::-webkit-scrollbar {
@@ -206,17 +208,21 @@ body {
 }
 
 .t-sug-chip {
+    display: inline-block;
     background: #fff0f5;
     color: #fb5c82;
     border: 1px solid #ffd1df;
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 13px;
-    white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 0 2px 5px rgba(251, 92, 130, 0.05);
-    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.t-sug-chip:last-child {
+    margin-right: 0;
 }
 
 .t-sug-chip:hover {
