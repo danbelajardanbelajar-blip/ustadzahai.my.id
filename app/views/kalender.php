@@ -76,7 +76,7 @@
         <div class="k-note-box k-box-blue" id="box-sholat">
             <h4>Qadha Sholat</h4>
             <div id="list-sholat" class="k-item-list"></div>
-            <button class="k-btn-add k-text-blue" onclick="addNote('sholat')">
+            <button class="k-btn-add k-text-blue" onclick="showAddNoteForm('sholat', this)">
                 <i class="fas fa-plus"></i> Tambah
             </button>
         </div>
@@ -84,7 +84,7 @@
         <div class="k-note-box k-box-orange" id="box-puasa">
             <h4>Qadha Puasa</h4>
             <div id="list-puasa" class="k-item-list"></div>
-            <button class="k-btn-add k-text-orange" onclick="addNote('puasa')">
+            <button class="k-btn-add k-text-orange" onclick="showAddNoteForm('puasa', this)">
                 <i class="fas fa-plus"></i> Tambah
             </button>
         </div>
@@ -92,7 +92,7 @@
         <div class="k-note-box k-box-green" id="box-mandi">
             <h4>Mandi Wajib</h4>
             <div id="list-mandi" class="k-item-list"></div>
-            <button class="k-btn-add k-text-green" onclick="addNote('mandi')">
+            <button class="k-btn-add k-text-green" onclick="showAddNoteForm('mandi', this)">
                 <i class="fas fa-plus"></i> Tambah
             </button>
         </div>

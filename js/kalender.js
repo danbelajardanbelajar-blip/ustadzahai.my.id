@@ -105,8 +105,47 @@ function renderNoteList(type, notes) {
     });
 }
 
-function addNote(type) {
-    const title = prompt(`Masukkan catatan untuk Qadha ${type}:`);
+function showAddNoteForm(type, buttonElement) {
+    // Hide the button
+    buttonElement.style.display = 'none';
+    
+    let placeholderText = '';
+    if (type === 'sholat') {
+        placeholderText = 'Catatan Qadha Sholat...';
+    } else if (type === 'puasa') {
+        placeholderText = 'Catatan Qadha Puasa...';
+    } else if (type === 'mandi') {
+        placeholderText = 'Catatan Mandi Wajib...';
+    }
+    
+    // Create form container
+    const formHtml = `
+        <div class="k-add-form" id="form-${type}">
+            <textarea class="k-add-form-input" id="input-${type}" placeholder="${placeholderText}"></textarea>
+            <div class="k-add-form-actions">
+                <button class="k-add-btn-cancel" onclick="cancelAddNote('${type}')">Batal</button>
+                <button class="k-add-btn-save" onclick="saveNewNote('${type}')">Simpan</button>
+            </div>
+        </div>
+    `;
+    
+    // Insert form before the button
+    buttonElement.insertAdjacentHTML('beforebegin', formHtml);
+    document.getElementById(`input-${type}`).focus();
+}
+
+function cancelAddNote(type) {
+    const form = document.getElementById(`form-${type}`);
+    if (form) form.remove();
+    // Show the Add button again
+    const box = document.getElementById(`box-${type}`);
+    const btn = box.querySelector('.k-btn-add');
+    if (btn) btn.style.display = 'block';
+}
+
+function saveNewNote(type) {
+    const input = document.getElementById(`input-${type}`);
+    const title = input ? input.value : '';
     if (title && title.trim() !== '') {
         const notes = JSON.parse(localStorage.getItem('notes_' + type)) || [];
         const now = new Date();
@@ -116,6 +155,7 @@ function addNote(type) {
         localStorage.setItem('notes_' + type, JSON.stringify(notes));
         renderNoteList(type, notes);
     }
+    cancelAddNote(type);
 }
 
 function deleteNote(type, index) {

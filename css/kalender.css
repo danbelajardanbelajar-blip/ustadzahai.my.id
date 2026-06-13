@@ -460,3 +460,59 @@ body {
     border-color: #ffd6e8;
     color: #c24669;
 }
+
+/* Add Note Form Styles */
+.k-add-form {
+    margin-top: 10px;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.k-add-form-input {
+    width: 100%;
+    min-height: 60px;
+    border: 1px solid #e0c8c8;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+.k-add-form-input:focus {
+    outline: none;
+    border-color: #c24669;
+}
+
+.k-add-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.k-add-btn-cancel {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+}
+
+.k-add-btn-save {
+    background: #d96684;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
