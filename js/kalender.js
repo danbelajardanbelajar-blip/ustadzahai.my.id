@@ -82,13 +82,22 @@ function renderNoteList(type, notes) {
     const list = document.getElementById(`list-${type}`);
     list.innerHTML = '';
     notes.forEach((note, index) => {
+        let titleStyle = '';
+        if (note.isDone) {
+            titleStyle = 'text-decoration: line-through; color: #888;';
+        }
+        
         list.innerHTML += `
             <div class="k-item">
                 <div class="k-item-info">
                     <div class="k-item-time">${note.time}</div>
-                    <div class="k-item-title">${note.title}</div>
+                    <div class="k-item-title" style="${titleStyle}">${note.title}</div>
                 </div>
-                <button class="k-btn-delete" onclick="deleteNote('${type}', ${index})"><i class="far fa-trash-alt"></i></button>
+                <div class="k-item-actions">
+                    <button class="k-btn-read" onclick="markRead('${type}', ${index})">${note.isRead ? 'Sudah Dibaca' : 'Tandai Dibaca'}</button>
+                    <button class="k-btn-done" onclick="markDone('${type}', ${index})">${note.isDone ? 'Batal Selesai' : 'Selesai'}</button>
+                    <button class="k-btn-delete" onclick="deleteNote('${type}', ${index})"><i class="far fa-trash-alt"></i></button>
+                </div>
             </div>
         `;
     });
@@ -114,6 +123,20 @@ function deleteNote(type, index) {
         localStorage.setItem('notes_' + type, JSON.stringify(notes));
         renderNoteList(type, notes);
     }
+}
+
+function markRead(type, index) {
+    const notes = JSON.parse(localStorage.getItem('notes_' + type)) || [];
+    notes[index].isRead = !notes[index].isRead;
+    localStorage.setItem('notes_' + type, JSON.stringify(notes));
+    renderNoteList(type, notes);
+}
+
+function markDone(type, index) {
+    const notes = JSON.parse(localStorage.getItem('notes_' + type)) || [];
+    notes[index].isDone = !notes[index].isDone;
+    localStorage.setItem('notes_' + type, JSON.stringify(notes));
+    renderNoteList(type, notes);
 }
 
 function loadYearNote() {
