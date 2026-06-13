@@ -369,3 +369,94 @@ body {
 #year-note-textarea:focus {
     outline: none;
 }
+
+/* Jadwal Sholat Panel Styles */
+.k-sholat-panel {
+    background: #fffafa;
+    border: 1px solid #f2d7de;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.k-sholat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2d7de;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 14px;
+}
+
+.k-sholat-title {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-weight: 500;
+}
+
+.k-sholat-title i.fa-clock {
+    color: #c24669;
+    margin-right: 8px;
+}
+
+.k-sholat-actions {
+    color: #888;
+}
+
+.k-sholat-date {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.k-sholat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.k-sholat-item {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #333;
+}
+
+.k-sholat-item.active {
+    background: #fdeff2;
+    border-color: #f2c7d5;
+    color: #c24669;
+}
+
+.k-sholat-item-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.k-sholat-item-time {
+    font-weight: bold;
+}
+
+.k-sholat-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: #aaa;
+}
+
+.k-btn-sholat.active {
+    background: #fff0f5;
+    border-color: #ffd6e8;
+    color: #c24669;
+}

@@ -21,6 +21,8 @@ function initCalendar() {
         currentDate = new Date();
         renderCalendar();
     });
+    
+    initSholatPanel();
 }
 
 function renderCalendar() {
@@ -182,6 +184,165 @@ if(!localStorage.getItem('notes_sholat')) {
         title: "Qodo sholat isya",
         time: "8 Jun 2026, 18:33"
     }]));
+}
+
+let sholatData = null;
+
+function initSholatPanel() {
+    const btnSholat = document.getElementById('btn-sholat');
+    const panel = document.getElementById('sholat-panel');
+    const btnClose = document.getElementById('btn-close-sholat');
+    const btnRefresh = document.getElementById('btn-refresh-sholat');
+    const btnChangeCity = document.getElementById('btn-change-city');
+
+    btnSholat.addEventListener('click', () => {
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            btnSholat.classList.add('active');
+            btnSholat.innerHTML = '<i class="far fa-clock"></i> Tutup Jadwal Sholat';
+            
+            if (!sholatData) {
+                fetchLocationAndSholat();
+            }
+        } else {
+            panel.style.display = 'none';
+            btnSholat.classList.remove('active');
+            btnSholat.innerHTML = '<i class="far fa-clock"></i> Jadwal Sholat';
+        }
+    });
+
+    btnClose.addEventListener('click', () => {
+        panel.style.display = 'none';
+        btnSholat.classList.remove('active');
+        btnSholat.innerHTML = '<i class="far fa-clock"></i> Jadwal Sholat';
+    });
+
+    btnRefresh.addEventListener('click', fetchLocationAndSholat);
+    btnChangeCity.addEventListener('click', (e) => {
+        e.preventDefault();
+        const city = prompt("Masukkan nama kota:");
+        if (city) {
+            document.getElementById('sholat-city').innerText = city;
+            fetchSholatByCity(city);
+        }
+    });
+}
+
+function fetchLocationAndSholat() {
+    const cityEl = document.getElementById('sholat-city');
+    cityEl.innerText = 'Meminta lokasi...';
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                fetchCityName(lat, lng);
+                fetchSholatByCoords(lat, lng);
+            },
+            (error) => {
+                const city = prompt("Gagal mendapatkan lokasi otomatis. Masukkan nama kota:");
+                if (city) {
+                    cityEl.innerText = city;
+                    fetchSholatByCity(city);
+                } else {
+                    cityEl.innerText = 'Lokasi tidak diketahui';
+                    document.getElementById('sholat-grid').innerHTML = '<div style="grid-column:1/span 2;text-align:center;padding:20px;font-size:12px;color:#888;">Izin lokasi ditolak atau gagal. Silakan ganti kota.</div>';
+                }
+            }
+        );
+    } else {
+        const city = prompt("Geolocation tidak didukung browser ini. Masukkan nama kota:");
+        if (city) {
+            cityEl.innerText = city;
+            fetchSholatByCity(city);
+        }
+    }
+}
+
+function fetchCityName(lat, lng) {
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=id`)
+        .then(res => res.json())
+        .then(data => {
+            const city = data.city || data.locality || 'Lokasi Anda';
+            document.getElementById('sholat-city').innerText = city;
+        })
+        .catch(() => {
+            document.getElementById('sholat-city').innerText = 'Lokasi Anda';
+        });
+}
+
+function fetchSholatByCoords(lat, lng) {
+    const ts = Math.floor(Date.now() / 1000);
+    fetch(`https://api.aladhan.com/v1/timings/${ts}?latitude=${lat}&longitude=${lng}&method=20`)
+        .then(res => res.json())
+        .then(data => renderSholat(data.data))
+        .catch(err => {
+            document.getElementById('sholat-grid').innerHTML = '<div style="grid-column:1/span 2;text-align:center;padding:20px;font-size:12px;color:#888;">Gagal memuat jadwal sholat.</div>';
+        });
+}
+
+function fetchSholatByCity(city) {
+    document.getElementById('sholat-grid').innerHTML = '<div style="grid-column:1/span 2;text-align:center;padding:20px;font-size:12px;color:#888;">Memuat data jadwal sholat...</div>';
+    fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Indonesia&method=20`)
+        .then(res => res.json())
+        .then(data => renderSholat(data.data))
+        .catch(err => {
+            document.getElementById('sholat-grid').innerHTML = '<div style="grid-column:1/span 2;text-align:center;padding:20px;font-size:12px;color:#888;">Gagal memuat jadwal untuk kota tersebut.</div>';
+        });
+}
+
+function renderSholat(data) {
+    sholatData = data;
+    const timings = data.timings;
+    
+    const formatter = new Intl.DateTimeFormat('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('sholat-date').innerText = formatter.format(new Date());
+
+    let dhuhaTime = timings.Dhuha;
+    if (!dhuhaTime) {
+        const [sh, sm] = timings.Sunrise.split(':').map(Number);
+        let dMin = sm + 20;
+        let dHr = sh + Math.floor(dMin / 60);
+        dMin = dMin % 60;
+        dhuhaTime = `${String(dHr).padStart(2, '0')}:${String(dMin).padStart(2, '0')}`;
+    }
+
+    const items = [
+        { name: 'Imsak', time: timings.Imsak, icon: '🌙' },
+        { name: 'Subuh', time: timings.Fajr, icon: '🌅' },
+        { name: 'Terbit', time: timings.Sunrise, icon: '☀️' },
+        { name: 'Dhuha', time: dhuhaTime, icon: '⛅' },
+        { name: 'Dzuhur', time: timings.Dhuhr, icon: '🕛' },
+        { name: 'Ashar', time: timings.Asr, icon: '🕓' },
+        { name: 'Maghrib', time: timings.Maghrib, icon: '🌆' },
+        { name: 'Isya', time: timings.Isha, icon: '🌃' },
+    ];
+
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    
+    let lastPassedIndex = -1;
+    for(let i=0; i<items.length; i++) {
+        const [h, m] = items[i].time.split(':').map(Number);
+        const mins = h * 60 + m;
+        if(currentMins >= mins) {
+            lastPassedIndex = i;
+        }
+    }
+    
+    let html = '';
+    items.forEach((item, index) => {
+        const isActive = (index === lastPassedIndex) ? 'active' : '';
+        html += `
+            <div class="k-sholat-item ${isActive}">
+                <div class="k-sholat-item-name">${item.icon} ${item.name}</div>
+                <div class="k-sholat-item-time">${item.time}</div>
+            </div>
+        `;
+    });
+    
+    document.getElementById('sholat-grid').innerHTML = html;
 }
 
 document.addEventListener('DOMContentLoaded', initCalendar);

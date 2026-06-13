@@ -21,9 +21,31 @@
         </div>
     </div>
 
-    <button class="k-btn-sholat">
+    <button class="k-btn-sholat" id="btn-sholat">
         <i class="far fa-clock"></i> Jadwal Sholat
     </button>
+
+    <div id="sholat-panel" class="k-sholat-panel" style="display: none;">
+        <div class="k-sholat-header">
+            <div class="k-sholat-title">
+                <i class="far fa-clock"></i> Jadwal Sholat <i class="fas fa-map-marker-alt" style="margin-left: 8px; font-size: 12px; color: #aaa;"></i> <span id="sholat-city" style="color: #888; font-size: 13px;">Meminta lokasi...</span>
+            </div>
+            <div class="k-sholat-actions">
+                <i class="fas fa-sync-alt" id="btn-refresh-sholat" style="cursor:pointer;"></i>
+                <i class="fas fa-times" id="btn-close-sholat" style="cursor:pointer; margin-left:10px;"></i>
+            </div>
+        </div>
+        <div class="k-sholat-date" id="sholat-date"></div>
+        
+        <div class="k-sholat-grid" id="sholat-grid">
+            <div style="text-align:center; grid-column: 1 / span 2; padding: 20px; font-size: 12px; color: #888;">Memuat data jadwal sholat...</div>
+        </div>
+
+        <div class="k-sholat-footer">
+            <span>Sumber: Aladhan API - Metode Kemenag RI</span>
+            <a href="#" id="btn-change-city" style="color:#c24669; text-decoration:underline;">Ganti kota</a>
+        </div>
+    </div>
 
     <div class="k-legend">
         <div class="k-legend-item"><span class="k-dot k-haid"></span> Haid</div>
