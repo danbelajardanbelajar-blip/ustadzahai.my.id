@@ -114,6 +114,18 @@
         <textarea id="year-note-textarea" style="display:none" rows="4"></textarea>
         <button id="btn-save-year-note" style="display:none; width:100%; margin-top:8px; padding:8px; background:#c24669; color:white; border:none; border-radius:6px" onclick="saveYearNote()">Simpan</button>
     </div>
+
+    <!-- Ringkasan Keluar Darah -->
+    <div class="k-card" style="margin-top: 15px;">
+        <div class="k-card-header">
+            <i class="fas fa-clipboard-list" style="color: #c24669; font-size: 18px;"></i>
+            <h3>Ringkasan Histori Darah</h3>
+        </div>
+        <div id="ringkasan-text" style="white-space: pre-wrap; font-family: monospace; background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-top: 10px; min-height: 40px; border: 1px solid #ddd;">Belum ada data event tersimpan.</div>
+        <button class="k-btn-outline" style="width: 100%; margin-top: 10px; padding: 8px;" onclick="copyRingkasan()">
+            <i class="far fa-copy"></i> Copy Ringkasan
+        </button>
+    </div>
 </div>
 
 <!-- Event Modal -->
@@ -165,9 +177,12 @@
                 </div>
             </div>
         </div>
-        <div class="k-modal-footer">
-            <button class="k-btn-outline" onclick="closeEventModal()">Batal</button>
-            <button class="k-btn-solid" onclick="saveEventModal()">Simpan</button>
+        <div class="k-modal-footer" style="display:flex; justify-content:space-between; width:100%;">
+            <button class="k-btn-outline" style="color:#d32f2f; border-color:#d32f2f; flex:0.5; margin-right:5px;" onclick="deleteEventModal()" id="btn-delete-event"><i class="fas fa-trash-alt"></i></button>
+            <div style="display:flex; flex:1; justify-content:flex-end;">
+                <button class="k-btn-outline" style="margin-right:8px;" onclick="closeEventModal()">Batal</button>
+                <button class="k-btn-solid" onclick="saveEventModal()">Simpan</button>
+            </div>
         </div>
     </div>
 </div>

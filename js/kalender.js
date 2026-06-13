@@ -3,6 +3,7 @@ var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli"
 var hijriMonths = ["Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
 
 function initCalendar() {
+    renderRingkasan();
     renderCalendar();
     loadNotes();
     loadYearNote();
@@ -51,11 +52,56 @@ function renderCalendar() {
         grid.innerHTML += `<div class="k-day-cell k-empty-cell"><span class="k-hijri-date">${getApproxHijriDay(new Date(year, month-1, dayNum))}</span>${dayNum}</div>`;
     }
     
+    // Get dynamic intervals
+    const intervals = getFiqhIntervals();
+
     // Fill current month
     for (let i = 1; i <= daysInMonth; i++) {
-        let isNifas = (year === 2026 && month === 5 && i === 10) ? 'nifas' : ''; // Mock styling for 10 Juni as in image
+        let classes = [];
+        let hasRed = false;
+
+        let dStart = new Date(year, month, i, 0, 0, 0).getTime();
+        let dEnd = new Date(year, month, i, 23, 59, 59).getTime();
+
+        intervals.forEach(inv => {
+            let iStart = inv.start.getTime();
+            let iEnd = inv.end.getTime();
+
+            // Overlap check
+            if (iStart < dEnd && iEnd > dStart) {
+                if (inv.type === 'haid') {
+                    classes.push('k-bg-haid');
+                    hasRed = true;
+                } else if (inv.type === 'nifas') {
+                    classes.push('k-bg-nifas');
+                    hasRed = true;
+                } else if (inv.type === 'suci') {
+                    let suciDayStart = new Date(inv.originalSuciStart.getFullYear(), inv.originalSuciStart.getMonth(), inv.originalSuciStart.getDate(), 0, 0, 0).getTime();
+                    if (dStart > suciDayStart) {
+                        classes.push('k-bg-suci');
+                    }
+                }
+            }
+            
+            if (inv.type === 'melahirkan_mark') {
+                let sDay = new Date(inv.start.getFullYear(), inv.start.getMonth(), inv.start.getDate(), 0, 0, 0).getTime();
+                if (dStart === sDay) classes.push('k-mark-melahirkan-start');
+                
+                let eDay = new Date(inv.end.getFullYear(), inv.end.getMonth(), inv.end.getDate(), 0, 0, 0).getTime();
+                if (dStart === eDay) classes.push('k-mark-melahirkan-end');
+            }
+        });
+
+        if (hasRed) {
+            classes = classes.filter(c => c !== 'k-bg-suci');
+        }
+        
+        // Remove duplicates
+        classes = [...new Set(classes)];
+        let classString = classes.join(' ');
+
         let hijriD = getApproxHijriDay(new Date(year, month, i));
-        grid.innerHTML += `<div class="k-day-cell ${isNifas}" onclick="openEventModal(${year}, ${month}, ${i})"><span class="k-hijri-date">${hijriD}</span>${i}</div>`;
+        grid.innerHTML += `<div class="k-day-cell ${classString}" onclick="openEventModal(${year}, ${month}, ${i})"><span class="k-hijri-date">${hijriD}</span>${i}</div>`;
     }
     
     // Pad next month
@@ -385,15 +431,117 @@ function renderSholat(data) {
     document.getElementById('sholat-grid').innerHTML = html;
 }
 
+// Fiqh State Management
+var fiqhEvents = JSON.parse(localStorage.getItem('fiqh_events')) || [];
+
+function saveFiqhEvent(dateStr, type, hour, minute) {
+    const idx = fiqhEvents.findIndex(e => e.date === dateStr);
+    const newEvent = { date: dateStr, type: type, hour: hour, minute: minute, datetime: new Date(`${dateStr}T${hour}:${minute}:00`).getTime() };
+    
+    if (idx !== -1) {
+        fiqhEvents[idx] = newEvent;
+    } else {
+        fiqhEvents.push(newEvent);
+    }
+    
+    fiqhEvents.sort((a, b) => a.datetime - b.datetime);
+    localStorage.setItem('fiqh_events', JSON.stringify(fiqhEvents));
+}
+
+function deleteFiqhEvent(dateStr) {
+    fiqhEvents = fiqhEvents.filter(e => e.date !== dateStr);
+    localStorage.setItem('fiqh_events', JSON.stringify(fiqhEvents));
+}
+
+function getEventForDate(dateStr) {
+    return fiqhEvents.find(e => e.date === dateStr);
+}
+
+function getFiqhIntervals() {
+    let intervals = [];
+    let melahirkanLimit = null;
+    
+    for (let i = 0; i < fiqhEvents.length; i++) {
+        let e = fiqhEvents[i];
+        let eDate = new Date(e.datetime);
+        
+        if (e.type === 'melahirkan_belum_kd' || e.type === 'melahirkan_kd_nifas') {
+            melahirkanLimit = new Date(eDate.getTime() + 60 * 24 * 60 * 60 * 1000);
+            intervals.push({ type: 'melahirkan_mark', start: eDate, end: melahirkanLimit });
+        }
+        
+        if (e.type === 'melahirkan_kd_nifas' || e.type === 'kd_nifas' || e.type === 'kd_haid') {
+            let isNifas = (e.type === 'melahirkan_kd_nifas' || e.type === 'kd_nifas');
+            let typeColor = isNifas ? 'nifas' : 'haid';
+            
+            let maxEnd;
+            if (isNifas) {
+                if (melahirkanLimit && melahirkanLimit > eDate) {
+                    maxEnd = melahirkanLimit;
+                } else {
+                    maxEnd = new Date(eDate.getTime() + 60 * 24 * 60 * 60 * 1000);
+                }
+            } else {
+                maxEnd = new Date(eDate.getTime() + 15 * 24 * 60 * 60 * 1000);
+            }
+            
+            let actualEnd = maxEnd;
+            for (let j = i + 1; j < fiqhEvents.length; j++) {
+                if (fiqhEvents[j].type === 'suci') {
+                    let suciDate = new Date(fiqhEvents[j].datetime);
+                    if (suciDate < maxEnd) {
+                        actualEnd = suciDate;
+                    }
+                    break;
+                }
+            }
+            
+            intervals.push({ type: typeColor, start: eDate, end: actualEnd });
+        }
+        
+        if (e.type === 'suci') {
+            let maxEnd = new Date(eDate.getTime() + 15 * 24 * 60 * 60 * 1000);
+            
+            let actualEnd = maxEnd;
+            for (let j = i + 1; j < fiqhEvents.length; j++) {
+                if (['melahirkan_kd_nifas', 'kd_nifas', 'kd_haid'].includes(fiqhEvents[j].type)) {
+                    let nextDate = new Date(fiqhEvents[j].datetime);
+                    if (nextDate < maxEnd) {
+                        actualEnd = nextDate;
+                    }
+                    break;
+                }
+            }
+            intervals.push({ type: 'suci', start: eDate, end: actualEnd, originalSuciStart: eDate });
+        }
+    }
+    return intervals;
+}
+
 // Event Modal Logic
-window.selectedEventDate = null;
+window.selectedEventDateStr = null;
 
 window.openEventModal = function(year, month, day) {
-    window.selectedEventDate = new Date(year, month, day);
+    window.selectedEventDateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     
     // Set title
     const formattedDate = `${day} ${monthNames[month]} ${year}`;
     document.getElementById('event-modal-date-title').innerText = formattedDate;
+    
+    // Load existing if any
+    const existing = getEventForDate(window.selectedEventDateStr);
+    const btnDel = document.getElementById('btn-delete-event');
+    if (existing) {
+        document.querySelector(`input[name="event_type"][value="${existing.type}"]`).checked = true;
+        document.getElementById('event-hour').value = existing.hour;
+        document.getElementById('event-minute').value = existing.minute;
+        if(btnDel) btnDel.style.display = 'block';
+    } else {
+        document.querySelector(`input[name="event_type"][value="kd_nifas"]`).checked = true;
+        document.getElementById('event-hour').value = "12";
+        document.getElementById('event-minute').value = "00";
+        if(btnDel) btnDel.style.display = 'none';
+    }
     
     // Show modal
     document.getElementById('event-modal-overlay').style.display = 'flex';
@@ -403,27 +551,65 @@ window.closeEventModal = function() {
     document.getElementById('event-modal-overlay').style.display = 'none';
 }
 
+window.deleteEventModal = function() {
+    if(confirm("Hapus catatan Fiqh di hari ini?")) {
+        deleteFiqhEvent(window.selectedEventDateStr);
+        closeEventModal();
+        renderCalendar();
+        renderRingkasan();
+    }
+}
+
 window.saveEventModal = function() {
-    // Get values
     const eventTypeEl = document.querySelector('input[name="event_type"]:checked');
     if (!eventTypeEl) {
         alert("Silakan pilih jenis event terlebih dahulu.");
         return;
     }
     const eventType = eventTypeEl.value;
-    const eventText = eventTypeEl.nextElementSibling.innerText;
-    
     const hour = document.getElementById('event-hour').value;
     const minute = document.getElementById('event-minute').value;
     
-    // Close modal
+    saveFiqhEvent(window.selectedEventDateStr, eventType, hour, minute);
     closeEventModal();
-    
-    // Temporarily alert to show success to user
-    alert(`Tersimpan!\nTanggal: ${window.selectedEventDate.getDate()} ${monthNames[window.selectedEventDate.getMonth()]} ${window.selectedEventDate.getFullYear()}\nEvent: ${eventText}\nWaktu: ${hour}:${minute}`);
-    
-    // Here we can save to local storage or backend later
     renderCalendar();
+    renderRingkasan();
+}
+
+window.renderRingkasan = function() {
+    const textEl = document.getElementById('ringkasan-text');
+    if (!textEl) return;
+    
+    if (fiqhEvents.length === 0) {
+        textEl.innerHTML = "Belum ada data event tersimpan.";
+        return;
+    }
+    
+    const eventNames = {
+        'melahirkan_belum_kd': 'Melahirkan (belum KD)',
+        'melahirkan_kd_nifas': 'Melahirkan + KD Nifas',
+        'kd_nifas': 'Keluar Darah Nifas',
+        'kd_haid': 'Keluar Darah Haid',
+        'suci': 'Bersih / Suci'
+    };
+    
+    let html = '';
+    fiqhEvents.forEach(e => {
+        let dateObj = new Date(e.datetime);
+        let dayStr = String(dateObj.getDate()).padStart(2, '0');
+        let mthStr = monthNames[dateObj.getMonth()].substring(0,3);
+        let yrStr = dateObj.getFullYear();
+        html += `${dayStr} ${mthStr} ${yrStr} ${e.hour}:${e.minute} - ${eventNames[e.type]}\n`;
+    });
+    
+    textEl.innerText = html.trim();
+}
+
+window.copyRingkasan = function() {
+    const textEl = document.getElementById('ringkasan-text');
+    if (textEl) {
+        navigator.clipboard.writeText(textEl.innerText).then(() => alert("Ringkasan disalin!"));
+    }
 }
 
 initCalendar();

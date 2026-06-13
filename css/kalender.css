@@ -448,6 +448,33 @@ body {
     font-weight: bold;
 }
 
+/* Fiqh Dynamic Cell Styles */
+.k-bg-haid {
+    background-color: #ffcccc !important;
+    color: #a00 !important;
+}
+.k-bg-nifas {
+    background-color: #d8839b !important; /* merah tua / pink gelap */
+    color: #500 !important;
+    border: 1px solid #b30000;
+}
+.k-bg-suci {
+    background-color: #d9f2d9 !important;
+    color: #080 !important;
+}
+
+/* Purple dot for melahirkan */
+.k-mark-melahirkan-start::before, .k-mark-melahirkan-end::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: #9932cc;
+    border-radius: 50%;
+}
+
 .k-sholat-footer {
     display: flex;
     justify-content: space-between;
