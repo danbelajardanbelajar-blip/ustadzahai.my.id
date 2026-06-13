@@ -576,40 +576,210 @@ window.saveEventModal = function() {
     renderRingkasan();
 }
 
+window.toggleRingkasan = function() {
+    const body = document.getElementById('ringkasan-body');
+    const chevron = document.getElementById('ringkasan-chevron');
+    if (body.style.display === 'none') {
+        body.style.display = 'block';
+        chevron.className = 'fas fa-chevron-up';
+    } else {
+        body.style.display = 'none';
+        chevron.className = 'fas fa-chevron-down';
+    }
+}
+
+function formatRingkasanDate(dateObj) {
+    let day = String(dateObj.getDate()).padStart(2, '0');
+    let mth = monthNames[dateObj.getMonth()].substring(0,3);
+    let yr = dateObj.getFullYear();
+    let hr = String(dateObj.getHours()).padStart(2, '0');
+    let mn = String(dateObj.getMinutes()).padStart(2, '0');
+    return `${day} ${mth} ${yr}, ${hr}:${mn}`;
+}
+
 window.renderRingkasan = function() {
-    const textEl = document.getElementById('ringkasan-text');
-    if (!textEl) return;
+    const cardEl = document.getElementById('ringkasan-card');
+    const statusEl = document.getElementById('status-bar');
+    if (!cardEl || !statusEl) return;
     
     if (fiqhEvents.length === 0) {
-        textEl.innerHTML = "Belum ada data event tersimpan.";
+        cardEl.style.display = 'none';
+        statusEl.style.display = 'none';
         return;
     }
     
-    const eventNames = {
-        'melahirkan_belum_kd': 'Melahirkan (belum KD)',
-        'melahirkan_kd_nifas': 'Melahirkan + KD Nifas',
-        'kd_nifas': 'Keluar Darah Nifas',
-        'kd_haid': 'Keluar Darah Haid',
-        'suci': 'Bersih / Suci'
-    };
+    cardEl.style.display = 'block';
+    statusEl.style.display = 'flex';
     
+    let episodes = [];
+    let kdCount = 0;
+    let bCount = 0;
+    
+    for (let i = 0; i < fiqhEvents.length; i++) {
+        let e = fiqhEvents[i];
+        let nextE = fiqhEvents[i+1] || null;
+        
+        let isKD = (e.type === 'kd_haid' || e.type === 'kd_nifas' || e.type === 'melahirkan_kd_nifas');
+        let isBersih = (e.type === 'suci');
+        
+        let ep = {
+            type: e.type,
+            isKD: isKD,
+            isBersih: isBersih,
+            start: new Date(e.datetime),
+            end: nextE ? new Date(nextE.datetime) : null
+        };
+        
+        if (isKD) {
+            kdCount++;
+            let eventName = e.type === 'kd_haid' ? 'Keluar Darah Haid' : (e.type === 'kd_nifas' ? 'Keluar Darah Nifas' : 'Melahirkan + KD');
+            ep.title = `KD ${kdCount} (${eventName})`;
+        } else if (isBersih) {
+            bCount++;
+            ep.title = `B ${bCount} (Bersih)`;
+        } else {
+            ep.title = `Melahirkan (Belum KD)`;
+        }
+        
+        if (ep.end) {
+            let diffMs = ep.end - ep.start;
+            let diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            let diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let durStr = [];
+            if (diffDays > 0) durStr.push(`${diffDays} hari`);
+            if (diffHours > 0) durStr.push(`${diffHours} jam`);
+            if (durStr.length === 0) durStr.push(`0 jam`);
+            ep.durationStr = durStr.join(' ');
+        } else {
+            ep.durationStr = 'berlangsung';
+        }
+        
+        episodes.push(ep);
+    }
+    
+    // Build HTML
     let html = '';
-    fiqhEvents.forEach(e => {
-        let dateObj = new Date(e.datetime);
-        let dayStr = String(dateObj.getDate()).padStart(2, '0');
-        let mthStr = monthNames[dateObj.getMonth()].substring(0,3);
-        let yrStr = dateObj.getFullYear();
-        html += `${dayStr} ${mthStr} ${yrStr} ${e.hour}:${e.minute} - ${eventNames[e.type]}\n`;
+    episodes.forEach(ep => {
+        let startStr = formatRingkasanDate(ep.start);
+        let endStr = ep.end ? `&rarr; ${formatRingkasanDate(ep.end)}` : '';
+        
+        let blockClass = ep.isKD ? 'k-ringkasan-block-red' : (ep.isBersih ? 'k-ringkasan-block-green' : 'k-ringkasan-block-gray');
+        let dotColor = ep.isKD ? '#d32f2f' : (ep.isBersih ? '#388e3c' : '#9932cc');
+        let durClass = ep.isKD ? 'k-rb-duration-red' : (ep.isBersih ? 'k-rb-duration-green' : '');
+        
+        let durationText = ep.durationStr;
+        if (!ep.end && ep.isBersih) {
+            // "berlangsung" is italicized or just text, let's keep it styled
+            durationText = `<i>${ep.durationStr}</i>`;
+        }
+        
+        html += `
+        <div class="k-ringkasan-block ${blockClass}">
+            <div class="k-rb-header">
+                <div class="k-rb-title"><span style="color:${dotColor}">●</span> ${ep.title}</div>
+                <div class="k-rb-duration ${durClass}">${durationText}</div>
+            </div>
+            <div class="k-rb-dates">
+                <div>${startStr}</div>
+                ${endStr ? `<div>${endStr}</div>` : ''}
+            </div>
+        </div>
+        `;
     });
     
-    textEl.innerText = html.trim();
-}
-
-window.copyRingkasan = function() {
-    const textEl = document.getElementById('ringkasan-text');
-    if (textEl) {
-        navigator.clipboard.writeText(textEl.innerText).then(() => alert("Ringkasan disalin!"));
+    document.getElementById('ringkasan-list').innerHTML = html;
+    document.getElementById('ringkasan-count-label').innerText = `(${episodes.length} episode)`;
+    document.getElementById('total-kd-count').innerText = `${kdCount}x episode`;
+    document.getElementById('total-b-count').innerText = `${bCount}x episode`;
+    
+    // Update Status Bar
+    let lastEp = episodes[episodes.length - 1];
+    let statusText = lastEp.isKD ? (lastEp.type === 'kd_haid' ? 'Haid' : 'Nifas') : (lastEp.isBersih ? 'Suci' : 'Melahirkan');
+    document.getElementById('status-text').innerText = statusText;
+    document.getElementById('status-date').innerText = `Mulai ${formatRingkasanDate(lastEp.start)}`;
+    
+    let dot = document.getElementById('status-dot');
+    if (lastEp.isKD) {
+        dot.className = 'k-dot k-haid';
+        if (lastEp.type === 'kd_nifas' || lastEp.type === 'melahirkan_kd_nifas') {
+            dot.className = 'k-dot k-nifas';
+        }
+    } else if (lastEp.isBersih) {
+        dot.className = 'k-dot k-suci';
+    } else {
+        dot.className = 'k-dot k-melahirkan-outline';
     }
 }
 
+window.copyRingkasan = function() {
+    if (fiqhEvents.length === 0) return;
+    
+    let episodes = [];
+    let kdCount = 0;
+    let bCount = 0;
+    
+    for (let i = 0; i < fiqhEvents.length; i++) {
+        let e = fiqhEvents[i];
+        let nextE = fiqhEvents[i+1] || null;
+        let isKD = (e.type === 'kd_haid' || e.type === 'kd_nifas' || e.type === 'melahirkan_kd_nifas');
+        let isBersih = (e.type === 'suci');
+        
+        let ep = {
+            type: e.type, isKD: isKD, isBersih: isBersih,
+            start: new Date(e.datetime),
+            end: nextE ? new Date(nextE.datetime) : null
+        };
+        
+        if (isKD) {
+            kdCount++;
+            let evName = e.type === 'kd_haid' ? 'Keluar Darah Haid' : 'Keluar Darah Nifas';
+            ep.title = `KD ${kdCount} (${evName})`;
+        } else if (isBersih) {
+            bCount++;
+            ep.title = `B ${bCount} (Bersih)`;
+        } else {
+            ep.title = `Melahirkan`;
+        }
+        
+        if (ep.end) {
+            let diffMs = ep.end - ep.start;
+            let diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            let diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let durStr = [];
+            if (diffDays > 0) durStr.push(`${diffDays} hari`);
+            if (diffHours > 0) durStr.push(`${diffHours} jam`);
+            if (durStr.length === 0) durStr.push(`0 jam`);
+            ep.durationStr = durStr.join(' ');
+        }
+        
+        episodes.push(ep);
+    }
+    
+    // Exclude last Bersih if it's "berlangsung"
+    let lastEp = episodes[episodes.length - 1];
+    if (lastEp && lastEp.isBersih && !lastEp.end) {
+        episodes.pop();
+    }
+    
+    let textOut = '';
+    episodes.forEach(ep => {
+        let sStr = formatRingkasanDate(ep.start);
+        let eStr = ep.end ? formatRingkasanDate(ep.end) : 'berlangsung';
+        let dur = ep.durationStr || 'berlangsung';
+        textOut += `${ep.title}\t\t${dur}\n${sStr}\n-> ${eStr}\n\n`;
+    });
+    
+    textOut += `Total KD: ${kdCount}x episode\nTotal Bersih: ${bCount}x episode`;
+    
+    navigator.clipboard.writeText(textOut).then(() => {
+        const btn = document.querySelector('.k-btn-salin-ringkasan');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+    }).catch(err => {
+        alert("Gagal menyalin: " + err);
+    });
+}
+
 initCalendar();
+

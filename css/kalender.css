@@ -692,3 +692,147 @@ body {
  M o d a l  
  E v e n t  
  * /
+
+/* Fiqh Ringkasan Data Redesign */
+.k-status-bar {
+    background: #fff0f3;
+    border: 1px solid #ffccd5;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.k-status-indicator {
+    font-weight: bold;
+    color: #c24669;
+    display: flex;
+    align-items: center;
+}
+.k-status-date {
+    font-size: 13px;
+    color: #888;
+}
+
+.k-ringkasan-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 15px;
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+.k-ringkasan-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+}
+.k-ringkasan-title {
+    font-weight: bold;
+    color: #333;
+}
+.k-ringkasan-title span {
+    font-weight: normal;
+    color: #888;
+    font-size: 13px;
+    margin-left: 5px;
+}
+.k-ringkasan-body {
+    padding: 15px;
+    border-top: 1px solid #eee;
+}
+
+.k-ringkasan-block {
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+.k-ringkasan-block-red {
+    background: #fff0f3;
+}
+.k-ringkasan-block-green {
+    background: #f0fdf4;
+}
+.k-ringkasan-block-gray {
+    background: #f8f9fa;
+}
+
+.k-rb-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.k-rb-title { color: #555; }
+.k-rb-duration { color: #555; }
+.k-rb-duration-red { color: #c24669; }
+.k-rb-duration-green { color: #16a34a; }
+
+.k-rb-dates {
+    text-align: right;
+    font-size: 13px;
+    color: #888;
+    line-height: 1.4;
+}
+
+.k-ringkasan-summary {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    padding: 15px 0;
+    margin: 15px 0;
+    text-align: center;
+}
+.k-summary-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+.k-summary-val {
+    font-weight: bold;
+    font-size: 14px;
+}
+.k-text-red { color: #c24669; }
+.k-text-green { color: #16a34a; }
+
+.k-ringkasan-instruction {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.k-btn-salin-ringkasan {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #fb5c82;
+    color: #fb5c82;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+.k-btn-salin-ringkasan:active {
+    background: #fff0f3;
+}
+
+.k-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.k-dot.k-haid { background-color: #d32f2f; }
+.k-dot.k-nifas { background-color: #880e4f; }
+.k-dot.k-suci { background-color: #388e3c; }
+.k-dot.k-melahirkan-outline { border: 2px solid #9932cc; background-color: transparent; }

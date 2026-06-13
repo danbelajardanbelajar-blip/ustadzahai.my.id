@@ -115,16 +115,48 @@
         <button id="btn-save-year-note" style="display:none; width:100%; margin-top:8px; padding:8px; background:#c24669; color:white; border:none; border-radius:6px" onclick="saveYearNote()">Simpan</button>
     </div>
 
-    <!-- Ringkasan Keluar Darah -->
-    <div class="k-card" style="margin-top: 15px;">
-        <div class="k-card-header">
-            <i class="fas fa-clipboard-list" style="color: #c24669; font-size: 18px;"></i>
-            <h3>Ringkasan Histori Darah</h3>
+    <!-- Status Bar -->
+    <div id="status-bar" class="k-status-bar" style="display:none;">
+        <div class="k-status-indicator">
+            <span class="k-dot" id="status-dot"></span> Status: <span id="status-text">Haid</span>
         </div>
-        <div id="ringkasan-text" style="white-space: pre-wrap; font-family: monospace; background: #f9f9f9; padding: 10px; border-radius: 6px; font-size: 13px; margin-top: 10px; min-height: 40px; border: 1px solid #ddd;">Belum ada data event tersimpan.</div>
-        <button class="k-btn-outline" style="width: 100%; margin-top: 10px; padding: 8px;" onclick="copyRingkasan()">
-            <i class="far fa-copy"></i> Copy Ringkasan
-        </button>
+        <div class="k-status-date" id="status-date">Mulai 11 Jun 2026, 00:00</div>
+    </div>
+
+    <!-- Ringkasan Keluar Darah -->
+    <div class="k-ringkasan-card" id="ringkasan-card" style="display:none;">
+        <div class="k-ringkasan-header" onclick="toggleRingkasan()">
+            <div class="k-ringkasan-title">
+                <i class="fas fa-tint" style="color:#fb5c82; margin-right:5px;"></i> Ringkasan Data <span id="ringkasan-count-label">(0 episode)</span>
+            </div>
+            <i class="fas fa-chevron-up" id="ringkasan-chevron" style="color:#888;"></i>
+        </div>
+        
+        <div id="ringkasan-body" class="k-ringkasan-body">
+            <div id="ringkasan-list">
+                <!-- Episode Blocks go here -->
+            </div>
+            
+            <div class="k-ringkasan-summary">
+                <div class="k-summary-col">
+                    <div class="k-summary-label">Total KD</div>
+                    <div class="k-summary-val k-text-red" id="total-kd-count">0x episode</div>
+                </div>
+                <div class="k-summary-col">
+                    <div class="k-summary-label">Total Bersih</div>
+                    <div class="k-summary-val k-text-green" id="total-b-count">0x episode</div>
+                </div>
+            </div>
+            
+            <div class="k-ringkasan-instruction">
+                Tekan <b>Salin</b> lalu paste pada Kalkulator Fiqih Haid / Nifas<br>untuk menganalisa hukum darah.<br>
+                <i>(Bersih yang masih berlangsung tidak ikut tersalin)</i>
+            </div>
+            
+            <button class="k-btn-salin-ringkasan" onclick="copyRingkasan()">
+                <i class="far fa-copy"></i> Salin Ringkasan
+            </button>
+        </div>
     </div>
 </div>
 
