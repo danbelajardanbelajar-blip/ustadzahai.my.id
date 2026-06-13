@@ -1,24 +1,27 @@
 // SPA Logic for Ustadzah AI
 
-document.addEventListener('click', function(e) {
-    const a = e.target.closest('a');
-    if (!a || !a.href) return;
-    
-    const url = new URL(a.href, window.location.href);
-    
-    // Skip if external link, opens in new tab, or just a hash
-    if (url.origin !== window.location.origin) return;
-    if (a.getAttribute('target') === '_blank') return;
-    if (a.getAttribute('href').startsWith('#') || a.getAttribute('href') === 'javascript:void(0)') return;
-    if (a.hasAttribute('download')) return;
+if (!window.spaInitialized) {
+    window.spaInitialized = true;
 
-    e.preventDefault();
-    navigateTo(url.href);
-});
+    document.addEventListener('click', function(e) {
+        const a = e.target.closest('a');
+        if (!a || !a.href) return;
+        
+        const url = new URL(a.href, window.location.href);
+        
+        // Skip if external link, opens in new tab, or just a hash
+        if (url.origin !== window.location.origin) return;
+        if (a.getAttribute('target') === '_blank') return;
+        if (a.getAttribute('href').startsWith('#') || a.getAttribute('href') === 'javascript:void(0)') return;
+        if (a.hasAttribute('download')) return;
 
-window.addEventListener('popstate', function(e) {
-    navigateTo(window.location.href, false);
-});
+        e.preventDefault();
+        navigateTo(url.href);
+    });
+
+    window.addEventListener('popstate', function(e) {
+        navigateTo(window.location.href, false);
+    });
 
 async function navigateTo(url, pushState = true) {
     // Show a progress bar
@@ -222,3 +225,4 @@ document.addEventListener('submit', async function(e) {
         setTimeout(() => progress.remove(), 300);
     }
 });
+}

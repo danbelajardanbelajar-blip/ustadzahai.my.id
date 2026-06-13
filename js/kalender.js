@@ -385,4 +385,4 @@ function renderSholat(data) {
     document.getElementById('sholat-grid').innerHTML = html;
 }
 
-document.addEventListener('DOMContentLoaded', initCalendar);
+initCalendar();

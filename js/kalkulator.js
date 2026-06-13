@@ -1,5 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
+// Initialization logic
+(function() {
     // Tab Switching Logic
     const tabs = document.querySelectorAll('.c-tab');
     const sections = document.querySelectorAll('.c-section');
@@ -394,4 +394,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
+})();

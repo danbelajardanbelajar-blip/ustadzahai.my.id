@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
 
     const chatArea = document.getElementById('t-chat-area');
     const inputField = document.getElementById('t-input');
@@ -171,4 +171,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-});
+})();

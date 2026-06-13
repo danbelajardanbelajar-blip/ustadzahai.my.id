@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
 
     // Year selection logic
     const yearCards = document.querySelectorAll('.q-year-card');
@@ -138,4 +138,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     });
 
-});
+})();

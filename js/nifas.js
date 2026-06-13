@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
 
     // --- UI INTERACTION LOGIC --- //
 
@@ -339,4 +339,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-});
+})();
