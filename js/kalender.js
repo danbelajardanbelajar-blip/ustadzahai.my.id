@@ -1,6 +1,6 @@
-let currentDate = new Date(2026, 5, 10); // Default to June 2026 as in image
-const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-const hijriMonths = ["Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
+var currentDate = new Date(2026, 5, 10); // Default to June 2026 as in image
+var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+var hijriMonths = ["Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
 
 function initCalendar() {
     renderCalendar();
@@ -226,7 +226,7 @@ if(!localStorage.getItem('notes_sholat')) {
     }]));
 }
 
-let sholatData = null;
+var sholatData = null;
 
 function initSholatPanel() {
     const btnSholat = document.getElementById('btn-sholat');
