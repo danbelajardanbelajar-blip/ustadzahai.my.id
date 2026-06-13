@@ -181,7 +181,7 @@
         </div>
     </div>
 
-    <button class="c-btn-dashed c-mt-15">
+    <button class="c-btn-dashed c-mt-15" id="btn-paste-ringkasan">
         <i class="far fa-clipboard"></i> Paste Ringkasan Data dari Kalender Haid
     </button>
 

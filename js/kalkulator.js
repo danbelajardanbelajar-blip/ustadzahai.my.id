@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tglLahirInput) tglLahirInput.addEventListener('change', updateMinHaid);
     if (jamLahirInput) jamLahirInput.addEventListener('change', updateMinHaid);
+    
+    // Call once to initialize
+    updateMinHaid();
 
     // Adat Preset Buttons Logic
     const adatBtns = document.querySelectorAll('.c-adat-btn');
@@ -220,6 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Paste Ringkasan Logic
+    const btnPaste = document.getElementById('btn-paste-ringkasan');
+    if (btnPaste) {
+        btnPaste.addEventListener('click', () => {
+            prompt('Salin (copy) data kalender Anda, lalu tempel (paste) di bawah ini:');
+            alert('Fitur sinkronisasi otomatis sedang dikembangkan. Silakan masukkan data Keluar Darah secara manual melalui tombol "Tambah Keluar Darah" di atas.');
+        });
+    }
+
     // Reset Logic
     const btnReset = document.getElementById('btn-reset');
     btnReset.addEventListener('click', () => {
@@ -290,17 +302,33 @@ document.addEventListener('DOMContentLoaded', () => {
             darah: []
         };
 
+        let isValid = true;
         const blocks = document.querySelectorAll('.c-darah-block');
         blocks.forEach(block => {
             const datePickers = block.querySelectorAll('.date-picker');
             const timePickers = block.querySelectorAll('.time-picker');
-            payload.darah.push({
-                tgl_keluar: datePickers[0].value,
-                jam_keluar: timePickers[0].value,
-                tgl_bersih: datePickers[1].value,
-                jam_bersih: timePickers[1].value
-            });
+            
+            const tglKeluar = datePickers[0].value;
+            const jamKeluar = timePickers[0].value;
+            const tglBersih = datePickers[1].value;
+            const jamBersih = timePickers[1].value;
+            
+            if (!tglKeluar || !jamKeluar || !tglBersih || !jamBersih) {
+                isValid = false;
+            } else {
+                payload.darah.push({
+                    tgl_keluar: tglKeluar,
+                    jam_keluar: jamKeluar,
+                    tgl_bersih: tglBersih,
+                    jam_bersih: jamBersih
+                });
+            }
         });
+
+        if (!isValid || payload.darah.length === 0) {
+            alert('Mohon lengkapi semua data TANGGAL dan JAM pada blok Keluar Darah.');
+            return;
+        }
 
         // Send AJAX request
         fetch('index.php?url=kalkulator/analisa', {
