@@ -516,3 +516,152 @@ body {
     from { opacity: 0; transform: translateY(-5px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Modal Event Styles */
+.k-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.k-modal {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.k-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.k-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.k-modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #888;
+    cursor: pointer;
+}
+
+.k-modal-subtitle {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.k-event-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.k-event-option {
+    display: block;
+    cursor: pointer;
+}
+
+.k-event-option input[type="radio"] {
+    display: none;
+}
+
+.k-event-option-box {
+    display: block;
+    padding: 12px 15px;
+    border: 1px solid #e0c8c8;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.k-event-option input[type="radio"]:checked + .k-event-option-box {
+    border-color: #d96684;
+    background-color: #fceef2;
+    color: #d96684;
+    font-weight: 500;
+}
+
+.k-time-picker-box {
+    background: #fffafa;
+    border: 1px solid #f2d7de;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.k-time-picker-box p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #333;
+}
+
+.k-time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.k-time-inputs select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    outline: none;
+    color: #333;
+}
+
+.k-time-inputs select:focus {
+    border-color: #d96684;
+}
+
+.k-modal-footer {
+    display: flex;
+    gap: 10px;
+}
+
+.k-modal-footer button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.k-btn-outline {
+    background: white;
+    border: 1px solid #e0c8c8;
+    color: #555;
+}
+
+.k-btn-solid {
+    background: #d96684;
+    border: 1px solid #d96684;
+    color: white;
+}
+
+/ *  
+ M o d a l  
+ E v e n t  
+ * /

@@ -115,3 +115,59 @@
         <button id="btn-save-year-note" style="display:none; width:100%; margin-top:8px; padding:8px; background:#c24669; color:white; border:none; border-radius:6px" onclick="saveYearNote()">Simpan</button>
     </div>
 </div>
+
+<!-- Event Modal -->
+<div id="event-modal-overlay" class="k-modal-overlay" style="display: none;">
+    <div class="k-modal">
+        <div class="k-modal-header">
+            <h3 id="event-modal-date-title">8 Juni 2026</h3>
+            <button class="k-modal-close" onclick="closeEventModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="k-modal-body">
+            <p class="k-modal-subtitle">Tambah event baru:</p>
+            <div class="k-event-options">
+                <label class="k-event-option">
+                    <input type="radio" name="event_type" value="melahirkan_belum_kd">
+                    <span class="k-event-option-box">Melahirkan (belum KD)</span>
+                </label>
+                <label class="k-event-option">
+                    <input type="radio" name="event_type" value="melahirkan_kd_nifas">
+                    <span class="k-event-option-box">Melahirkan + KD Nifas</span>
+                </label>
+                <label class="k-event-option">
+                    <input type="radio" name="event_type" value="kd_nifas" checked>
+                    <span class="k-event-option-box">Keluar Darah Nifas</span>
+                </label>
+                <label class="k-event-option">
+                    <input type="radio" name="event_type" value="kd_haid">
+                    <span class="k-event-option-box">Keluar Darah Haid</span>
+                </label>
+                <label class="k-event-option">
+                    <input type="radio" name="event_type" value="suci">
+                    <span class="k-event-option-box">Bersih / Suci</span>
+                </label>
+            </div>
+            
+            <div class="k-time-picker-box">
+                <p>Pilih waktu:</p>
+                <div class="k-time-inputs">
+                    <select id="event-hour">
+                        <?php for($i=0; $i<24; $i++): ?>
+                            <option value="<?= str_pad($i, 2, '0', STR_PAD_LEFT) ?>" <?= $i==19 ? 'selected' : '' ?>><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></option>
+                        <?php endfor; ?>
+                    </select>
+                    <span>:</span>
+                    <select id="event-minute">
+                        <?php for($i=0; $i<60; $i++): ?>
+                            <option value="<?= str_pad($i, 2, '0', STR_PAD_LEFT) ?>"><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="k-modal-footer">
+            <button class="k-btn-outline" onclick="closeEventModal()">Batal</button>
+            <button class="k-btn-solid" onclick="saveEventModal()">Simpan</button>
+        </div>
+    </div>
+</div>

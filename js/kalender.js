@@ -55,7 +55,7 @@ function renderCalendar() {
     for (let i = 1; i <= daysInMonth; i++) {
         let isNifas = (year === 2026 && month === 5 && i === 10) ? 'nifas' : ''; // Mock styling for 10 Juni as in image
         let hijriD = getApproxHijriDay(new Date(year, month, i));
-        grid.innerHTML += `<div class="k-day-cell ${isNifas}"><span class="k-hijri-date">${hijriD}</span>${i}</div>`;
+        grid.innerHTML += `<div class="k-day-cell ${isNifas}" onclick="openEventModal(${year}, ${month}, ${i})"><span class="k-hijri-date">${hijriD}</span>${i}</div>`;
     }
     
     // Pad next month
@@ -383,6 +383,47 @@ function renderSholat(data) {
     });
     
     document.getElementById('sholat-grid').innerHTML = html;
+}
+
+// Event Modal Logic
+window.selectedEventDate = null;
+
+window.openEventModal = function(year, month, day) {
+    window.selectedEventDate = new Date(year, month, day);
+    
+    // Set title
+    const formattedDate = `${day} ${monthNames[month]} ${year}`;
+    document.getElementById('event-modal-date-title').innerText = formattedDate;
+    
+    // Show modal
+    document.getElementById('event-modal-overlay').style.display = 'flex';
+}
+
+window.closeEventModal = function() {
+    document.getElementById('event-modal-overlay').style.display = 'none';
+}
+
+window.saveEventModal = function() {
+    // Get values
+    const eventTypeEl = document.querySelector('input[name="event_type"]:checked');
+    if (!eventTypeEl) {
+        alert("Silakan pilih jenis event terlebih dahulu.");
+        return;
+    }
+    const eventType = eventTypeEl.value;
+    const eventText = eventTypeEl.nextElementSibling.innerText;
+    
+    const hour = document.getElementById('event-hour').value;
+    const minute = document.getElementById('event-minute').value;
+    
+    // Close modal
+    closeEventModal();
+    
+    // Temporarily alert to show success to user
+    alert(`Tersimpan!\nTanggal: ${window.selectedEventDate.getDate()} ${monthNames[window.selectedEventDate.getMonth()]} ${window.selectedEventDate.getFullYear()}\nEvent: ${eventText}\nWaktu: ${hour}:${minute}`);
+    
+    // Here we can save to local storage or backend later
+    renderCalendar();
 }
 
 initCalendar();
