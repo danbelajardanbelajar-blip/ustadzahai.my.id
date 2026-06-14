@@ -205,12 +205,12 @@ function saveNewNote(type) {
 }
 
 function deleteNote(type, index) {
-    if(confirm('Hapus catatan ini?')) {
+    showCustomConfirm('Hapus catatan ini?', function() {
         const notes = JSON.parse(localStorage.getItem('notes_' + type)) || [];
         notes.splice(index, 1);
         localStorage.setItem('notes_' + type, JSON.stringify(notes));
         renderNoteList(type, notes);
-    }
+    });
 }
 
 function markRead(type, index) {
@@ -552,12 +552,12 @@ window.closeEventModal = function() {
 }
 
 window.deleteEventModal = function() {
-    if(confirm("Hapus catatan Fiqh di hari ini?")) {
+    showCustomConfirm("Hapus catatan Fiqh di hari ini?", function() {
         deleteFiqhEvent(window.selectedEventDateStr);
         closeEventModal();
         renderCalendar();
         renderRingkasan();
-    }
+    });
 }
 
 window.saveEventModal = function() {
@@ -781,8 +781,124 @@ window.copyRingkasan = function() {
     });
 }
 
+window.showCustomConfirm = function(message, onConfirm) {
+    const overlay = document.createElement('div');
+    overlay.className = 'k-modal-overlay';
+    overlay.style.display = 'flex';
+    overlay.style.zIndex = '9999';
+    
+    const modal = document.createElement('div');
+    modal.className = 'k-modal';
+    modal.style.textAlign = 'center';
+    
+    const icon = document.createElement('div');
+    icon.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size: 40px; color: #ff9800; margin-bottom: 15px;"></i>';
+    
+    const title = document.createElement('h3');
+    title.innerText = 'Konfirmasi';
+    title.style.margin = '0 0 10px 0';
+    title.style.color = '#333';
+    title.style.fontSize = '18px';
+    
+    const text = document.createElement('p');
+    text.innerText = message;
+    text.style.color = '#555';
+    text.style.fontSize = '14px';
+    text.style.marginBottom = '25px';
+    text.style.lineHeight = '1.5';
+    
+    const footer = document.createElement('div');
+    footer.style.display = 'flex';
+    footer.style.gap = '10px';
+    footer.style.justifyContent = 'center';
+    
+    const btnCancel = document.createElement('button');
+    btnCancel.className = 'k-btn-outline';
+    btnCancel.innerText = 'Batal';
+    btnCancel.style.flex = '1';
+    btnCancel.onclick = function() {
+        document.body.removeChild(overlay);
+    };
+    
+    const btnOk = document.createElement('button');
+    btnOk.className = 'k-btn-solid';
+    btnOk.innerText = 'Ya';
+    btnOk.style.flex = '1';
+    btnOk.style.backgroundColor = '#d32f2f';
+    btnOk.style.borderColor = '#d32f2f';
+    btnOk.onclick = function() {
+        document.body.removeChild(overlay);
+        onConfirm();
+    };
+    
+    footer.appendChild(btnCancel);
+    footer.appendChild(btnOk);
+    
+    modal.appendChild(icon);
+    modal.appendChild(title);
+    modal.appendChild(text);
+    modal.appendChild(footer);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+};
+
+window.showCustomAlert = function(message, type = 'success', onOk = null) {
+    const overlay = document.createElement('div');
+    overlay.className = 'k-modal-overlay';
+    overlay.style.display = 'flex';
+    overlay.style.zIndex = '9999';
+    
+    const modal = document.createElement('div');
+    modal.className = 'k-modal';
+    modal.style.textAlign = 'center';
+    
+    const icon = document.createElement('div');
+    if (type === 'success') {
+        icon.innerHTML = '<i class="fas fa-check-circle" style="font-size: 40px; color: #2e8f52; margin-bottom: 15px;"></i>';
+    } else {
+        icon.innerHTML = '<i class="fas fa-info-circle" style="font-size: 40px; color: #2d6bcf; margin-bottom: 15px;"></i>';
+    }
+    
+    const title = document.createElement('h3');
+    title.innerText = type === 'success' ? 'Berhasil' : 'Informasi';
+    title.style.margin = '0 0 10px 0';
+    title.style.color = '#333';
+    title.style.fontSize = '18px';
+    
+    const text = document.createElement('p');
+    text.innerText = message;
+    text.style.color = '#555';
+    text.style.fontSize = '14px';
+    text.style.marginBottom = '25px';
+    text.style.lineHeight = '1.5';
+    
+    const footer = document.createElement('div');
+    footer.style.display = 'flex';
+    footer.style.justifyContent = 'center';
+    
+    const btnOk = document.createElement('button');
+    btnOk.className = 'k-btn-solid';
+    btnOk.innerText = 'OK';
+    btnOk.style.flex = '1';
+    btnOk.style.backgroundColor = type === 'success' ? '#2e8f52' : '#2d6bcf';
+    btnOk.style.borderColor = type === 'success' ? '#2e8f52' : '#2d6bcf';
+    btnOk.onclick = function() {
+        document.body.removeChild(overlay);
+        if (onOk) onOk();
+    };
+    
+    footer.appendChild(btnOk);
+    
+    modal.appendChild(icon);
+    modal.appendChild(title);
+    modal.appendChild(text);
+    modal.appendChild(footer);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+};
+
 window.resetSemuaData = function() {
-    if (confirm('Apakah Anda yakin ingin menghapus semua data kalender dan catatan? Tindakan ini tidak dapat dibatalkan.')) {
+    showCustomConfirm('Apakah Anda yakin ingin menghapus semua data kalender dan catatan? Tindakan ini tidak dapat dibatalkan.', function() {
         localStorage.removeItem('fiqh_events');
         localStorage.removeItem('notes_sholat');
         localStorage.removeItem('notes_puasa');
@@ -796,9 +912,10 @@ window.resetSemuaData = function() {
         loadNotes();
         loadYearNote();
         
-        alert('Semua data berhasil direset.');
-        location.reload();
-    }
+        showCustomAlert('Semua data berhasil direset.', 'success', function() {
+            location.reload();
+        });
+    });
 }
 
 initCalendar();
