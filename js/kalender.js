@@ -781,5 +781,25 @@ window.copyRingkasan = function() {
     });
 }
 
+window.resetSemuaData = function() {
+    if (confirm('Apakah Anda yakin ingin menghapus semua data kalender dan catatan? Tindakan ini tidak dapat dibatalkan.')) {
+        localStorage.removeItem('fiqh_events');
+        localStorage.removeItem('notes_sholat');
+        localStorage.removeItem('notes_puasa');
+        localStorage.removeItem('notes_mandi');
+        localStorage.removeItem('year_note');
+        
+        fiqhEvents = [];
+        
+        renderCalendar();
+        renderRingkasan();
+        loadNotes();
+        loadYearNote();
+        
+        alert('Semua data berhasil direset.');
+        location.reload();
+    }
+}
+
 initCalendar();
 

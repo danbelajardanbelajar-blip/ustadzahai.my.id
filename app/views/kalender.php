@@ -158,6 +158,11 @@
             </button>
         </div>
     </div>
+    <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+        <button class="k-btn-outline" style="color: #d32f2f; border-color: #d32f2f; padding: 10px 20px; font-weight: bold; border-radius: 8px; width: 100%; background: white;" onclick="resetSemuaData()">
+            <i class="fas fa-trash-alt"></i> Reset Semua Data
+        </button>
+    </div>
 </div>
 
 <!-- Event Modal -->
