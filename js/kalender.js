@@ -116,6 +116,29 @@ function renderCalendar() {
             classes.push('k-today');
         }
         
+        let hasDot = false;
+        
+        // 1. Explicit fiqh event exists on this day
+        fiqhEvents.forEach(e => {
+            if (e.datetime >= dStart && e.datetime <= dEnd) {
+                hasDot = true;
+            }
+        });
+        
+        // 2. End of a colored interval falls on this day
+        intervals.forEach(inv => {
+            if (['haid', 'nifas', 'suci'].includes(inv.type)) {
+                let adjustedEnd = inv.end.getTime() - 1;
+                if (adjustedEnd >= dStart && adjustedEnd <= dEnd) {
+                    hasDot = true;
+                }
+            }
+        });
+        
+        if (hasDot) {
+            classes.push('k-has-dot');
+        }
+        
         // Remove duplicates
         classes = [...new Set(classes)];
         let classString = classes.join(' ');

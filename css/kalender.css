@@ -186,6 +186,23 @@ body {
     box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px #fb5c82;
 }
 
+.k-day-cell.k-has-dot::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    width: 6px;
+    height: 6px;
+    background-color: #c24669;
+    border-radius: 50%;
+}
+
+.k-day-cell.k-bg-haid.k-has-dot::after,
+.k-day-cell.k-bg-nifas.k-has-dot::after,
+.k-day-cell.k-bg-suci.k-has-dot::after {
+    background-color: white;
+}
+
 
 /* Status colors for dates */
 .k-day-cell.nifas {
