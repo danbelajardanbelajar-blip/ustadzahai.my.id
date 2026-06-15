@@ -104,8 +104,13 @@ function renderCalendar() {
                     hasRed = true;
                 } else if (inv.type === 'suci') {
                     let suciDayStart = new Date(inv.originalSuciStart.getFullYear(), inv.originalSuciStart.getMonth(), inv.originalSuciStart.getDate(), 0, 0, 0).getTime();
-                    if (dStart > suciDayStart) {
+                    if (dStart >= suciDayStart) {
                         classes.push('k-bg-suci');
+                        if (dStart === suciDayStart) {
+                            // On the exact day of suci, remove any red backgrounds
+                            classes = classes.filter(c => c !== 'k-bg-haid' && c !== 'k-bg-nifas');
+                            hasRed = false;
+                        }
                     }
                 }
             }
