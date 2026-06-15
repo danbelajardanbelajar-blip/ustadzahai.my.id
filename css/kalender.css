@@ -186,7 +186,7 @@ body {
     box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px #fb5c82;
 }
 
-.k-day-cell.k-has-dot::after {
+.k-day-cell.k-has-dot-start::before {
     content: '';
     position: absolute;
     top: 6px;
@@ -195,11 +195,27 @@ body {
     height: 6px;
     background-color: #c24669;
     border-radius: 50%;
+    z-index: 2;
 }
 
-.k-day-cell.k-bg-haid.k-has-dot::after,
-.k-day-cell.k-bg-nifas.k-has-dot::after,
-.k-day-cell.k-bg-suci.k-has-dot::after {
+.k-day-cell.k-has-dot-end::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    width: 6px;
+    height: 6px;
+    background-color: #c24669;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.k-day-cell.k-bg-haid.k-has-dot-start::before,
+.k-day-cell.k-bg-nifas.k-has-dot-start::before,
+.k-day-cell.k-bg-suci.k-has-dot-start::before,
+.k-day-cell.k-bg-haid.k-has-dot-end::after,
+.k-day-cell.k-bg-nifas.k-has-dot-end::after,
+.k-day-cell.k-bg-suci.k-has-dot-end::after {
     background-color: white;
 }
 

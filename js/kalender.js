@@ -128,12 +128,13 @@ function renderCalendar() {
             classes.push('k-today');
         }
         
-        let hasDot = false;
+        let hasDotStart = false;
+        let hasDotEnd = false;
         
         // 1. Explicit fiqh event exists on this day
         fiqhEvents.forEach(e => {
             if (e.datetime >= dStart && e.datetime <= dEnd) {
-                hasDot = true;
+                hasDotStart = true;
             }
         });
         
@@ -142,13 +143,16 @@ function renderCalendar() {
             if (['haid', 'nifas', 'suci'].includes(inv.type)) {
                 let adjustedEnd = inv.end.getTime() - 1;
                 if (adjustedEnd >= dStart && adjustedEnd <= dEnd) {
-                    hasDot = true;
+                    hasDotEnd = true;
                 }
             }
         });
         
-        if (hasDot) {
-            classes.push('k-has-dot');
+        if (hasDotStart) {
+            classes.push('k-has-dot-start');
+        }
+        if (hasDotEnd) {
+            classes.push('k-has-dot-end');
         }
         
         // Remove duplicates
