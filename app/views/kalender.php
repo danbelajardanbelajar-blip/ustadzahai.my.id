@@ -174,7 +174,7 @@
         </div>
         <div class="k-modal-body">
             <p class="k-modal-subtitle">Tambah event baru:</p>
-            <div class="k-event-options">
+            <div class="k-event-options" onchange="if(window.checkSuciWarning) window.checkSuciWarning()">
                 <label class="k-event-option">
                     <input type="radio" name="event_type" value="melahirkan_belum_kd">
                     <span class="k-event-option-box">Melahirkan (belum KD)</span>
@@ -197,9 +197,14 @@
                 </label>
             </div>
             
+            <div id="suci-warning" style="display:none; background:#fff8e1; color:#b7811d; padding:10px; border-radius:8px; border:1px solid #ffe082; margin-top:15px; font-size:13px; align-items:flex-start;">
+                <i class="fas fa-exclamation-triangle" style="margin-right:8px; margin-top:2px;"></i> 
+                <div>Input dulu tanggal KD sebelum input Bersih lagi!</div>
+            </div>
+
             <div class="k-time-picker-box">
                 <p>Pilih waktu:</p>
-                <div class="k-time-inputs">
+                <div class="k-time-inputs" onchange="if(window.checkSuciWarning) window.checkSuciWarning()">
                     <select id="event-hour">
                         <?php for($i=0; $i<24; $i++): ?>
                             <option value="<?= str_pad($i, 2, '0', STR_PAD_LEFT) ?>" <?= $i==19 ? 'selected' : '' ?>><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></option>

@@ -600,6 +600,43 @@ window.openEventModal = function(year, month, day) {
     
     // Show modal
     document.getElementById('event-modal-overlay').style.display = 'flex';
+    if(window.checkSuciWarning) window.checkSuciWarning();
+}
+
+window.checkSuciWarning = function() {
+    const warningEl = document.getElementById('suci-warning');
+    if (!warningEl) return;
+    
+    const eventTypeEl = document.querySelector('input[name="event_type"]:checked');
+    if (!eventTypeEl || eventTypeEl.value !== 'suci') {
+        warningEl.style.display = 'none';
+        return;
+    }
+    
+    const hour = document.getElementById('event-hour').value;
+    const minute = document.getElementById('event-minute').value;
+    const currentDateTime = new Date(`${window.selectedEventDateStr}T${hour}:${minute}:00`).getTime();
+    
+    let lastEventBefore = null;
+    let maxTimeBefore = -1;
+    
+    for (let i = 0; i < fiqhEvents.length; i++) {
+        let e = fiqhEvents[i];
+        let eTime = new Date(`${e.date}T${e.hour}:${e.minute}:00`).getTime();
+        // Exclude the event currently being edited if it's on the same date
+        if (e.date !== window.selectedEventDateStr) {
+            if (eTime <= currentDateTime && eTime > maxTimeBefore) {
+                maxTimeBefore = eTime;
+                lastEventBefore = e;
+            }
+        }
+    }
+    
+    if (!lastEventBefore || lastEventBefore.type === 'suci' || lastEventBefore.type === 'melahirkan_belum_kd') {
+        warningEl.style.display = 'flex';
+    } else {
+        warningEl.style.display = 'none';
+    }
 }
 
 window.closeEventModal = function() {
