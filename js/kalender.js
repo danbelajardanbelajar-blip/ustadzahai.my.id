@@ -111,6 +111,11 @@ function renderCalendar() {
             classes = classes.filter(c => c !== 'k-bg-suci');
         }
         
+        const tObj = new Date();
+        if (year === tObj.getFullYear() && month === tObj.getMonth() && i === tObj.getDate()) {
+            classes.push('k-today');
+        }
+        
         // Remove duplicates
         classes = [...new Set(classes)];
         let classString = classes.join(' ');

@@ -173,6 +173,20 @@ body {
     background: transparent;
 }
 
+.k-day-cell.k-today {
+    background-color: #ffe6eb;
+    color: #fb5c82;
+    font-weight: bold;
+    box-shadow: inset 0 0 0 2px #fb5c82;
+}
+
+.k-day-cell.k-today.k-bg-haid, 
+.k-day-cell.k-today.k-bg-nifas, 
+.k-day-cell.k-today.k-bg-suci {
+    box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px #fb5c82;
+}
+
+
 /* Status colors for dates */
 .k-day-cell.nifas {
     background: #d97090;
