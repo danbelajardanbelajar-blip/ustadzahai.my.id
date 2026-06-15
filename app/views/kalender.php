@@ -66,6 +66,14 @@
 </div>
 
 <div class="k-notes-container">
+    <!-- Status Bar -->
+    <div id="status-bar" class="k-status-bar" style="display:none;">
+        <div class="k-status-indicator">
+            <span class="k-dot" id="status-dot"></span> Status: <span id="status-text">Haid</span>
+        </div>
+        <div class="k-status-date" id="status-date">Mulai 11 Jun 2026, 00:00</div>
+    </div>
+
     <!-- Catatan Box -->
     <div class="k-card">
         <div class="k-card-header">
@@ -113,14 +121,6 @@
         </div>
         <textarea id="year-note-textarea" style="display:none" rows="4"></textarea>
         <button id="btn-save-year-note" style="display:none; width:100%; margin-top:8px; padding:8px; background:#c24669; color:white; border:none; border-radius:6px" onclick="saveYearNote()">Simpan</button>
-    </div>
-
-    <!-- Status Bar -->
-    <div id="status-bar" class="k-status-bar" style="display:none;">
-        <div class="k-status-indicator">
-            <span class="k-dot" id="status-dot"></span> Status: <span id="status-text">Haid</span>
-        </div>
-        <div class="k-status-date" id="status-date">Mulai 11 Jun 2026, 00:00</div>
     </div>
 
     <!-- Ringkasan Keluar Darah -->
