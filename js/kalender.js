@@ -2,13 +2,25 @@ var currentDate = new Date();
 var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 var hijriMonths = ["Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
 
+function getHijriParts(date) {
+    try {
+        const formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', {day: 'numeric', month: 'numeric', year: 'numeric'});
+        const str = formatter.format(date);
+        const matches = str.match(/(\d+)[^\d]+(\d+)[^\d]+(\d+)/);
+        if (matches) {
+            return { month: parseInt(matches[1], 10), day: parseInt(matches[2], 10), year: parseInt(matches[3], 10) };
+        }
+    } catch(e) {}
+    return { day: 1, month: 1, year: 1447 };
+}
+
 function updateTodayLabel() {
     const today = new Date();
     const day = today.getDate();
     const month = today.getMonth();
     
-    const hijriFormatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic', {day: 'numeric', month: 'long'});
-    const hijriString = hijriFormatter.format(today);
+    const hParts = getHijriParts(today);
+    const hijriString = `${hParts.day} ${hijriMonths[hParts.month - 1]}`;
     
     const todayLabel = document.getElementById('today-label');
     if (todayLabel) {
@@ -45,12 +57,12 @@ function renderCalendar() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     
-    // Convert to Hijri roughly for the label (using Intl API)
-    const hijriFormatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic', {month: 'long', year: 'numeric'});
-    const hijriString = hijriFormatter.format(currentDate);
+    // Convert to Hijri roughly for the label
+    const hParts = getHijriParts(currentDate);
+    const hijriString = `${hijriMonths[hParts.month - 1]} ${hParts.year} H`;
     
     document.getElementById('month-label').innerHTML = `<strong>${monthNames[month]} ${year}</strong><br>${hijriString}`;
-    document.getElementById('year-note-title').innerText = `Catatan Tahun ${year} M / ${hijriString.split(' ')[1]} H`;
+    document.getElementById('year-note-title').innerText = `Catatan Tahun ${year} M / ${hParts.year} H`;
     
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
