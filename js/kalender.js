@@ -1,8 +1,23 @@
-var currentDate = new Date(2026, 5, 10); // Default to June 2026 as in image
+var currentDate = new Date();
 var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 var hijriMonths = ["Muharram", "Safar", "Rabi'ul Awal", "Rabi'ul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
 
+function updateTodayLabel() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    
+    const hijriFormatter = new Intl.DateTimeFormat('id-TN-u-ca-islamic', {day: 'numeric', month: 'long'});
+    const hijriString = hijriFormatter.format(today);
+    
+    const todayLabel = document.getElementById('today-label');
+    if (todayLabel) {
+        todayLabel.innerHTML = `${day} ${monthNames[month]}<br>${hijriString}`;
+    }
+}
+
 function initCalendar() {
+    updateTodayLabel();
     renderRingkasan();
     renderCalendar();
     loadNotes();

@@ -10,7 +10,7 @@
 
     <div class="k-nav-row">
         <button class="k-btn-today" id="btn-today">
-            Hari Ini<br><span id="today-label">10 Juni<br>25 Dzulhijjah</span>
+            Hari Ini<br><span id="today-label"></span>
         </button>
         <div class="k-nav-arrows">
             <button id="btn-prev"><i class="fas fa-chevron-left"></i></button>
