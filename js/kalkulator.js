@@ -354,44 +354,115 @@
         const resultContainer = document.getElementById('result-container');
         const kesimpulanText = document.getElementById('kesimpulan-text');
         const visualBox = document.getElementById('visualisasi-blocks');
+        const badgeKesimpulan = document.getElementById('badge-kesimpulan');
         
         resultContainer.style.display = 'block';
-        kesimpulanText.innerText = data.kesimpulan;
+        
+        // Determine Badge text
+        let mainBadge = data.kesimpulan.split('(')[0].trim().toUpperCase();
+        if (mainBadge.includes('FASAD') && mainBadge.includes('HAID')) {
+            mainBadge = 'DARAH FASAD + HAID';
+        } else if (mainBadge.includes('ISTIHADHAH')) {
+            mainBadge = 'MUSTAHADOH FIL HAID'; // Use text from screenshot if it is Istihadhah
+        }
+        
+        if (badgeKesimpulan) {
+            badgeKesimpulan.innerText = mainBadge;
+        }
+        
+        if (kesimpulanText) {
+            kesimpulanText.innerHTML = `HUKUM: ${mainBadge}`;
+        }
+
         visualBox.innerHTML = '';
 
+        // If this is a special Fasad check (like screenshot 2), but backend only returns simple siklus,
+        // we just render what we can. If the backend actually returns "Darah sebelum usia minimal" inside siklus, it will be mapped.
+        // For standard data, we group by "Siklus" (every KD starts a new Siklus)
+        
+        let cycleHtml = '';
+        let currentCycle = 0;
+        let cycleContent = '';
+        
+        // Optional: specific check for "ANALISA DENGAN CEK USIA MINIMAL HAID" pattern
+        // The backend doesn't output this yet, but if it did we'd catch it.
+        // For now, we just map everything to Siklus blocks.
+        
         data.siklus.forEach((item, index) => {
-            const block = document.createElement('div');
-            block.style.padding = '10px';
-            block.style.marginBottom = '10px';
-            block.style.borderRadius = '5px';
-            block.style.color = '#fff';
-            block.style.fontSize = '14px';
-
-            let bgColor = '#ccc'; // default
-            if (item.status.includes('Haid')) {
-                bgColor = '#d3557d'; // pink/red
-            } else if (item.status.includes('Suci')) {
-                bgColor = '#2ecc71'; // green
-            } else if (item.status.includes('Fasad') || item.status.includes('Istihadhah')) {
-                bgColor = '#e67e22'; // orange
+            if (item.type === 'KD') {
+                if (currentCycle > 0) {
+                    // Close previous cycle
+                    cycleHtml += `<div style="border-left: 3px solid #8e44ad; padding-left: 15px; margin-bottom: 20px;">
+                        <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #333;">Siklus ${currentCycle}:</div>
+                        <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                            ${cycleContent}
+                        </div>
+                    </div>`;
+                    cycleContent = '';
+                }
+                currentCycle++;
+            } else if (currentCycle === 0) {
+                // Failsafe if first item is not KD for some reason
+                currentCycle = 1;
             }
-
-            block.style.backgroundColor = bgColor;
-
-            const icon = item.type === 'KD' ? '<i class="fas fa-tint"></i>' : '<i class="far fa-circle"></i>';
-            const title = item.type === 'KD' ? 'Keluar Darah' : 'Masa Bersih';
-
-            block.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                    <strong>${icon} ${title} (${Math.round(item.hours)} jam)</strong>
-                    <span style="background:rgba(255,255,255,0.3); padding:2px 8px; border-radius:12px; font-size:12px;">${item.status}</span>
-                </div>
-                <div style="font-size:12px; opacity:0.9;">
-                    ${item.start.date.substring(0, 16)} s/d ${item.end.date.substring(0, 16)}
-                </div>
-            `;
-            visualBox.appendChild(block);
+            
+            // Format dates
+            const startDate = new Date(item.start.date);
+            const endDate = new Date(item.end.date);
+            
+            const sdParts = startDate.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+            const stParts = startDate.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
+            const edParts = endDate.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+            const etParts = endDate.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace(':', '.');
+            
+            const startFmt = `${sdParts} jam ${stParts}`;
+            const endFmt = `${edParts} jam ${etParts}`;
+            
+            let color = '#555';
+            let label = item.status.toUpperCase();
+            
+            if (item.status.toLowerCase().includes('haid')) {
+                color = '#d3557d';
+            } else if (item.status.toLowerCase().includes('suci') || item.status.toLowerCase().includes('bersih')) {
+                color = '#2ecc71';
+            } else if (item.status.toLowerCase().includes('fasad') || item.status.toLowerCase().includes('istihadhah')) {
+                color = '#8e44ad'; // purple for istihadoh
+                if (item.status.toLowerCase().includes('fasad')) {
+                    color = '#d3557d'; // red for fasad
+                }
+            }
+            
+            // If item has a custom label in status like "HAID (Adat 10 hari)", the backend should provide it. 
+            // We just print whatever the status is.
+            cycleContent += `<div style="margin-bottom: 5px;">&bull; <span style="color: ${color}; font-weight: bold;">${label}:</span> ${startFmt} s/d ${endFmt}</div>`;
         });
+        
+        // Add the last cycle
+        if (currentCycle > 0) {
+            cycleHtml += `<div style="border-left: 3px solid #8e44ad; padding-left: 15px; margin-bottom: 20px;">
+                <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #333;">Siklus ${currentCycle}:</div>
+                <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                    ${cycleContent}
+                </div>
+            </div>`;
+        }
+        
+        // If data.kesimpulan indicates something about minimal age, we can prepend a note.
+        if (data.kesimpulan.toLowerCase().includes('usia memungkinkan haid')) {
+            visualBox.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <div style="font-weight: bold; text-transform: uppercase; margin-bottom: 10px; font-size: 14px; color: #333;">ANALISA DENGAN CEK USIA MINIMAL HAID</div>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        &bull; Hasil: <strong style="color:#d3557d;">${data.kesimpulan}</strong>
+                    </div>
+                </div>
+                <hr style="border: none; border-top: 1px solid #fce4ec; margin: 15px 0;">
+                <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px; color: #333;">Rincian Darah:</div>
+                ${cycleHtml}
+            `;
+        } else {
+            visualBox.innerHTML = cycleHtml;
+        }
     }
 
 })();

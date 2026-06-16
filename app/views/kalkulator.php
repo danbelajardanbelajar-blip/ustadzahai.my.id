@@ -190,12 +190,21 @@
     </button>
 
     <div id="result-container" class="c-mt-15" style="display: none;">
-        <div class="c-card c-card-white">
-            <div class="c-card-header c-text-dark">
-                <i class="fas fa-poll-h" style="color: #6c5ce7;"></i> Hasil Analisa Fiqih
+        <div style="border: 2px dashed #fcdcae; border-radius: 15px; background-color: #fffdf5; padding: 20px; position: relative;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <h3 style="color: #d3557d; font-size: 15px; margin: 0; letter-spacing: 0.5px; text-transform: uppercase;">HASIL ANALISA HUKUM</h3>
+                <div id="badge-kesimpulan" style="display: inline-block; background-color: #fce4ec; color: #d3557d; padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-top: 10px; text-transform: uppercase;">
+                    <!-- Badge Text -->
+                </div>
             </div>
-            <div class="c-mt-10" id="kesimpulan-text" style="font-weight:bold; font-size:16px;"></div>
-            <div id="visualisasi-blocks" class="c-mt-15">
+            
+            <hr style="border: none; border-top: 1px solid #fce4ec; margin: 15px 0;">
+            
+            <div id="kesimpulan-text" style="font-weight:bold; font-size:14px; margin-bottom: 15px; color: #333; text-transform: uppercase;">
+                <!-- HUKUM Text -->
+            </div>
+            
+            <div id="visualisasi-blocks">
                 <!-- Blocks will be generated here by JS -->
             </div>
         </div>
