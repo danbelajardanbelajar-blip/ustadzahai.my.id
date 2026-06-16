@@ -364,6 +364,8 @@
             mainBadge = 'DARAH FASAD + HAID';
         } else if (mainBadge.includes('ISTIHADHAH')) {
             mainBadge = 'MUSTAHADOH FIL HAID'; // Use text from screenshot if it is Istihadhah
+        } else if (mainBadge === 'HAID NORMAL') {
+            mainBadge = 'HAID';
         }
         
         if (badgeKesimpulan) {
@@ -476,6 +478,12 @@
                 <hr style="border: none; border-top: 1px solid #fce4ec; margin: 15px 0;">
                 <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px; color: #333;">Rincian Darah:</div>
                 ${cycleHtml}
+            `;
+        } else if (data.kesimpulan.toUpperCase() === 'HAID NORMAL') {
+            const haidHours = data.siklus.reduce((sum, item) => item.type === 'KD' ? sum + item.hours : sum, 0);
+            const haidDays = Math.round((haidHours / 24) * 10) / 10;
+            visualBox.innerHTML = `
+                <div style="font-size: 15px; color: #555;">Darah ${haidDays.toFixed(1)} hari (&le; 15 hari) = Haid.</div>
             `;
         } else {
             visualBox.innerHTML = cycleHtml;
