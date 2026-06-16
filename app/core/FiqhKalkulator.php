@@ -38,18 +38,20 @@ class FiqhKalkulator {
         return true;
     }
 
+    public static function getMinHaidDateObj($tglLahir, $jamLahir) {
+        $born = new DateTime("$tglLahir $jamLahir");
+        // Usia minimal haid secara astronomis: 3173 hari, 7 jam, 17 menit.
+        $minHaidObj = clone $born;
+        $minHaidObj->modify('+3173 days 7 hours 17 minutes');
+        return $minHaidObj;
+    }
+
     public static function getMinHaidInfo($tglLahir, $jamLahir) {
         $born = new DateTime("$tglLahir $jamLahir");
-        $hijri = Hijri::convertToHijri($born->format('Y-m-d'));
+        $hijri = \GeniusTS\HijriDate\Hijri::convertToHijri($born->format('Y-m-d'));
         
-        // 9 years later
-        $minHaidGreg = Hijri::convertToGregorian($hijri->day, $hijri->month, $hijri->year + 9);
-        $minHaidObj = new DateTime($minHaidGreg->format('Y-m-d') . " $jamLahir");
-        
-        // Subtract 16 days
-        $minHaidObj->modify('-16 days');
-        
-        $minHaidHijri = Hijri::convertToHijri($minHaidObj->format('Y-m-d'));
+        $minHaidObj = self::getMinHaidDateObj($tglLahir, $jamLahir);
+        $minHaidHijri = \GeniusTS\HijriDate\Hijri::convertToHijri($minHaidObj->format('Y-m-d'));
         
         $bulanHijri = [
             1 => 'Muharram', 2 => 'Safar', 3 => 'Rabiul Awal', 4 => 'Rabiul Akhir',
@@ -69,15 +71,6 @@ class FiqhKalkulator {
             'minHaidMasehi' => $minHaidObj->format('d') . ' ' . $bulanMasehi[(int)$minHaidObj->format('n')] . ' ' . $minHaidObj->format('Y') . ' jam ' . $minHaidObj->format('H:i'),
             'minHaidHijriah' => $minHaidHijri->day . ' ' . $bulanHijri[(int)$minHaidHijri->month] . ' ' . $minHaidHijri->year . ' H'
         ];
-    }
-
-    public static function getMinHaidDateObj($tglLahir, $jamLahir) {
-        $born = new DateTime("$tglLahir $jamLahir");
-        $hijri = \GeniusTS\HijriDate\Hijri::convertToHijri($born->format('Y-m-d'));
-        $minHaidGreg = \GeniusTS\HijriDate\Hijri::convertToGregorian($hijri->day, $hijri->month, $hijri->year + 9);
-        $minHaidObj = new DateTime($minHaidGreg->format('Y-m-d') . " $jamLahir");
-        $minHaidObj->modify('-16 days');
-        return $minHaidObj;
     }
 
     /**
