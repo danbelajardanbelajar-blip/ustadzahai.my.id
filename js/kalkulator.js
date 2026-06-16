@@ -383,6 +383,9 @@
         let mainBadge = data.kesimpulan.split('(')[0].trim().toUpperCase();
         if (mainBadge.includes('FASAD') && mainBadge.includes('HAID')) {
             mainBadge = 'DARAH FASAD + HAID';
+        } else if (mainBadge === 'ISTIHADOH TAKMIL') {
+            mainBadge = 'ISTIHADOH TAKMIL';
+            kesimpulanText.innerHTML = `HUKUM: ISTIHADOH PENYEMPURNA SUCI (TAKMIL)`;
         } else if (mainBadge.includes('ISTIHADHAH')) {
             mainBadge = 'MUSTAHADOH FIL HAID'; // Use text from screenshot if it is Istihadhah
         } else if (mainBadge === 'HAID NORMAL') {
@@ -470,6 +473,25 @@
             </div>`;
         }
         
+        // If data indicates a Takmil split
+        if (data.is_takmil_split && data.takmil_data) {
+            visualBox.innerHTML = `
+                <div style="font-size: 14px; color: #333; line-height: 1.8;">
+                    <div style="margin-bottom: 5px;">&bull; KD 1: <strong>HAID</strong></div>
+                    <div style="margin-bottom: 5px;">&bull; Bersih: <strong>SUCI</strong></div>
+                    <div style="margin-bottom: 5px;">&bull; KD 2 (${data.takmil_data.takmil_days.toFixed(1)} hari awal) s/d ${data.takmil_data.takmil_end_str}: <strong>ISTIHADOH (T)</strong>.</div>
+                    <div style="margin-bottom: 5px;">&bull; Analisa Sisa KD 2:</div>
+                    <div style="border-left: 3px solid #8e44ad; padding-left: 15px; margin-top: 5px; margin-bottom: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #333;">Siklus 1:</div>
+                        <div style="font-size: 14px; color: #555; line-height: 1.6;">
+                            &bull; <span style="color: #2980b9; font-weight: bold;">${data.takmil_data.sisa_hukum}:</span> ${data.takmil_data.sisa_start_str} s/d ${data.takmil_data.sisa_end_str} <span style="color: #555;">${data.takmil_data.sisa_desc}</span>.
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
         // If data indicates a Fasad split
         if (data.is_fasad_split && data.fasad_data) {
             visualBox.innerHTML = `

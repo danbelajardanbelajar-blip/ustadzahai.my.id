@@ -167,6 +167,56 @@ class FiqhKalkulator {
             }
         }
 
+        // Langkah 1.5: Cek Istihadoh Takmil (Penyempurna Suci)
+        if (count($siklus) >= 3 && $siklus[0]['type'] === 'KD' && $siklus[1]['type'] === 'B' && $siklus[2]['type'] === 'KD') {
+            $kd1 = $siklus[0];
+            $b1 = $siklus[1];
+            $kd2 = $siklus[2];
+
+            // Syarat Takmil:
+            // 1. KD 1 adalah Haid valid (<= 15 hari)
+            // 2. B 1 < 15 hari
+            // 3. KD 2 mulai di luar 15 hari sejak awal KD 1
+            if ($kd1['hours'] <= 360 && $b1['hours'] < 360 && ($kd1['hours'] + $b1['hours']) > 360) {
+                $takmilHours = 360 - $b1['hours'];
+                $sisaKd2Hours = $kd2['hours'] - $takmilHours;
+
+                $takmilEndObj = clone $kd2['start'];
+                $takmilEndObj->modify('+' . round($takmilHours * 60) . ' minutes');
+                
+                $bulanIndo = [1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',9=>'September',10=>'Oktober',11=>'November',12=>'Desember'];
+                $takmilEndStr = $takmilEndObj->format('d') . ' ' . $bulanIndo[(int)$takmilEndObj->format('n')] . ' ' . $takmilEndObj->format('Y') . ' jam ' . $takmilEndObj->format('H.i');
+                $kd2EndStr = $kd2['end']->format('d') . ' ' . $bulanIndo[(int)$kd2['end']->format('n')] . ' ' . $kd2['end']->format('Y') . ' jam ' . $kd2['end']->format('H.i');
+
+                // Tentukan hukum sisa KD 2
+                $sisaHukum = '';
+                $sisaDesc = '';
+                if ($sisaKd2Hours <= 360) {
+                    $sisaHukum = 'HAID SEMUA';
+                    $sisaDesc = '(Sisa &le; 15 hari)';
+                } else {
+                    $sisaHukum = 'ISTIHADHAH';
+                    $sisaDesc = '(Sisa &gt; 15 hari)';
+                }
+
+                return [
+                    'status' => 'success',
+                    'kesimpulan' => 'ISTIHADOH TAKMIL',
+                    'is_takmil_split' => true,
+                    'takmil_data' => [
+                        'takmil_days' => round($takmilHours / 24, 1),
+                        'takmil_end_str' => $takmilEndStr,
+                        'sisa_kd2_days' => round($sisaKd2Hours / 24, 1),
+                        'sisa_start_str' => $takmilEndStr,
+                        'sisa_end_str' => $kd2EndStr,
+                        'sisa_hukum' => $sisaHukum,
+                        'sisa_desc' => $sisaDesc
+                    ],
+                    'siklus' => $siklus
+                ];
+            }
+        }
+
         // Langkah 2: Cek Syarat Haid (Total KD dalam 15 hari >= 24 jam)
         // Batas 15 hari = 15 * 24 = 360 jam
         $firstKDStart = $siklus[0]['start'];
