@@ -225,10 +225,31 @@
 
     // Paste Ringkasan Logic
     const btnPaste = document.getElementById('btn-paste-ringkasan');
-    if (btnPaste) {
+    const pasteContainer = document.getElementById('paste-ringkasan-container');
+    const closePaste = document.getElementById('close-paste-ringkasan');
+    const btnProsesPaste = document.getElementById('btn-proses-paste');
+    const textareaPaste = document.getElementById('paste-ringkasan-textarea');
+
+    if (btnPaste && pasteContainer && closePaste) {
         btnPaste.addEventListener('click', () => {
-            prompt('Salin (copy) data kalender Anda, lalu tempel (paste) di bawah ini:');
+            btnPaste.style.display = 'none';
+            pasteContainer.style.display = 'block';
+        });
+
+        closePaste.addEventListener('click', () => {
+            pasteContainer.style.display = 'none';
+            btnPaste.style.display = 'block';
+        });
+        
+        btnProsesPaste.addEventListener('click', () => {
+            if (textareaPaste.value.trim() === '') {
+                alert('Silakan paste data ringkasan terlebih dahulu.');
+                return;
+            }
             alert('Fitur sinkronisasi otomatis sedang dikembangkan. Silakan masukkan data Keluar Darah secara manual melalui tombol "Tambah Keluar Darah" di atas.');
+            // TODO: Parse text area logic
+            pasteContainer.style.display = 'none';
+            btnPaste.style.display = 'block';
         });
     }
 

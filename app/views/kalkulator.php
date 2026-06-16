@@ -185,6 +185,17 @@
         <i class="far fa-clipboard"></i> Paste Ringkasan Data dari Kalender Haid
     </button>
 
+    <div id="paste-ringkasan-container" class="c-mt-15" style="display: none; border: 1px dashed #d3557d; background-color: #fdf6f7; border-radius: 12px; padding: 15px; position: relative;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; color: #d3557d; font-weight: bold; font-size: 14px;">
+            <div><i class="fas fa-paste"></i> Paste Ringkasan Data dari Kalender Haid</div>
+            <i class="fas fa-times" id="close-paste-ringkasan" style="cursor: pointer; font-size: 16px; color: #888;"></i>
+        </div>
+        <textarea id="paste-ringkasan-textarea" style="width: 100%; height: 160px; border-radius: 8px; border: none; padding: 15px; resize: none; font-family: monospace; font-size: 13px; color: #555; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.02); outline: none;" placeholder="Mulai : 04/06/2026 05:00\nSelesai: 10/06/2026 05:00\n..."></textarea>
+        <button class="c-btn-solid c-mt-10" id="btn-proses-paste" style="width: 100%;">
+            <i class="fas fa-file-import"></i> Baca Data & Isi Otomatis
+        </button>
+    </div>
+
     <button class="c-btn-solid c-mt-15" id="btn-analisa">
         <i class="fas fa-search"></i> Analisa Hukum Darah
     </button>
