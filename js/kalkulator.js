@@ -447,8 +447,25 @@
             </div>`;
         }
         
-        // If data.kesimpulan indicates something about minimal age, we can prepend a note.
-        if (data.kesimpulan.toLowerCase().includes('usia memungkinkan haid')) {
+        // If data indicates a Fasad split
+        if (data.is_fasad_split && data.fasad_data) {
+            visualBox.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <div style="font-weight: bold; text-transform: uppercase; margin-bottom: 10px; font-size: 14px; color: #333;">ANALISA DENGAN CEK USIA MINIMAL HAID</div>
+                    <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                        <div style="margin-bottom: 5px;">&bull; Usia minimal haid: <strong>${data.fasad_data.min_haid_str}</strong></div>
+                        <div style="margin-bottom: 5px;">&bull; Darah sebelum usia minimal (${data.fasad_data.fasad_hours} jam): <strong style="color:#d3557d;">DARAH FASAD</strong></div>
+                        <div style="margin-bottom: 5px;">&bull; Darah setelah usia minimal (${data.fasad_data.haid_hours} jam): dianalisa sebagai siklus baru</div>
+                    </div>
+                </div>
+                <hr style="border: none; border-top: 1px solid #fce4ec; margin: 15px 0;">
+                <div style="margin-bottom: 15px;">
+                    <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #333;">Analisa Darah Setelah Usia Minimal:</div>
+                    <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #d3557d; text-transform: uppercase;">HUKUM: ${data.fasad_data.hukum_haid}</div>
+                    <div style="font-size: 13px; color: #555;">${data.fasad_data.hukum_desc}</div>
+                </div>
+            `;
+        } else if (data.kesimpulan.toLowerCase().includes('usia memungkinkan haid')) {
             visualBox.innerHTML = `
                 <div style="margin-bottom: 15px;">
                     <div style="font-weight: bold; text-transform: uppercase; margin-bottom: 10px; font-size: 14px; color: #333;">ANALISA DENGAN CEK USIA MINIMAL HAID</div>

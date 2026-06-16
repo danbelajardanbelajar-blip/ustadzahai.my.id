@@ -71,6 +71,15 @@ class FiqhKalkulator {
         ];
     }
 
+    public static function getMinHaidDateObj($tglLahir, $jamLahir) {
+        $born = new DateTime("$tglLahir $jamLahir");
+        $hijri = \GeniusTS\HijriDate\Hijri::convertToHijri($born->format('Y-m-d'));
+        $minHaidGreg = \GeniusTS\HijriDate\Hijri::convertToGregorian($hijri->day, $hijri->month, $hijri->year + 9);
+        $minHaidObj = new DateTime($minHaidGreg->format('Y-m-d') . " $jamLahir");
+        $minHaidObj->modify('-16 days');
+        return $minHaidObj;
+    }
+
     /**
      * Algoritma utama berdasarkan Decision Tree
      */
@@ -108,16 +117,60 @@ class FiqhKalkulator {
 
         // Langkah 1: Cek masa memungkinkan haid (Untuk Mubtadaah)
         if ($kategori === 'mubtadaah') {
+            $minHaidObj = self::getMinHaidDateObj($tglLahir, $jamLahir);
             $kd1 = $siklus[0];
-            if (!self::cekUsiaMemungkinkanHaid($tglLahir, $jamLahir, $kd1['start']->format('Y-m-d'), $kd1['start']->format('H:i:s'))) {
-                foreach ($siklus as &$s) {
-                    if ($s['type'] === 'KD') $s['status'] = 'Darah Fasad';
+            
+            if ($kd1['start'] < $minHaidObj) {
+                // Darah dimulai sebelum usia minimal.
+                if ($kd1['end'] <= $minHaidObj) {
+                    // Semua Darah Fasad
+                    foreach ($siklus as &$s) {
+                        if ($s['type'] === 'KD') $s['status'] = 'Darah Fasad';
+                    }
+                    return [
+                        'status' => 'success',
+                        'kesimpulan' => 'Darah Fasad (Belum mencapai usia memungkinkan haid)',
+                        'siklus' => $siklus
+                    ];
+                } else {
+                    // Ada perpotongan (split)
+                    $fasadInterval = $kd1['start']->diff($minHaidObj);
+                    $fasadHours = ($fasadInterval->days * 24) + $fasadInterval->h + ($fasadInterval->i / 60);
+                    
+                    $haidInterval = $minHaidObj->diff($kd1['end']);
+                    $haidHours = ($haidInterval->days * 24) + $haidInterval->h + ($haidInterval->i / 60);
+                    
+                    $haidDays = round($haidHours / 24, 1);
+                    $hukumHaid = '';
+                    $hukumDesc = '';
+                    if ($haidHours >= 24 && $haidHours <= 360) {
+                        $hukumHaid = 'HAID';
+                        $hukumDesc = "Darah $haidDays hari (≤ 15 hari) = Haid.";
+                    } else if ($haidHours < 24) {
+                        $hukumHaid = 'DARAH FASAD';
+                        $hukumDesc = "Darah $haidDays hari (< 24 jam) = Darah Fasad.";
+                    } else {
+                        $hukumHaid = 'ISTIHADHAH';
+                        $hukumDesc = "Darah $haidDays hari (> 15 hari) = Istihadhah.";
+                    }
+
+                    $minHaidInfo = self::getMinHaidInfo($tglLahir, $jamLahir);
+                    $minHaidStr = $minHaidInfo['minHaidMasehi'] . ' (' . $minHaidInfo['minHaidHijriah'] . ')';
+
+                    return [
+                        'status' => 'success',
+                        'kesimpulan' => 'Darah Fasad + ' . ($hukumHaid === 'HAID' ? 'Haid' : ($hukumHaid === 'ISTIHADHAH' ? 'Istihadhah' : 'Fasad')),
+                        'is_fasad_split' => true,
+                        'fasad_data' => [
+                            'min_haid_str' => $minHaidStr,
+                            'fasad_hours' => round($fasadHours, 1),
+                            'haid_hours' => round($haidHours, 1),
+                            'hukum_haid' => $hukumHaid,
+                            'hukum_desc' => $hukumDesc
+                        ],
+                        'siklus' => []
+                    ];
                 }
-                return [
-                    'status' => 'success',
-                    'kesimpulan' => 'Darah Fasad (Belum mencapai usia memungkinkan haid)',
-                    'siklus' => $siklus
-                ];
             }
         }
 
