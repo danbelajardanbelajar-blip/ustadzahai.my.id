@@ -3,8 +3,8 @@ class KalkulatorController extends Controller {
     public function index() {
         $data = [
             'title' => 'Kalkulator Fiqih Haid',
-            'css' => ['css/kalkulator.css'],
-            'js' => ['js/kalkulator.js']
+            'css' => ['css/kalkulator-react.css'],
+            'js' => ['js/kalkulator-react.js']
         ];
         $this->view('kalkulator', $data);
     }
