@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Nifas</title>
+    <link rel="stylesheet" crossorigin href="css/nifas-react.css">
+    <style>body { margin: 0; padding: 0; }</style>
+    <script>
+        // Trick React Router into thinking we are at the root
+        // so it renders the calculator (path: "/") instead of 404 (path: "*")
+        window.history.replaceState(null, '', '/');
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" crossorigin src="js/nifas-react.js"></script>
+</body>
+</html>
