@@ -5,11 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Nifas</title>
     <link rel="stylesheet" crossorigin href="css/nifas-react.css">
-    <style>body { margin: 0; padding: 0; }</style>
+    <style>
+        body { margin: 0; padding: 0; }
+        /* Hide authentication links */
+        a[href="/login"], a[href="/register"], a[href="/forgot-password"], a[href="/reset-password"], a[href*="/api/apps/auth"] {
+            display: none !important;
+        }
+    </style>
     <script>
         // Trick React Router into thinking we are at the root
-        // so it renders the calculator (path: "/") instead of 404 (path: "*")
+        // so it renders the calendar (path: "/") instead of 404 (path: "*")
         window.history.replaceState(null, '', '/');
+
+        // Prevent React Router from navigating to login pages
+        const blockAuthRoutes = (url) => {
+            if (typeof url === 'string' && (url.startsWith('/login') || url.startsWith('/register') || url.startsWith('/forgot-password') || url.startsWith('/reset-password'))) {
+                return '/';
+            }
+            return url;
+        };
+
+        const originalPushState = window.history.pushState;
+        window.history.pushState = function(state, title, url) {
+            return originalPushState.call(this, state, title, blockAuthRoutes(url));
+        };
+
+        const originalReplaceState = window.history.replaceState;
+        window.history.replaceState = function(state, title, url) {
+            return originalReplaceState.call(this, state, title, blockAuthRoutes(url));
+        };
     </script>
 </head>
 <body>
