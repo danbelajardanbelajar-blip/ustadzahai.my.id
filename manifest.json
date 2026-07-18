@@ -10,13 +10,13 @@ const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me
   "theme_color": "#db2777",
   "icons": [
     {
-      "src": "https://media.db.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
+      "src": "https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://media.db.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
+      "src": "https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
