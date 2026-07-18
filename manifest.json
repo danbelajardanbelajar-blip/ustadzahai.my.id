@@ -1,0 +1,25 @@
+const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
+
+{
+  "name": "Ustadzah AI",
+  "short_name": "Ustadzah AI",
+  "description": "Panduan Fiqih Wanita Madzhab Syafi'i - Haid, Nifas, dan Istihadhoh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#db2777",
+  "icons": [
+    {
+      "src": "https://media.db.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://media.db.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
