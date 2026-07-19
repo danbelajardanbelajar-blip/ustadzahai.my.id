@@ -60,27 +60,35 @@
   "SocialLink": [
     {
       "id": "1",
-      "title": "Instagram",
-      "subtitle": "@ustadzah.ai",
-      "url": "https://instagram.com",
-      "platform": "Instagram",
-      "created_date": "2026-07-19T09:54:54.347Z"
+      "title": "Facebook",
+      "subtitle": "Anas Anam",
+      "url": "https://m.facebook.com/anas.anam.507/",
+      "platform": "Facebook",
+      "created_date": "2026-07-19T10:07:56.544Z"
     },
     {
       "id": "2",
-      "title": "YouTube",
-      "subtitle": "Kajian Fiqih Wanita",
-      "url": "https://youtube.com",
-      "platform": "YouTube",
-      "created_date": "2026-07-19T09:54:54.350Z"
+      "title": "Instagram",
+      "subtitle": "@aimaslaily",
+      "url": "https://www.instagram.com/aimaslaily",
+      "platform": "Instagram",
+      "created_date": "2026-07-19T10:07:56.555Z"
     },
     {
       "id": "3",
-      "title": "WhatsApp",
-      "subtitle": "Grup Diskusi & Tanya Jawab",
-      "url": "https://wa.me/",
-      "platform": "Lainnya",
-      "created_date": "2026-07-19T09:54:54.350Z"
+      "title": "TikTok",
+      "subtitle": "@mamahanas",
+      "url": "https://tiktok.com/@mamahanas",
+      "platform": "TikTok",
+      "created_date": "2026-07-19T10:07:56.555Z"
+    },
+    {
+      "id": "4",
+      "title": "YouTube",
+      "subtitle": "@maslaily",
+      "url": "https://youtube.com/@maslaily?si=of6RFqfHUnwXlrIT",
+      "platform": "YouTube",
+      "created_date": "2026-07-19T10:07:56.555Z"
     }
   ]
 }
