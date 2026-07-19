@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /kalender/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /kalender/index.html [L]
+</IfModule>
