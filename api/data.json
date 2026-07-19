@@ -1,0 +1,60 @@
+{
+    "AppLink": [
+        {
+            "id": "2",
+            "name": "Kalkulator Fiqih Haid",
+            "url": "\/kalkulator_haid\/",
+            "icon_gradient": "linear-gradient(135deg, #f97316, #fbbf24)",
+            "order": 2,
+            "created_date": "2026-07-19T00:00:00.000Z"
+        },
+        {
+            "id": "3",
+            "name": "Kalkulator Fiqih Nifas",
+            "url": "\/kalkulator_nifas\/",
+            "icon_gradient": "linear-gradient(135deg, #a855f7, #d946ef)",
+            "order": 3,
+            "created_date": "2026-07-19T00:00:00.000Z"
+        },
+        {
+            "id": "4",
+            "name": "Kalkulator Qodo Puasa & Fidyah",
+            "url": "\/qada\/",
+            "icon_gradient": "linear-gradient(135deg, #fbbf24, #f97316)",
+            "order": 4,
+            "created_date": "2026-07-19T00:00:00.000Z"
+        },
+        {
+            "id": "5",
+            "name": "Tanya Ustadzah AI",
+            "url": "\/tanya\/",
+            "icon_gradient": "linear-gradient(135deg, #ec4899, #f43f5e)",
+            "order": 5,
+            "created_date": "2026-07-19T00:00:00.000Z"
+        },
+        {
+            "id": "6",
+            "name": "Maktabah Haid, Nifas & Istihadhoh",
+            "url": "\/maktabah\/",
+            "icon_gradient": "linear-gradient(135deg, #8b5cf6, #d946ef)",
+            "order": 6,
+            "created_date": "2026-07-19T00:00:00.000Z"
+        },
+        {
+            "id": "3f9k3ex",
+            "created_date": "2026-07-19T07:21:04.868Z",
+            "name": "Kalender Fiqih Haid",
+            "order": 0
+        }
+    ],
+    "TableTool": [
+        {
+            "id": "1",
+            "title": "Alat Pembuat Tabel Haid",
+            "subtitle": "Tabel haid, nifas, mutahayyiroh dan struktur",
+            "url": "\/table_fiqh_wanita\/",
+            "icon_gradient": "linear-gradient(135deg, #6366f1, #8b5cf6)",
+            "created_date": "2026-07-19T00:00:00.000Z"
+        }
+    ]
+}
