@@ -11,8 +11,29 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#db2777" />
     <title>Ustadzah AI</title>
-    <script type="module" crossorigin src="/assets/index-fok57oH0.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C5tXi9gR.css">
+    <style>
+      @keyframes zoomInOut {
+        0%, 100% { transform: scale(0.85); }
+        50% { transform: scale(1.15); }
+      }
+      .initial-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fdf2f8; /* pink-50 */
+        z-index: 9999;
+      }
+      .initial-loader img {
+        width: 80px;
+        height: 80px;
+        animation: zoomInOut 1.5s ease-in-out infinite;
+        filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-FWqjHD5h.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-xAP2cmvx.css">
     <script type="module">
 if (window.self === window.top) {
   let lastPath = "";
@@ -47,6 +68,10 @@ if (window.self === window.top) {
 </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div class="initial-loader">
+        <img src="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" alt="Loading Ustadzah AI..." />
+      </div>
+    </div>
   </body>
 </html>
