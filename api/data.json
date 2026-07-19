@@ -90,5 +90,23 @@
       "platform": "YouTube",
       "created_date": "2026-07-19T10:07:56.555Z"
     }
+  ],
+  "Product": [
+    {
+      "id": "1",
+      "name": "Pembalut kain cuci ulang menstrual pad A.M.S",
+      "url": "https://s.shopee.co.id/1Vwi795W8Q?share_channel_code=1",
+      "image_url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp",
+      "platform": "Shopee",
+      "created_date": "2026-07-19T10:18:01.457Z"
+    },
+    {
+      "id": "2",
+      "name": "Pembalut kain cuci ulang menstrual pad A.M.S",
+      "url": "https://vt.tokopedia.com/t/ZS9jeBEtV6cMj-eeo9c/",
+      "image_url": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/d00695e9dc20483bb77dd5cd12853748~tplv-aphluv4xwc-resize-webp:260:260.webp",
+      "platform": "Tokopedia",
+      "created_date": "2026-07-19T10:18:01.459Z"
+    }
   ]
 }
