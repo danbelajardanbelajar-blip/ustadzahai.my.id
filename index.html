@@ -5,6 +5,18 @@
       const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
     </script>
     <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <script>
+      (function() {
+        var url = new URL(window.location.href);
+        if (!url.searchParams.has('reload')) {
+          url.searchParams.set('reload', new Date().getTime());
+          window.location.replace(url.toString());
+        }
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/png" href="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" />
     <link rel="apple-touch-icon" href="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" />
@@ -32,7 +44,7 @@
         filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
       }
     </style>
-    <script type="module" crossorigin src="/assets/index-D4qvBW8_.js"></script>
+    <script type="module" crossorigin src="/assets/index-CcMFYzwu.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-B_FABzA3.css">
     <script type="module">
 if (window.self === window.top) {
