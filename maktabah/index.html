@@ -9,6 +9,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <script>
+      // Force bypass WebView cache on first load
       (function() {
         var url = new URL(window.location.href);
         if (!url.searchParams.has('reload')) {
@@ -17,35 +18,12 @@
         }
       })();
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="icon" type="image/png" href="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" />
-    <link rel="apple-touch-icon" href="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" />
+    <link rel="icon" type="image/svg+xml" href="https://db.com/logo_v2.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#db2777" />
-    <title>Ustadzah AI</title>
-    <style>
-      @keyframes zoomInOut {
-        0%, 100% { transform: scale(0.85); }
-        50% { transform: scale(1.15); }
-      }
-      .initial-loader {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #fdf2f8; /* pink-50 */
-        z-index: 9999;
-      }
-      .initial-loader img {
-        width: 80px;
-        height: 80px;
-        animation: zoomInOut 1.5s ease-in-out infinite;
-        filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
-      }
-    </style>
-    <script type="module" crossorigin src="/assets/index-Y7154ALH.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-B_FABzA3.css">
+    <title>Base44 APP</title>
+    <script type="module" crossorigin src="/maktabah/assets/index-LwYlLNtz.js"></script>
+    <link rel="stylesheet" crossorigin href="/maktabah/assets/index-Dkq-yxEf.css">
     <script type="module">
 if (window.self === window.top) {
   let lastPath = "";
@@ -80,10 +58,6 @@ if (window.self === window.top) {
 </script>
   </head>
   <body>
-    <div id="root">
-      <div class="initial-loader">
-        <img src="https://media.base44.com/images/public/6a1c9ae777a9dec90fac3c37/5a2dc4f1b_file_0000000013a07207b019624f2ec3cf48.png" alt="Loading Ustadzah AI..." />
-      </div>
-    </div>
+    <div id="root"></div>
   </body>
 </html>
